@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="双点攻略">
+<meta name="theme-color" content="#10302d">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<title>双点医院 Two Point Hospital 全面攻略</title>
+<style>
+:root {
+  --primary: #1aa89a;
+  --primary-dark: #0f7d73;
+  --primary-light: #e3f6f3;
+  --bg: #f4f8f8;
+  --card: #ffffff;
+  --text: #24303a;
+  --muted: #6b7a86;
+  --border: #dde7e8;
+  --diag: #3b82f6;
+  --treat: #16a34a;
+  --hybrid: #8b5cf6;
+  --facility: #6b7280;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+  --nav-w: 230px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+a { color: var(--primary-dark); }
+
+/* ---------- 侧边目录 ---------- */
+nav#toc {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: calc(var(--nav-w) + env(safe-area-inset-left));
+  background: #10302d;
+  color: #cfe9e5;
+  padding: calc(20px + env(safe-area-inset-top)) 0 calc(20px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  overflow-y: auto;
+  z-index: 20;
+}
+nav#toc .brand { padding: 0 20px 16px; border-bottom: 1px solid #1f4a45; margin-bottom: 10px; }
+nav#toc .brand b { display: block; font-size: 20px; color: #fff; }
+nav#toc .brand span { font-size: 12px; color: #8fbdb6; }
+nav#toc a {
+  display: block; padding: 9px 20px; color: #cfe9e5; text-decoration: none;
+  border-left: 3px solid transparent; font-size: 14px;
+}
+nav#toc a:hover { background: #164440; color: #fff; }
+nav#toc a.active { background: #1a524c; color: #fff; border-left-color: #5eead4; font-weight: bold; }
+nav#toc a .num { display: inline-block; width: 22px; color: #5eead4; }
+nav#toc a.home { font-size: 13px; color: #8fbdb6; padding: 0 20px 10px; border-left: none; }
+nav#toc a.home:hover { background: none; color: #fff; }
+#menuBtn, #homeBtn { display: none; }
+
+/* ---------- 主体 ---------- */
+main { margin-left: var(--nav-w); padding: 0 40px 60px; }
+main > section, main > footer, header.hero > * { max-width: 1400px; }
+header.hero {
+  margin: 0 -40px 30px;
+  padding: 48px 40px 36px;
+  background: linear-gradient(135deg, #1aa89a 0%, #13877c 60%, #0f6b63 100%);
+  color: #fff;
+}
+header.hero h1 { margin: 0 0 6px; font-size: 32px; }
+header.hero p { margin: 0; opacity: .92; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
+.hero-stats div { background: rgba(255,255,255,.14); padding: 10px 18px; border-radius: 10px; }
+.hero-stats b { font-size: 22px; display: block; line-height: 1.2; }
+.hero-stats span { font-size: 12px; opacity: .85; }
+
+section { padding-top: 24px; margin-bottom: 40px; }
+section > h2 {
+  font-size: 24px; margin: 0 0 6px; padding-left: 12px;
+  border-left: 5px solid var(--primary);
+}
+section > .lead { color: var(--muted); margin: 0 0 20px; padding-left: 17px; }
+h3 { font-size: 18px; margin: 26px 0 12px; color: var(--primary-dark); }
+
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.card h4 { margin: 0 0 8px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.card ul { margin: 6px 0 0; padding-left: 20px; }
+.card li { margin: 3px 0; }
+.icon {
+  display: inline-flex; width: 30px; height: 30px; border-radius: 8px;
+  align-items: center; justify-content: center; font-size: 14px; font-weight: bold;
+  color: #fff; background: var(--primary); flex-shrink: 0;
+}
+
+.tip, .warn, .note {
+  border-radius: 10px; padding: 12px 16px; margin: 14px 0;
+  border-left: 4px solid;
+}
+.tip { background: #ecfdf5; border-color: #10b981; }
+.warn { background: #fffbeb; border-color: var(--warn); }
+.note { background: #eff6ff; border-color: var(--diag); }
+
+/* 标签 */
+.tag {
+  display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
+  color: #fff; white-space: nowrap; line-height: 1.7;
+}
+.t-diag { background: var(--diag); }
+.t-treat { background: var(--treat); }
+.t-hybrid { background: var(--hybrid); }
+.t-facility { background: var(--facility); }
+.t-soft { background: var(--primary-light); color: var(--primary-dark); }
+
+/* ---------- 病人流程图 ---------- */
+.flow { display: flex; align-items: stretch; flex-wrap: wrap; margin: 10px 0 6px; }
+.flow .step {
+  flex: 1 1 140px; background: var(--card); border: 2px solid var(--primary);
+  border-radius: 12px; padding: 12px 14px; text-align: center;
+}
+.flow .step b { display: block; font-size: 16px; color: var(--primary-dark); }
+.flow .step small { color: var(--muted); font-size: 12.5px; display: block; line-height: 1.5; }
+.flow .arrow {
+  flex: 0 0 34px; display: flex; align-items: center; justify-content: center;
+  color: var(--primary); font-size: 22px; font-weight: bold;
+}
+.flow .step.loop { border-style: dashed; border-color: var(--diag); }
+.flow .step.loop b { color: var(--diag); }
+.flow .step.end { border-color: var(--treat); }
+.flow .step.end b { color: var(--treat); }
+
+/* ---------- 布局示意图 ---------- */
+.map-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: start; }
+.hmap {
+  display: grid; grid-template-columns: repeat(8, 1fr); grid-auto-rows: 50px; gap: 4px;
+  background: #d7e4e3; padding: 10px; border-radius: 12px; font-size: 12px;
+}
+.hmap div {
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  text-align: center; color: #fff; font-weight: bold; padding: 2px; line-height: 1.25;
+}
+.z-entry { background: #f97316; }
+.z-recep { background: #fb923c; }
+.z-gp { background: #0e9f8e; }
+.z-diag { background: var(--diag); }
+.z-treat { background: var(--treat); }
+.z-hyb { background: var(--hybrid); }
+.z-fac { background: #94a3b8; }
+.z-admin { background: #475569; }
+.hmap .z-hall { background: #f1f5f4; color: #9aa9a8; font-weight: normal; }
+.z-heli { background: #e11d48; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 13px; margin-top: 10px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+
+.rules { counter-reset: r; list-style: none; padding: 0; margin: 0; }
+.rules li {
+  counter-increment: r; position: relative; padding: 8px 0 8px 40px;
+  border-bottom: 1px dashed var(--border);
+}
+.rules li:last-child { border-bottom: none; }
+.rules li::before {
+  content: counter(r); position: absolute; left: 0; top: 9px;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--primary);
+  color: #fff; font-size: 13px; font-weight: bold; text-align: center; line-height: 26px;
+}
+
+/* ---------- 表格 ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.toolbar input[type=search] {
+  flex: 1 1 260px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 14px; outline: none; background: #fff;
+}
+.toolbar input[type=search]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.toolbar select {
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 4px 12px;
+  cursor: pointer; font-size: 13px; color: var(--text); font-family: inherit;
+}
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.count { color: var(--muted); font-size: 13px; font-weight: normal; }
+
+.table-wrap { overflow: auto; max-height: 75vh; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #edf2f2; text-align: left; vertical-align: middle; }
+th {
+  background: #f0f6f5; position: sticky; top: 0; z-index: 1; white-space: nowrap;
+  font-weight: bold; color: #35514d;
+}
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { background: #e2efed; }
+th.sortable::after { content: " ⇅"; color: #a8bdb9; font-size: 11px; }
+th.asc::after { content: " ▲"; color: var(--primary); }
+th.desc::after { content: " ▼"; color: var(--primary); }
+tbody tr:hover { background: #f7fbfb; }
+td .en { color: var(--muted); font-size: 12px; display: block; line-height: 1.3; }
+td.num, th.num { text-align: center; white-space: nowrap; }
+.heat { display: inline-block; min-width: 42px; padding: 2px 4px; border-radius: 5px; font-size: 12px; text-align: center; }
+.bar { height: 8px; background: #e5eeee; border-radius: 4px; overflow: hidden; width: 60px; display: inline-block; vertical-align: middle; margin-right: 6px; }
+.bar i { display: block; height: 100%; border-radius: 4px; }
+.best { outline: 2px solid #f59e0b; outline-offset: -2px; font-weight: bold; }
+.static-table { max-height: none; }
+
+/* ---------- 关卡卡片 ---------- */
+.region { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 12px; background: #fff; overflow: hidden; }
+.region > summary {
+  cursor: pointer; padding: 14px 20px; font-weight: bold; font-size: 16px; list-style: none;
+  background: #f0f6f5; display: flex; align-items: center; gap: 10px;
+}
+.region > summary::-webkit-details-marker { display: none; }
+.region > summary::before { content: "▶"; font-size: 11px; color: var(--primary); transition: transform .2s; }
+.region[open] > summary::before { transform: rotate(90deg); }
+.region > summary .sub { font-weight: normal; color: var(--muted); font-size: 13px; }
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); grid-auto-flow: row dense; gap: 16px; padding: 16px; }
+.level { border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: #fcfefe; }
+.level h4 { margin: 0; font-size: 17px; }
+.level h4 .en { color: var(--muted); font-weight: normal; font-size: 13px; margin-left: 6px; }
+.level .meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+.level .desc { font-size: 13.5px; color: #43525d; margin-bottom: 10px; }
+.stars { display: grid; gap: 8px; }
+.star-row { display: grid; grid-template-columns: 54px 1fr; gap: 8px; align-items: start; font-size: 13px; }
+.star-row .s { color: #f59e0b; font-size: 14px; letter-spacing: -1px; white-space: nowrap; padding-top: 1px; }
+.star-row .reward { color: var(--muted); font-size: 12px; }
+.level .ltip { margin-top: 10px; font-size: 13px; background: var(--primary-light); border-radius: 8px; padding: 8px 10px; }
+.level .ltip b { color: var(--primary-dark); }
+
+/* ---------- 科室配员 ---------- */
+.staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.scard { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; scroll-margin-top: 80px; }
+.scard h4 { margin: 0 0 10px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.scard h4 .tag { margin: 0; }
+.scard .kv { font-size: 13px; }
+.scard .kv dd .tag { margin: 0 4px 2px 0; }
+.slot-title { font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+.slots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 10px; }
+.slot { border: 1.5px solid #9fd8d0; background: var(--primary-light); color: var(--primary-dark); border-radius: 6px; font-size: 12px; text-align: center; padding: 6px 2px; line-height: 1.25; word-break: break-all; }
+.slot.req { border-color: #ef4444; background: #fef2f2; color: #b91c1c; font-weight: bold; }
+.slot.none { grid-column: 1 / -1; border-style: dashed; background: #f8fafc; color: var(--muted); }
+.t-req { background: #ef4444; color: #fff; }
+.snote { font-size: 12.5px; color: #43525d; background: #f8fafc; border-radius: 8px; padding: 8px 10px; margin-top: 8px; }
+.muted { color: var(--muted); }
+a.rlink { color: var(--primary-dark); text-decoration: underline dotted; }
+@keyframes flash { 0%, 60% { box-shadow: 0 0 0 4px #f59e0b; } 100% { box-shadow: none; } }
+.scard.flash { animation: flash 1.8s ease-out; }
+
+/* ---------- 布局详解 ---------- */
+.lbtn { margin-top: 10px; width: 100%; padding: 8px; border: 1px solid var(--primary); background: #fff; color: var(--primary-dark); border-radius: 8px; cursor: pointer; font-size: 13.5px; font-weight: bold; }
+.lbtn:hover, .lbtn.on { background: var(--primary); color: #fff; }
+.lpanel { grid-column: 1 / -1; border: 2px solid var(--primary); border-radius: 12px; background: #fff; padding: 18px; }
+.lpanel[hidden] { display: none; }
+.lpanel h5 { margin: 18px 0 8px; font-size: 15px; color: var(--primary-dark); }
+.lpanel h5:first-child { margin-top: 0; }
+.lhead { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.lhead b { font-size: 17px; margin-right: 6px; }
+.lmap-wrap { display: grid; grid-template-columns: minmax(280px, 420px) 1fr; gap: 18px; align-items: start; }
+.pmap { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, minmax(90px, auto)); gap: 6px; background: #eef5f3; border-radius: 10px; padding: 8px; }
+.pcell { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; border: 1px dashed #cfe3df; border-radius: 6px; padding: 4px; min-height: 90px; }
+.pbox { border-radius: 6px; color: #fff; font-size: 11px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; line-height: 1.2; cursor: default; }
+.pbox .n { font-weight: bold; font-size: 13px; }
+.pbox .o { position: absolute; top: -7px; right: -7px; background: #f59e0b; color: #fff; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; line-height: 18px; font-weight: bold; }
+.pbox.unused { background: #fff !important; color: var(--muted); border: 1.5px dashed #9ca3af; }
+.pz-entry { background: #0e9f8e; } .pz-diag { background: var(--diag); } .pz-treat { background: var(--treat); }
+.pz-hyb { background: var(--hybrid); } .pz-admin { background: #f97316; } .pz-spare { background: #9ca3af; }
+.pmap-cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.plegend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12px; margin-top: 6px; }
+.plegend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
+.plist { width: 100%; border-collapse: collapse; font-size: 13px; }
+.plist th, .plist td { border-bottom: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: top; }
+.plist th { background: #f3f8f7; white-space: nowrap; }
+.plist td.num { white-space: nowrap; text-align: right; }
+.plist tr.unused td { color: var(--muted); }
+.phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.phase { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fcfefe; font-size: 13px; }
+.phase .ph { font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.phase .ph i { font-style: normal; background: var(--primary); color: #fff; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; font-size: 12px; }
+.phase ul { margin: 0; padding-left: 18px; }
+.phase li { margin-bottom: 3px; }
+.counts { display: flex; flex-wrap: wrap; gap: 6px; }
+.counts .c { border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px 3px 4px; font-size: 13px; background: #fff; display: inline-flex; align-items: center; gap: 6px; }
+.counts .c b { background: var(--primary); color: #fff; border-radius: 999px; min-width: 22px; text-align: center; padding: 0 6px; font-size: 12px; }
+.counts .c.t-d b { background: var(--diag); } .counts .c.t-t b { background: var(--treat); }
+.counts .c.t-h b { background: var(--hybrid); } .counts .c.t-f b { background: var(--facility); }
+.lpanel ul.ltips { margin: 0; padding-left: 18px; font-size: 13.5px; }
+
+/* ---------- FAQ ---------- */
+details.faq { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 12px 16px; font-weight: bold; list-style: none; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::before { content: "Q"; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; margin-right: 10px; }
+details.faq[open] summary { border-bottom: 1px solid var(--border); }
+details.faq .a { padding: 10px 16px 14px 48px; }
+details.faq .a ul { margin: 4px 0; padding-left: 18px; }
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13.5px; margin: 0; }
+.kv dt { color: var(--muted); white-space: nowrap; }
+.kv dd { margin: 0; }
+
+.formula {
+  font-family: Consolas, "Courier New", monospace; background: #10302d; color: #a7f3d0;
+  padding: 12px 16px; border-radius: 8px; font-size: 14px; overflow-x: auto;
+}
+
+footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+footer ul { padding-left: 18px; }
+
+#toTop {
+  position: fixed; right: calc(24px + env(safe-area-inset-right)); bottom: calc(24px + env(safe-area-inset-bottom)); width: 44px; height: 44px; border-radius: 50%;
+  background: var(--primary); color: #fff; border: none; font-size: 20px; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18); display: none; z-index: 30;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 900px) {
+  nav#toc { transform: translateX(-100%); transition: transform .25s; }
+  nav#toc.open { transform: translateX(0); }
+  main { margin-left: 0; padding: 0 calc(16px + env(safe-area-inset-right)) calc(50px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+  header.hero { margin: 0 calc(-16px - env(safe-area-inset-right)) 24px calc(-16px - env(safe-area-inset-left)); padding: calc(60px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 28px calc(16px + env(safe-area-inset-left)); }
+  #menuBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left)); z-index: 40;
+    background: #10302d; color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px;
+  }
+  #homeBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); left: calc(96px + env(safe-area-inset-left)); z-index: 40;
+    background: rgba(16,48,45,.85); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 14px; line-height: normal; text-decoration: none;
+  }
+  .map-wrap { grid-template-columns: 1fr; }
+  .flow .arrow { transform: rotate(90deg); flex-basis: 100%; height: 26px; }
+  .flow .step { flex-basis: 100%; }
+  .levels { grid-template-columns: 1fr; }
+  .lmap-wrap { grid-template-columns: 1fr; }
+  .phases { grid-template-columns: 1fr 1fr; }
+  .lpanel { padding: 12px; }
+}
+@media (max-width: 560px) {
+  .phases { grid-template-columns: 1fr; }
+  .plist .hide-s { display: none; }
+}
+</style>
+</head>
+<body>
+
+<button id="menuBtn">☰ 目录</button>
+<a id="homeBtn" href="../">← 游戏</a>
+<nav id="toc">
+  <a class="home" href="../">← 游戏目录</a>
+  <div class="brand"><b>双点医院</b><span>Two Point Hospital 全面攻略</span></div>
+  <a href="#basics"><span class="num">1</span>新手入门</a>
+  <a href="#layout"><span class="num">2</span>布局原则</a>
+  <a href="#rooms"><span class="num">3</span>房间速查</a>
+  <a href="#diseases"><span class="num">4</span>疾病速查</a>
+  <a href="#staff"><span class="num">5</span>员工与培训</a>
+  <a href="#levels"><span class="num">6</span>关卡与三星</a>
+  <a href="#dlc"><span class="num">7</span>DLC 资料片</a>
+  <a href="#faq"><span class="num">8</span>常见问题</a>
+  <a href="#sources"><span class="num">·</span>资料来源</a>
+</nav>
+
+<main>
+<header class="hero">
+  <h1>双点医院 全面攻略</h1>
+  <p>从开局建房到全关卡三星：布局、房间、疾病、员工、关卡目标和 DLC 一页看完。</p>
+  <div class="hero-stats">
+    <div><b>15</b><span>本体关卡</span></div>
+    <div><b>49</b><span>本体疾病（可搜索）</span></div>
+    <div><b>30</b><span>种房间</span></div>
+    <div><b>7</b><span>大型 DLC</span></div>
+  </div>
+</header>
+
+<!-- ================= 1. 新手入门 ================= -->
+<section id="basics">
+  <h2>新手入门</h2>
+  <p class="lead">先弄懂病人在医院里怎么走、钱从哪里来，后面的布局和经营就都有了依据。</p>
+
+  <h3>病人的完整路线</h3>
+  <div class="flow">
+    <div class="step"><b>到达</b><small>步行从大门进入；急诊病人坐直升机到停机坪</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>接待处</b><small>助理登记，分配到全科诊室</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>全科诊室</b><small>初步诊断，决定下一步去哪个诊断室</small></div>
+    <div class="arrow">⇄</div>
+    <div class="step loop"><b>专科诊断</b><small>综合诊断、心脏科、X光、磁共振等，可能来回好几趟</small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>治疗室</b><small>诊断度达到阈值后送去对应治疗室</small></div>
+    <div class="arrow">→</div>
+    <div class="step end"><b>付费离开</b><small>治愈收钱、加声誉；失败可能死亡并变成鬼魂</small></div>
+  </div>
+  <div class="note"><b>关键点：</b>病人每进一次诊断室，“诊断度”就涨一截，涨到你在<b>医院政策</b>里设置的阈值后才会去治疗。所以全科诊室和诊断室之间的往返次数，基本决定了全科会不会排长队。</div>
+
+  <h3>经济要点</h3>
+  <div class="grid g4">
+    <div class="card"><h4><span class="icon">$</span>收入来源</h4>
+      <ul><li>治愈病人的治疗费（主要收入）</li><li>诊断费</li><li>贩卖机、商店、咖啡厅</li><li>关卡目标、VIP 和挑战的奖金</li></ul></div>
+    <div class="card"><h4><span class="icon">%</span>定价</h4>
+      <ul><li>在“医院”面板里调整各项收费</li><li>声誉高时可以涨价 +20%~+50%</li><li>涨价太多会降低病人幸福感和声誉</li></ul></div>
+    <div class="card"><h4><span class="icon">!</span>开支</h4>
+      <ul><li>员工工资（最大头）</li><li>能源费：大型机器、暖气、空调都耗电</li><li>贷款利息</li><li>培训和外聘讲师费用</li></ul></div>
+    <div class="card"><h4><span class="icon">K</span>库多什 Kudosh</h4>
+      <ul><li>完成目标、挑战和成就获得</li><li>用来解锁新物品（金星奖、书架、高级贩卖机等）</li><li>全局通用，越早解锁提升吸引力的物品越好</li></ul></div>
+  </div>
+
+  <h3>开局建造清单</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h4><span class="icon">1</span>必建</h4>
+      <ul>
+        <li><b>接待台</b>：放在大门口，配 1 名助理</li>
+        <li><b>全科诊室 ×2</b>：紧挨接待台，3×3 就够</li>
+        <li><b>药房</b>：前期最赚钱的治疗室</li>
+        <li><b>病房</b> 和 <b>综合诊断</b></li>
+        <li><b>厕所</b>、<b>员工休息室</b>：小一点也要有</li>
+        <li>走廊放 <b>长椅、饮料机、零食机、垃圾桶、暖气或空调</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4><span class="icon">2</span>开局习惯</h4>
+      <ul>
+        <li>只招够用的员工，先保证每月盈利</li>
+        <li>勤杂工至少 2 名：打扫卫生、维修机器、浇花</li>
+        <li>没有对应治疗室的病人，直接请他回家，避免占队</li>
+        <li>急诊有截止时间、奖金很高，能接就接</li>
+        <li>开局就在政策里设置好诊断阈值（见“常见问题”）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. 布局原则 ================= -->
+<section id="layout">
+  <h2>布局原则</h2>
+  <p class="lead">口诀：<b>主区诊断，新区治疗；多放全科，诊断比邻；跨区治疗，治好收钱。</b></p>
+
+  <div class="map-wrap">
+    <div>
+      <div class="hmap" aria-label="医院布局示意图">
+        <div class="z-entry" style="grid-column:1/2;grid-row:1/3">大门</div>
+        <div class="z-recep" style="grid-column:2/3;grid-row:1/3">接待处</div>
+        <div class="z-gp" style="grid-column:3/4;grid-row:1">全科</div>
+        <div class="z-gp" style="grid-column:4/5;grid-row:1">全科</div>
+        <div class="z-diag" style="grid-column:5/6;grid-row:1">综合诊断</div>
+        <div class="z-hall" style="grid-column:6/7;grid-row:1/6">走廊</div>
+        <div class="z-treat" style="grid-column:7/8;grid-row:1">药房</div>
+        <div class="z-treat" style="grid-column:8/9;grid-row:1">注射室</div>
+        <div class="z-gp" style="grid-column:3/4;grid-row:2">全科</div>
+        <div class="z-diag" style="grid-column:4/5;grid-row:2">心脏科</div>
+        <div class="z-diag" style="grid-column:5/6;grid-row:2">X光</div>
+        <div class="z-treat" style="grid-column:7/8;grid-row:2">外科</div>
+        <div class="z-treat" style="grid-column:8/9;grid-row:2">专科诊所</div>
+        <div class="z-hall" style="grid-column:1/6;grid-row:3">走廊（2~3 格宽）</div>
+        <div class="z-hyb" style="grid-column:7/9;grid-row:3">病房</div>
+        <div class="z-fac" style="grid-column:1/2;grid-row:4">厕所</div>
+        <div class="z-fac" style="grid-column:2/3;grid-row:4">休息室</div>
+        <div class="z-diag" style="grid-column:3/4;grid-row:4">体液分析</div>
+        <div class="z-diag" style="grid-column:4/5;grid-row:4">磁共振</div>
+        <div class="z-hyb" style="grid-column:5/6;grid-row:4">精神科</div>
+        <div class="z-hyb" style="grid-column:7/8;grid-row:4">DNA</div>
+        <div class="z-heli" style="grid-column:8/9;grid-row:4">停机坪</div>
+        <div class="z-admin" style="grid-column:1/3;grid-row:5">培训室</div>
+        <div class="z-admin" style="grid-column:3/5;grid-row:5">研究室</div>
+        <div class="z-admin" style="grid-column:5/6;grid-row:5">营销</div>
+        <div class="z-fac" style="grid-column:7/8;grid-row:5">厕所</div>
+        <div class="z-fac" style="grid-column:8/9;grid-row:5">休息室</div>
+      </div>
+      <div class="legend">
+        <span><i class="z-entry"></i>入口</span>
+        <span><i class="z-gp"></i>全科诊室</span>
+        <span><i class="z-diag"></i>诊断室</span>
+        <span><i class="z-hyb"></i>诊断兼治疗</span>
+        <span><i class="z-treat"></i>治疗室</span>
+        <span><i class="z-fac"></i>配套设施</span>
+        <span><i class="z-admin"></i>行政类</span>
+        <span><i class="z-heli"></i>停机坪</span>
+      </div>
+      <p class="count">示意图：左侧是初始建筑（诊断核心），右侧是后买的新地块（治疗区）。每个区域都有自己的厕所和休息室。</p>
+    </div>
+
+    <div class="card">
+      <h4>布局 9 条原则</h4>
+      <ol class="rules">
+        <li><b>全科诊室尽量靠近大门和接待处</b>，它是整个医院的心脏。</li>
+        <li><b>诊断室围着全科诊室放</b>，病人在两者之间往返次数最多。</li>
+        <li>全科诊室和诊断室的数量保持大约 <b>1:1</b>。</li>
+        <li>诊断室不得不放远时，给它们旁边配一间<b>分部全科</b>。</li>
+        <li>病房、精神科、DNA 这类<b>混合科室放在诊断区和治疗区之间</b>，最好一次建两间。</li>
+        <li><b>治疗室放到新地块</b>，靠近停机坪更好，急诊病人少走路。</li>
+        <li><b>培训、研究、营销放最里面</b>，病人用不到。</li>
+        <li>每个区域都要有<b>小厕所和小休息室</b>，员工不跨楼跑。</li>
+        <li>哪里排长队就<b>在哪里多建一间</b>，随着扩张不断调整。</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>走廊与配套</h3>
+  <div class="grid g3">
+    <div class="card"><h4><span class="icon">↔</span>走廊宽度</h4>
+      <ul><li>普通走廊至少 <b>2 格</b></li><li>全科、接待处周边 <b>3~4 格</b></li><li>一格宽的小道在 200 人以上时一定会堵死</li></ul></div>
+    <div class="card"><h4><span class="icon">WC</span>厕所</h4>
+      <ul><li>每个区域至少 <b>2 个</b>，分开放，路程减半</li><li>2×3 就够，可以塞在边角</li><li>放<b>洗手液</b>减少传染</li><li>可以设置员工专用厕所</li></ul></div>
+    <div class="card"><h4><span class="icon">椅</span>等候区</h4>
+      <ul><li>每个诊室门口都放长椅</li><li>饮料机和零食机放在等候区附近</li><li>报刊亭、街机、海报能缓解无聊</li><li>垃圾桶要多，不然满地垃圾和呕吐物</li></ul></div>
+  </div>
+
+  <div class="tip"><b>员工分区：</b>在员工面板里给每个人指定工作房间。比如诊断护士只去综合诊断和心脏科，病房护士只去病房和骨科病房。这样能避免高级研究员跑去坐全科门诊，也能让一名护士在两个同类科室之间按需求跑动。</div>
+</section>
+
+<!-- ================= 3. 房间速查 ================= -->
+<section id="rooms">
+  <h2>房间速查</h2>
+  <p class="lead">点分类按钮筛选，或直接搜索房间名、员工、资质；点表头排序。造价为空房间的基础价，实际价格随物品增减变化。</p>
+
+  <div class="toolbar">
+    <input type="search" id="roomSearch" placeholder="搜索房间名、英文名、员工、资质…">
+    <div class="chips" id="roomChips">
+      <button class="chip on" data-type="all">全部</button>
+      <button class="chip" data-type="diag">诊断</button>
+      <button class="chip" data-type="hybrid">诊断+治疗</button>
+      <button class="chip" data-type="treat">治疗</button>
+      <button class="chip" data-type="facility">设施/行政</button>
+    </div>
+    <span class="count" id="roomCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="roomTable">
+      <thead><tr>
+        <th class="sortable" data-key="name">房间</th>
+        <th class="sortable" data-key="type">类型</th>
+        <th class="sortable num" data-key="size">最小尺寸</th>
+        <th class="sortable num" data-key="cost">基础造价</th>
+        <th>员工</th>
+        <th>必要资质 / 推荐技能</th>
+        <th class="sortable" data-key="unlock">首次出现</th>
+        <th>要点 / 推荐物品</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3 id="staffing">科室配员指南 <span class="count" id="staffCount"></span></h3>
+  <p class="lead">每个科室该派什么员工、几个人、5 个资质栏怎么点。和上面的房间表共用搜索框和分类按钮。<span class="tag t-req">红色</span> 是进房的必要资质，没有这项就不能在这个房间工作。</p>
+  <div class="staff-grid" id="staffList"></div>
+
+  <h3>员工休息室的满星摆法</h3>
+  <div class="card">
+    建议 4×3。放：沙发、锻炼架、空调或暖气、玫瑰、地毯、咖啡机、金星奖、书架、洗手液、高级饮料机、高级食品机、垃圾桶、街机、电视。
+    这样大约就有 4.5 星吸引力，再加几个金星奖就能满星。区域多了以后在其他区域再建一间小的，不要只建一间巨大的。
+  </div>
+</section>
+
+<!-- ================= 4. 疾病速查 ================= -->
+<section id="diseases">
+  <h2>疾病速查</h2>
+  <p class="lead">49 种本体疾病。右侧百分数是每个诊室对该病的<b>诊断权重</b>（颜色越深越容易确诊），<span class="heat best" style="background:#fff">橙框</span> 是除全科外最有效的专科诊断室。点表头可以排序。</p>
+
+  <div class="toolbar">
+    <input type="search" id="disSearch" placeholder="搜索病名（中文/英文）、治疗室、关卡…">
+    <select id="disTreat"><option value="">全部治疗室</option></select>
+    <select id="disLevel"><option value="">全部首次出现关卡</option></select>
+    <span class="count" id="disCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="disTable">
+      <thead><tr>
+        <th class="sortable" data-key="cn">疾病</th>
+        <th class="sortable" data-key="treat">治疗室</th>
+        <th class="sortable num" data-key="cure" title="治疗基础成功率，越低越难治">治疗成功率</th>
+        <th class="sortable" data-key="first">首次出现</th>
+        <th class="sortable num" data-key="d0">全科</th>
+        <th class="sortable num" data-key="d1">综合</th>
+        <th class="sortable num" data-key="d2">心脏</th>
+        <th class="sortable num" data-key="d3">病房</th>
+        <th class="sortable num" data-key="d4">精神</th>
+        <th class="sortable num" data-key="d5">体液</th>
+        <th class="sortable num" data-key="d6">X光</th>
+        <th class="sortable num" data-key="d7">磁共振</th>
+        <th class="sortable num" data-key="d8">DNA</th>
+        <th class="sortable num" data-key="d9">复诊全科</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3>怎么读这张表</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h4>诊断度计算</h4>
+      <div class="formula">本次增加诊断度 = 房间权重 × 员工诊断能力 × (1 + 设备等级加成 + 药柜数 × 1%)</div>
+      <p style="margin:10px 0 0">例：国王情节，全科权重 20%，医生诊断能力 80%，第一次全科就是 16%。再去 3 级综合诊断（+50%），护士诊断能力 100%：12% × 100% × 1.5 = 18%，累计 34%。</p>
+      <p style="margin:8px 0 0">医生基础诊断能力 80%；全科诊疗每级 +15%，开心、精神焕发状态各 +10%。</p>
+    </div>
+    <div class="card">
+      <h4>实用结论</h4>
+      <ul>
+        <li>全科、综合诊断、精神科、DNA 实验室<b>能查出所有病</b>；其他专科诊室可以互相替代。</li>
+        <li>X光、磁共振、体液分析对多数难诊断的病权重最高，中后期一定要建。</li>
+        <li>两个诊断室一个排长龙、一个没人，说明权重重叠，把其中一个换成别的诊断室。</li>
+        <li><b>治疗成功率低</b>（20%~40%）的病，例如无意识喷发、点金术、鬼畜腰，要靠升级设备、提高员工治疗技能和放治疗加成物品。</li>
+        <li>精神科治疗失败<b>不会致死</b>。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. 员工与培训 ================= -->
+<section id="staff">
+  <h2>员工与培训</h2>
+  <p class="lead">员工专精是三星的核心：一个人只学一条路线，比什么都学一点有效得多。</p>
+
+  <div class="grid g4">
+    <div class="card"><h4><span class="icon" style="background:#0e9f8e">医</span>医生</h4>
+      全科、精神科、外科、DNA、X光、磁共振、各类专科诊所、研究。</div>
+    <div class="card"><h4><span class="icon" style="background:#3b82f6">护</span>护士</h4>
+      综合诊断、心脏科、体液分析、病房、骨科病房、药房、注射室、小丑诊所、色疗室。</div>
+    <div class="card"><h4><span class="icon" style="background:#f97316">助</span>助理</h4>
+      接待处、商店、咖啡厅、营销部。</div>
+    <div class="card"><h4><span class="icon" style="background:#64748b">工</span>勤杂工</h4>
+      清洁、维修、浇花、捉鬼（需“抓鬼”资质）、地震后清理。</div>
+  </div>
+
+  <h3>推荐专精路线</h3>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>岗位</th><th>员工</th><th>推荐资质（5 个栏位）</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>全科医生</b></td><td>医生</td><td>全科诊疗 ×5</td><td>每级 +15% 诊断能力，5 级共 +75%，是解决全科排队最有效的办法</td></tr>
+        <tr><td><b>诊断医生</b></td><td>医生</td><td>诊断学 ×4 + 放射学</td><td>坐 X光、磁共振（放射学是磁共振的必要资质）</td></tr>
+        <tr><td><b>诊断护士</b></td><td>护士</td><td>诊断学 ×5</td><td>综合诊断、心脏科、体液分析；每级 +10%</td></tr>
+        <tr><td><b>治疗医生</b></td><td>医生</td><td>治疗 ×5</td><td>各种专科诊所（脱光、拔头、电疗、分辨率、折疗等）；每级 +10%</td></tr>
+        <tr><td><b>外科医生</b></td><td>医生</td><td>外科学 ×5</td><td>外科学 1 级是资质，之后每级 +20% 成功率</td></tr>
+        <tr><td><b>精神科医生</b></td><td>医生</td><td>精神病学 ×5</td><td>精神病学 1 级是资质，之后每级 +20%</td></tr>
+        <tr><td><b>遗传医生</b></td><td>医生</td><td>遗传病学 + 诊断学/治疗 ×4</td><td>DNA 实验室，遗传病学只有 1 级</td></tr>
+        <tr><td><b>研究员</b></td><td>医生</td><td>研究 ×5</td><td>研究 1 级是资质，2~5 级每级 +50% 研究速度</td></tr>
+        <tr><td><b>病房护士</b></td><td>护士</td><td>病房管理 ×5</td><td>同时作用于病房和骨科病房；每级 +20%</td></tr>
+        <tr><td><b>药房/注射护士</b></td><td>护士</td><td>药房管理 + 注射 + 治疗 ×3</td><td>药房管理、注射都只有 1 级（+20%）</td></tr>
+        <tr><td><b>接待助理</b></td><td>助理</td><td>客户服务 ×5</td><td>接待更快，病人更开心</td></tr>
+        <tr><td><b>营销助理</b></td><td>助理</td><td>营销学 ×5</td><td>营销学是营销部必要资质</td></tr>
+        <tr><td><b>维修工</b></td><td>勤杂工</td><td>机械学 ×5</td><td>机械学 1 级是资质；机器老化不修会爆炸</td></tr>
+        <tr><td><b>捉鬼/清洁工</b></td><td>勤杂工</td><td>抓鬼 + 维护 ×4</td><td>病人死亡有 50% 概率变鬼魂；维护每级 +30% 清洁速度</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tip"><b>通用技能取舍：</b>体力培训 &gt; 工作激情 &gt; 培训达人班 &gt; 情商。培训达人班还能加快他当讲师时的授课速度，空栏位多时价值更高。</div>
+
+  <h3>培训室怎么用</h3>
+  <div class="grid g3">
+    <div class="card"><h4>建法</h4>
+      <ul><li>拍马镇解锁，最小 3×3</li><li>必须有讲台和学员桌，桌数等于同时上课人数</li><li>放百科全书架 I / II 加快培训</li><li><b>多建几间小的</b>，分散在各区域</li></ul></div>
+    <div class="card"><h4>讲师</h4>
+      <ul><li>院内有该资质的员工可以免费当讲师</li><li>没人会就花钱请外聘讲师</li><li>一个外聘讲师一次只能上一门课</li><li>选授课速度快的讲师能省很多时间</li></ul></div>
+    <div class="card"><h4>节奏</h4>
+      <ul><li>一次不要把太多人拉去培训，在岗人数不够会崩盘</li><li>员工经验满了可以晋升，多一个技能栏，但工资会涨</li><li>部分高级资质（如研究 III 以上）需要先研究解锁</li></ul></div>
+  </div>
+
+  <h3>员工士气</h3>
+  <div class="card">
+    <div class="grid g2" style="gap:10px 24px">
+      <div><b>提升办法</b>
+        <ul><li>舒适的员工休息室（高级贩卖机、咖啡机、街机）</li><li>每个区域都有厕所和饮水</li><li>干净、温度合适的环境</li><li>适时满足加薪要求</li><li>在政策里设置合理的休息阈值</li></ul></div>
+      <div><b>实战经验</b>
+        <ul><li>不做任何调整时，士气一般在 55%~60%</li><li>只靠休息室很难超过 70%</li><li>需要 75%~90% 士气的关卡，最快的办法是<b>全员加薪约 30%</b></li><li>士气很低的员工会辞职</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. 关卡 ================= -->
+<section id="levels">
+  <h2>关卡与三星</h2>
+  <p class="lead">本体共 15 家医院、5 个地区，点地区标题展开或收起。星级目标和地块数据以 GameFAQs 逐关攻略（v1.9）为准，个别数值如与游戏内不一致，以游戏内为准。</p>
+  <div class="note"><b>布局详解怎么看：</b>每张关卡卡片底部都有“布局详解”按钮，点开后能看到：
+    <b>地块示意图</b>（九宫格只表示大致方位，方块大小按面积缩放，不按真实地形；橙色数字是建议购买顺序，虚线框表示三星不需要买）、
+    <b>开局到三星的四个阶段</b>建造顺序、三星时的<b>关键房间数量</b>（点房间名可以跳到对应的“科室配员指南”卡片），以及本关难点。
+    布局参考 GameFAQs 作者的三星存档，不是唯一解。</div>
+  <div class="toolbar">
+    <button class="chip on" id="expandAll">全部展开</button>
+    <button class="chip" id="collapseAll">全部收起</button>
+  </div>
+  <div id="levelList"></div>
+</section>
+
+<!-- ================= 7. DLC ================= -->
+<section id="dlc">
+  <h2>DLC 资料片</h2>
+  <p class="lead">每个大型 DLC 新增一个地区、3 家医院、30 多种新疾病和新治疗室；另有免费的 R.E.M.I. X 模式和沙盒模式。中文名为意译，英文为官方原名。</p>
+  <div class="grid g2" id="dlcList"></div>
+  <div class="note"><b>游玩顺序建议：</b>佩伯利岛需要先在污克沃斯拿到一星才会自然解锁；其他 DLC 买了就能玩，但最好先通关本体前几个地区、熟悉研究和培训之后再去。对新手最友好的是“时间缝补”，难度较高的是“文化冲击”和“亲密接触”。</div>
+</section>
+
+<!-- ================= 8. FAQ ================= -->
+<section id="faq">
+  <h2>常见问题</h2>
+  <p class="lead">遇到崩盘、排队和各种突发事件时先来这里查。</p>
+  <div id="faqList"></div>
+</section>
+
+<footer id="sources">
+  <b>资料来源</b>
+  <ul>
+    <li><a href="https://www.gamersky.com/handbook/201811/1127347.shtml" target="_blank">游民星空：《双点医院》全方位资料数据整理（疾病诊断治疗概率、科室信息、员工技能）</a></li>
+    <li><a href="https://www.gamersky.com/handbook/201809/1095960.shtml" target="_blank">游民星空：新手向布局技巧分享</a></li>
+    <li><a href="https://www.gamersky.com/handbook/201809/1095518_8.shtml" target="_blank">游民星空：全建筑效果与附加组件增益详解</a></li>
+    <li><a href="https://gl.ali213.net/html/2018-8/263241_11.html" target="_blank">游侠网：入门指南 + 系统详解 + 3 星过关技巧</a></li>
+    <li><a href="https://www.pkvs.com/guide/66164.html" target="_blank">游戏之家：全科排队及医院崩溃完全解决攻略</a></li>
+    <li><a href="https://www.doyo.cn/article/396952" target="_blank">逗游网：攻略资料大全（疾病权重、员工、培训）</a></li>
+    <li><a href="https://gamefaqs.gamespot.com/pc/230622-two-point-hospital/faqs/76595/the-9-general-rules-of-hospital-layout" target="_blank">GameFAQs：The 9 General Rules of Hospital Layout</a></li>
+    <li><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1632044281" target="_blank">Steam 社区：A Beginner's Guide to Two Point Hospital</a></li>
+    <li><a href="https://www.nerdsandscoundrels.com/two-point-hospital-guide-walkthrough/" target="_blank">Nerds &amp; Scoundrels：Two Point Hospital Guide and Walkthrough</a></li>
+    <li><a href="https://two-point-hospital.fandom.com/wiki/Hospitals" target="_blank">Two Point Hospital Fandom Wiki</a>、<a href="https://www.neoseeker.com/two-point-hospital/" target="_blank">Neoseeker</a></li>
+  </ul>
+  <p>本页为离线单文件，整理于 2026 年 11 月。游戏版本更新可能导致个别数值变化。</p>
+</footer>
+</main>
+
+<button id="toTop" title="回到顶部">↑</button>
+
+<script>
+/* ======================= 数据：房间 ======================= */
+// 名称, 英文, 类型, 最小尺寸, 基础造价, 员工, 资质/技能, 首次出现, 要点
+const ROOMS = [
+  ["全科医生办公室","GP's Office","diag","3×3",5800,"医生","全科诊疗","霍格思波特","医院核心，数量要多；放药柜提升诊断"],
+  ["综合诊断","General Diagnosis","diag","3×3",7100,"护士","诊断学","霍格思波特","能查出所有病；放药柜"],
+  ["心脏病科","Cardiology","diag","3×3",7600,"护士","诊断学","下牛镇","只有一台跑步机，不用建大；可放引体向上杆"],
+  ["体液分析","Fluid Analysis","diag","3×3",20100,"护士","诊断学","米顿大学","强力诊断室，需研究；每间只能放一台机器"],
+  ["X光","X-Ray","diag","4×4",31100,"医生","诊断学","米顿大学","对罕见病很有效，速度慢，大医院建 2~3 间"],
+  ["超级磁力强效共振扫描","M.E.G.A. Scan","diag","4×4",60100,"医生","放射学（必要）","米顿大学","最强诊断室，昂贵且慢，常需要多间"],
+  ["病房","Ward","hybrid","3×4",7500,"护士","病房管理","霍格思波特","每 4 张床配 1 名护士、每 3 张床配 1 个屏风；只有一个门"],
+  ["精神科","Psychiatry","hybrid","3×3",6100,"医生","精神病学（必要）","下牛镇","可诊断所有病；沙发靠门；放治疗书架；失败不致死"],
+  ["DNA实验室","DNA Lab","hybrid","3×4",50100,"医生","遗传病学（必要）","电熔城","可诊断所有病；治疗慢、造价高"],
+  ["药房","Pharmacy","treat","3×3",7600,"护士","药房管理","霍格思波特","前期主要收入，要建好几间"],
+  ["脱光诊所","De-Lux Clinic","treat","3×3",21000,"医生","治疗","霍格思波特","只治光头症（灯泡头）；机器放角落，墙上挂加成物品"],
+  ["流行锅实验室","Pans Lab","treat","4×4",20100,"医生","治疗","下牛镇","只治流行锅症（锅头）"],
+  ["小丑诊所","Clown Clinic","treat","4×4",20100,"护士","治疗","拍马镇","只治笑话感染（小丑）"],
+  ["色疗室","Chromatherapy","treat","3×4",21100,"护士","治疗","米顿大学","只治褪色症（灰色病人）"],
+  ["注射室","Injection Room","treat","3×3",15100,"护士","注射","米顿大学","治观感中毒、石腚、布丁血等多种病"],
+  ["骨科病房","Fracture Ward","treat","3×4",13600,"护士","病房管理","跌落镇","设备不能升级，全靠员工能力；多放牵引床"],
+  ["有害动物防治","Pest Control","treat","4×4",null,"医生","治疗","弗莱明顿","只治动物磁力症"],
+  ["外科","Surgery","treat","3×4",26000,"外科医生 + 护士","外科学（必要）","烟熏镇","治疗时间长但难病成功率高；护士资质不影响结果"],
+  ["拔头室","Head Office","treat","4×4",30100,"医生","治疗","烟熏镇","只治藏头症"],
+  ["电疗诊所","Shock Clinic","treat","4×4",30100,"医生","治疗","电熔城","只治电流感"],
+  ["分辨率实验室","Resolution Lab","treat","4×4",30100,"医生","治疗","污克沃斯","只治八位症（像素人）"],
+  ["折疗室","Recurvery Room","treat","3×5",35100,"医生","治疗","多事湾","只治立体症（方块人），后期很赚钱"],
+  ["破伊学","Cryptology","treat","3×4",30100,"护士","治疗","惊吓掌心","只治活人木乃伊化"],
+  ["接待处","Reception","facility","2×3",1600,"助理","客户服务","拍马镇","可容纳多名助理，解决登记排队"],
+  ["员工休息室","Staff Room","facility","2×3",5500,"—","—","霍格思波特","恢复体力；每个区域一间，推荐 4×3"],
+  ["厕所","Toilets","facility","2×3",5600,"—","—","霍格思波特","每个区域 2 个以上；放洗手液、干手机"],
+  ["培训室","Training","facility","3×3",7000,"讲师","按课程","拍马镇","讲台 + 学员桌；多建小的；放百科全书架"],
+  ["研究室","Research","facility","3×4",35100,"医生","研究（必要）","米顿大学","研究新房间、升级、疾病；放服务器、研究显示器"],
+  ["营销部","Marketing","facility","3×4",7100,"助理","营销学（必要）","弗莱明顿","营销活动持续 3 个月，可以定向吸引某类病人"],
+  ["咖啡厅","Cafe","facility","4×5",7600,"助理","客户服务","弗莱明顿","最受欢迎的房间；桌椅要分散，防止人物卡住"],
+];
+const TYPE_INFO = { diag:["诊断","t-diag"], hybrid:["诊断+治疗","t-hybrid"], treat:["治疗","t-treat"], facility:["设施/行政","t-facility"] };
+
+/* ======================= 数据：疾病 ======================= */
+// 中文, 英文, [全科,综合,心脏,病房,精神,体液,X光,磁共振,DNA,复诊全科], 治疗成功率, 治疗室, 首次出现
+const DISEASES = [
+  ["无意识喷发","Spontaneous Combustion",[10,15,5,25,5,5,5,30,30,5],20,"注射室","惊吓掌心"],
+  ["点金术","Touch of Midas",[10,9,9,9,20,9,9,20,40,8],20,"DNA实验室","污克沃斯"],
+  ["鬼畜腰","Gurning Loins",[15,20,7,7,7,10,10,15,10,7.5],20,"外科","烟熏镇"],
+  ["爵士乐手","Jazz Hands",[15,10,10,30,10,10,45,45,10,11.25],30,"病房","下牛镇"],
+  ["巨型DNA","Jumbo DNA",[15,10,10,10,10,25,10,40,10,9],30,"DNA实验室","电熔城"],
+  ["布丁血","Pudding Blood",[15,5,5,5,25,15,30,5,30,7.5],30,"注射室","多事湾"],
+  ["国王情节","Emperor Complex",[20,12,20,12,12,12,20,20,25,10],30,"精神科","惊吓掌心"],
+  ["跨界骨骼","Cross Bones",[25,12,7,12,40,12,40,40,12,5],40,"骨科病房","弗莱明顿"],
+  ["牛仔基因","Denim Genes",[25,10,10,10,10,25,10,25,25,10],60,"DNA实验室","电熔城"],
+  ["重块症","Flumps",[25,10,28,10,10,10,10,28,28,10],50,"DNA实验室","电熔城"],
+  ["美颜心悸","Heart Throb",[25,10,20,10,5,20,20,20,20,10],40,"外科","污克沃斯"],
+  ["豹皮症","Leopard Skin",[25,10,10,10,10,25,25,10,25,10],40,"DNA实验室","多事湾"],
+  ["粉身碎骨","Shattered",[25,12,7,25,12,12,25,25,12,5],20,"骨科病房","弗莱明顿"],
+  ["立体症","Cubism",[28,10,10,10,10,45,45,45,45,8.4],50,"折疗室","多事湾"],
+  ["活人木乃伊化","Premature Mummification",[28,10,10,10,40,10,40,40,10,8.4],50,"破伊学","惊吓掌心"],
+  ["八位症","8-Bitten",[30,30,20,10,12,12,12,12,12,9.9],50,"分辨率实验室","污克沃斯"],
+  ["狼化症","Lycanthropy",[30,5,41,5,20,41,5,5,5,3],30,"药房","下牛镇"],
+  ["管乐器官症","Pipe Organs",[30,8,8,20,8,10,30,30,10,6],50,"外科","烟熏镇"],
+  ["藏头症","Turtle Head",[30,15,7,15,15,30,30,30,30,9],50,"拔头室","烟熏镇"],
+  ["错乱脑","Boggled Mind",[35,15,15,30,15,15,30,30,30,8.75],40,"精神科","拍马镇"],
+  ["泥腿子","Mucky Feet",[35,20,20,20,20,20,25,20,25,8.75],40,"病房","拍马镇"],
+  ["选择性障碍疹","Decision Rash",[40,7,20,12,12,30,12,15,12,4.8],40,"注射室","米顿大学"],
+  ["自我膨胀","Inflated Ego",[40,15,15,15,15,40,15,15,15,10],50,"精神科","下牛镇"],
+  ["连眉","Monobrow",[40,15,15,20,15,15,20,20,15,10],50,"病房","下牛镇"],
+  ["电流感","Shock Horror",[40,5,15,35,5,35,5,5,35,10],50,"电疗诊所","电熔城"],
+  ["椎间软盘突出","Floppy Discs",[45,8,8,20,8,18,45,45,15,9],60,"外科","烟熏镇"],
+  ["垃圾虫症","Litter Bug",[45,15,15,7,7,35,18,15,15,11.25],50,"注射室","弗莱明顿"],
+  ["哑剧危机","Mime Crisis",[45,18,30,18,30,30,18,18,18,9],60,"精神科","拍马镇"],
+  ["骨髓穿刺","Spinal Bap",[45,8,25,8,8,18,18,18,15,11.25],70,"外科","烟熏镇"],
+  ["碎脸","Broken Face",[50,15,25,15,15,25,15,25,15,9],50,"骨科病房","弗莱明顿"],
+  ["褪色症","Grey Anatomy",[50,20,20,17,7,45,17,30,17,10],60,"色疗室","米顿大学"],
+  ["夜猫子","Night Fever",[50,30,15,15,30,30,15,15,15,12.5],50,"精神科","米顿大学"],
+  ["脏嘴症","Potty Mouth",[50,20,20,35,20,35,20,20,20,5],40,"药房","下牛镇"],
+  ["石腚","Rock Bottom",[50,17,24,7,17,50,17,17,45,9],60,"注射室","米顿大学"],
+  ["弗洛伊德之嘟嘴","Freudian Lips",[55,15,40,15,20,15,15,15,15,11],70,"精神科","下牛镇"],
+  ["粪坑疣","Bogwarts",[60,35,22,7,22,22,22,22,22,15],60,"药房","霍格思波特"],
+  ["痛痛腿","Hurty Leg",[60,30,7,18,18,18,30,30,18,13.2],70,"骨科病房","跌落镇"],
+  ["笑话感染","Jest Infection",[60,20,20,15,35,15,35,15,35,6],60,"小丑诊所","拍马镇"],
+  ["肠生气症","Misery Guts",[60,20,30,20,20,25,20,20,20,12],50,"药房","霍格思波特"],
+  ["流行锅症","Pandemic",[70,17,15,15,13,15,17,17,15,7],70,"流行锅实验室","下牛镇"],
+  ["波蒂斯黑德症","Portishead",[75,20,20,20,5,20,20,20,20,15],60,"病房","下牛镇"],
+  ["动物磁力症","Animal Magnetism",[80,12,45,7,7,12,12,45,45,16],60,"有害动物防治","弗莱明顿"],
+  ["懒骨头","Lazy Bones",[80,20,22,20,5,20,20,20,20,12],70,"病房","下牛镇"],
+  ["观感中毒","Mood Poisoning",[80,20,20,7,7,20,20,20,20,16],70,"注射室","米顿大学"],
+  ["床脸","Bed Face",[85,20,20,20,5,20,20,20,20,21.25],80,"病房","霍格思波特"],
+  ["笑穴错位","Humerus Injury",[90,20,7,20,20,20,20,20,20,22.5],80,"骨科病房","跌落镇"],
+  ["光头症","Lightheadedness",[90,15,15,15,15,15,15,15,15,9],80,"脱光诊所","霍格思波特"],
+  ["明星梦症","Mock Star",[90,20,20,20,20,20,20,20,20,31.5],80,"精神科","下牛镇"],
+  ["话痨症","Verbal Diarrhoea",[100,20,20,20,20,20,20,20,20,25],75,"药房","下牛镇"],
+];
+const LEVEL_ORDER = ["霍格思波特","下牛镇","拍马镇","米顿大学","跌落镇","弗莱明顿","烟熏镇","电熔城","污克沃斯","多事湾","惊吓掌心","凋萎顿","鹈鹕码头","烂丁山","泡芙摩天塔"];
+const HYBRID_ROOMS = ["病房","精神科","DNA实验室"];
+
+/* ======================= 数据：关卡 ======================= */
+const REGIONS = [
+  { name:"乡村地区", en:"Countryside", climate:"温和", levels:[
+    { cn:"霍格思波特", en:"Hogsport", unlock:"开局即可", tags:["教学关","气候温和"],
+      desc:"教学关，场地开阔方正。主要靠病房和脱光诊所治疗，学会建房、招人、定价的基本操作。",
+      stars:[
+        ["治愈 3 名光头症病人（跟随教程建好基础房间即可）","$10,000 · K100 · 解锁下牛镇、光头症海报"],
+        ["治愈 25 人；累计赚取 $200,000；医院等级 6","$20,000 · K150 · 咸味零食机"],
+        ["治愈 30 人；累计赚取 $400,000；医院价值 $750,000","$30,000 · K200 · 报刊亭"]],
+      tip:"前期病人少，不要急着扩张，按需求逐步加房间。" },
+    { cn:"下牛镇", en:"Lower Bullocks", unlock:"霍格思波特一星", tags:["精神科","流行锅症"],
+      desc:"满城都是以为自己是摇滚明星的人。首次出现精神科（需精神病学医生）和流行锅实验室。",
+      stars:[
+        ["医院等级 6；拥有 2 栋建筑；流行锅实验室治愈 3 人","$10,000 · K100 · 解锁拍马镇、心脏病科"],
+        ["医院等级 8；拥有 3 栋建筑；升级 2 台机器","$20,000 · K150 · 流行锅机 II"],
+        ["医院等级 10；治愈 20 人；治愈率 70%；吸引力 65%","$30,000 · K200 · 流行锅机 III"]],
+      tip:"精神科医生前期很稀缺，招聘列表里一出现就先招。" },
+    { cn:"拍马镇", en:"Flottering", unlock:"下牛镇一星", tags:["培训室","小丑","员工士气"],
+      desc:"引入培训系统和员工士气，小丑病人（笑话感染）在这一关爆发。",
+      stars:[
+        ["培训 3 名员工；晋升 3 名员工","$10,000 · K100 · 解锁米顿大学、跌落镇、接待处"],
+        ["培训 6 名员工；晋升 6 名员工；医院等级 9","$20,000 · K150 · 小丑机 II、心脏机 II"],
+        ["培训 10 名员工；晋升 10 名员工；医院等级 12；员工士气 75%","$30,000 · K200 · 小丑机 III、心脏机 III"]],
+      tip:"士气卡在 70% 上不去时，全员加薪约 30% 立刻见效。一次别拉太多人去培训。" },
+  ]},
+  { name:"寒冷地区", en:"Cold", climate:"寒冷", levels:[
+    { cn:"米顿大学", en:"Mitton University", unlock:"拍马镇一星", tags:["研究","实习生"],
+      desc:"引入研究系统。招聘池里全是 1 星、无资质的实习生，必须自己培养；每培训一人学校补贴 $5,000。",
+      stars:[
+        ["培训 1 名医生学会研究；完成色疗室研究；色疗室治愈 1 人","$10,000 · K100 · 书架 I、脱光机 III；与跌落镇一星共同解锁弗莱明顿"],
+        ["培训 10 名员工；获得 2000 研究点；治愈 50 人","$20,000 · K150 · 书架 II、综合诊断机 III"],
+        ["培训 20 名员工；获得 4000 研究点；治愈 100 人；治愈率 60%","$30,000 · K200 · 服务器、药房机 III"]],
+      tip:"缺钱就建大培训室，能培训的全拉去上课，靠补贴回血。" },
+    { cn:"跌落镇", en:"Tumble", unlock:"拍马镇一星", tags:["骨科病房","地震","寒冷"],
+      desc:"登山客大量骨折。场地狭小不规整，天气寒冷需要全覆盖暖气，还会有地震。",
+      stars:[
+        ["治愈 50 人；治愈率 50%；舒适温度 60%","小暖气片；与米顿大学一星共同解锁弗莱明顿"],
+        ["治愈 100 人；治愈率 70%；医院价值 $1,000,000","大暖气片"],
+        ["治愈 200 人；治愈率 80%；医院价值 $2,000,000；舒适温度 90%","高级饮料机"]],
+      tip:"建议先玩米顿大学再来。对面的新地块很方正，可以把病房这类大房间挪过去。" },
+    { cn:"弗莱明顿", en:"Flemington", unlock:"米顿大学 + 跌落镇一星", tags:["营销","有害动物防治"],
+      desc:"富人区，第一次可以建营销部，动物磁力症病人出现。",
+      stars:[
+        ["医院价值 $1,000,000；声誉 70%；治愈 10 名动物磁力症；发起 1 次营销","$10,000 · K100 · 解锁烟熏镇、电熔城、咖啡厅"],
+        ["医院价值 $2,000,000；声誉 80%；骨科病房治愈 20 人；发起 2 次营销","$20,000 · K150"],
+        ["医院价值 $5,000,000；声誉 90%；注射室治愈 30 人；发起 3 次营销","$30,000 · K200"]],
+      tip:"营销助理定岗、持续投放；后期改为注射类疾病定向营销，多建几间注射室。" },
+  ]},
+  { name:"工业地区", en:"Industrial", climate:"温和", levels:[
+    { cn:"烟熏镇", en:"Smogley", unlock:"弗莱明顿一星", tags:["外科","藏头症","污染"],
+      desc:"重工业区，工伤多需要外科。前期病房病人多但赚钱慢，经济容易紧张。",
+      stars:[
+        ["培训 10 名员工；外科治愈 15 人；治愈 5 名藏头症","与电熔城一星共同解锁污克沃斯"],
+        ["培训 20 名员工；外科治愈 30 人；治愈率 75%；医院等级 12","$20,000 · K150"],
+        ["培训 30 名员工；外科治愈 50 人；治愈率 90%；医院等级 16","$20,000 · K200"]],
+      tip:"治愈率暴跌、全科排队时，赶紧研究并建 X光和磁共振，问题立刻缓解。前期别雇太多研究员。" },
+    { cn:"电熔城", en:"Melt Downs", unlock:"弗莱明顿一星", tags:["DNA 实验室","电疗","研究"],
+      desc:"核电站旁的烂摊子，开局要先清理。研究非常重要，DNA 实验室和电疗诊所都要研究才能建。",
+      stars:[
+        ["1000 研究点；升级 5 台机器；电疗治愈 5 人；DNA 治愈 10 人","有毒废料桶"],
+        ["DNA 治愈 20 人；升级 10 台机器；医院等级 10；治愈率 75%",""],
+        ["DNA 治愈 40 人；升级 15 台机器；治愈率 90%",""]],
+      tip:"机器全部升满后，新建一台升级完再卖掉，可以刷“升级机器”目标。DNA 类疾病做定向营销。" },
+    { cn:"污克沃斯", en:"Duckworth-upon-Bilge", unlock:"烟熏镇 + 电熔城一星", tags:["公立医院","传染病","八位症"],
+      desc:"公立医院：没有治疗收入，只能靠完成“公立目标”拿拨款，人工成本照付。会爆发传染病。",
+      stars:[
+        ["医院等级 8；士气 60%；声誉 60%；治愈 5 名八位症","解锁多事湾、惊吓掌心、佩伯利岛 DLC"],
+        ["医院等级 12；士气 75%；声誉 75%；治愈 100 人",""],
+        ["医院等级 16；士气 90%；声誉 90%；治愈 200 人",""]],
+      tip:"只建公立目标需要的房间；难的公立目标点 X 换掉（扣一点声誉）。浇花、通马桶、晋升这类目标最好赚。" },
+  ]},
+  { name:"海滨地区", en:"Beach", climate:"炎热", levels:[
+    { cn:"多事湾", en:"Grockle Bay", unlock:"污克沃斯一星", tags:["立体症","炎热","细菌多"],
+      desc:"疑难杂症聚集地，天气炎热要装空调；病人携带细菌多，厕所要加洗手液。地块很多是狭长形。",
+      stars:[
+        ["医院价值 75 万；吸引力 60%；治愈 10 名立体症","立体症海报；与惊吓掌心一星共同解锁凋萎顿"],
+        ["医院价值 200 万；吸引力 70%；声誉 75%；治愈率 75%",""],
+        ["医院价值 400 万；吸引力 80%；声誉 90%；治愈率 90%","立体解剖海报"]],
+      tip:"二星最难：扩张很容易入不敷出，一次错误扩张就会崩盘。X光、磁共振、体液分析要补齐。" },
+    { cn:"惊吓掌心棕榈度假村", en:"Sweaty Palms", unlock:"污克沃斯一星", tags:["地震","火山","木乃伊"],
+      desc:"度假胜地，但地震和自然灾害频繁，机器容易着火。活人木乃伊化病人首次出现。",
+      stars:[
+        ["治愈 15 名木乃伊化；治愈率 60%；医院价值 75 万；舒适温度 60%","与多事湾一星共同解锁凋萎顿"],
+        ["治愈 100 人；治愈率 75%；医院价值 200 万；舒适温度 75%","$20,000 · K150"],
+        ["治愈 200 人；治愈率 90%；医院价值 500 万；舒适温度 90%","$20,000 · K150"]],
+      tip:"开局别分区规划把钱花光，先紧凑布局赚钱。多放灭火器、多雇勤杂工；500 万价值需要买下第四块地。" },
+    { cn:"凋萎顿", en:"Blighton", unlock:"多事湾 + 惊吓掌心一星", tags:["传染病","卫生","炎热"],
+      desc:"炎热又不讲卫生，传染病频发，要不停找出感染者给他们打疫苗。",
+      stars:[
+        ["医院等级 10；卫生 70%；接种 30 名感染者；舒适温度 90%","$10,000 · K100 · 解锁鹈鹕码头、烂丁山"],
+        ["医院等级 14；卫生 80%；接种 45 人；治愈率 75%","$20,000 · K150"],
+        ["医院等级 18；卫生 90%；接种 60 人；治愈率 90%","$20,000 · K150"]],
+      tip:"先别扩张，在小医院里把疫苗目标做完，大医院里很难找感染者。点金术很难治，用营销避开它。" },
+  ]},
+  { name:"城市地区", en:"Urban", climate:"温和", levels:[
+    { cn:"鹈鹕码头", en:"Pelican Wharf", unlock:"凋萎顿一星", tags:["研究","机器升级","破坏者"],
+      desc:"高科技区，重点是研究和升级机器。新的对手 CEO 会来破坏你的机器。",
+      stars:[
+        ["治愈 100 人；治愈率 60%；3 人学会研究 III；升级 15 台机器","$10,000 · K100 · 100 研究点；与烂丁山一星共同解锁泡芙摩天塔"],
+        ["治愈 200 人；治愈率 75%；2 人学会研究 IV；升级 15 台机器","$20,000 · K150 · 250 研究点"],
+        ["治愈 500 人；治愈率 90%；1 人学会研究 V；升级 15 台机器","$30,000 · K200 · 500 研究点"]],
+      tip:"开局收费直接拉到 +100%，收入翻倍又能压住声誉不让病人暴涨。扩张优先选靠近停机坪和街道的地块。" },
+    { cn:"烂丁山", en:"Rotting Hill", unlock:"凋萎顿一星", tags:["烂摊子","士气","声誉"],
+      desc:"全县最差的医院之一。全局负面效果“烂丁山真糟糕”让所有病人和员工幸福感 -10%。",
+      stars:[
+        ["医院价值 100 万；士气 70%；声誉 70%；治愈 100 人","与鹈鹕码头一星共同解锁泡芙摩天塔"],
+        ["医院价值 200 万；士气 80%；声誉 80%；治愈 200 人",""],
+        ["医院价值 500 万；士气 95%；声誉 95%；治愈 500 人",""]],
+      tip:"士气和声誉要长期保持在很高水平：高级休息室、加薪、到处放装饰和金星奖。" },
+    { cn:"泡芙摩天塔", en:"Croquembouche", unlock:"鹈鹕码头 + 烂丁山一星", tags:["最终关","全部疾病","灾害"],
+      desc:"本体最终关，病人数量最多，需要全部治疗室，还会遇到灾害、传染病和所有 VIP。",
+      stars:[
+        ["医院价值 250 万；声誉 70%；治愈率 70%；治愈 250 人",""],
+        ["医院价值 500 万；声誉 80%；治愈率 80%；治愈 500 人",""],
+        ["医院价值 1000 万；声誉 90%；治愈率 90%；治愈 1000 人",""]],
+      tip:"多建几栋“全科楼”；每块地都配厕所、休息室和饮食区。治愈率只统计最近一批病人，可以最后再冲。" },
+  ]},
+];
+
+/* ======================= 数据：科室配员 ======================= */
+// staff 员工与人数, required 必要资质, slots 5 个资质栏推荐, general 推荐通用技能, share 同一人可兼顾的房间
+const GEN_WORK = ["体力培训","工作激情","培训达人班"];
+const STAFFING = {
+  "全科医生办公室": { staff:"医生 × 1（每间）", required:[], slots:["全科诊疗","全科诊疗","全科诊疗","全科诊疗","全科诊疗"], general:GEN_WORK, share:[],
+    note:"每级 +15% 诊断能力，满 5 级 +75%。全科医生几乎不休息，体力培训最重要；数量通常是诊断室的 1.5~2 倍。" },
+  "综合诊断": { staff:"护士 × 1", required:[], slots:["诊断学","诊断学","诊断学","诊断学","诊断学"], general:GEN_WORK, share:["心脏病科","体液分析"],
+    note:"三种护士诊断室共用同一个诊断护士，可以让她们在几间诊断室之间自动调度。" },
+  "心脏病科": { staff:"护士 × 1", required:[], slots:["诊断学","诊断学","诊断学","诊断学","诊断学"], general:GEN_WORK, share:["综合诊断","体液分析"],
+    note:"跑步机一台就够，房间不用建大。" },
+  "体液分析": { staff:"护士 × 1", required:[], slots:["诊断学","诊断学","诊断学","诊断学","诊断学"], general:GEN_WORK, share:["综合诊断","心脏病科"],
+    note:"诊断权重高，后期主力诊断室之一，护士资质越高越好。" },
+  "X光": { staff:"医生 × 1", required:[], slots:["诊断学","诊断学","诊断学","诊断学","放射学"], general:GEN_WORK, share:["超级磁力强效共振扫描"],
+    note:"带一级放射学，同一个人可以兼顾磁共振。" },
+  "超级磁力强效共振扫描": { staff:"医生 × 1", required:["放射学"], slots:["放射学","诊断学","诊断学","诊断学","诊断学"], general:GEN_WORK, share:["X光"],
+    note:"没有放射学的医生不能进房。放射学只有 1 级，剩下的栏位全给诊断学。" },
+  "病房": { staff:"护士 × 每 4 张床 1 名", required:[], slots:["病房管理","病房管理","病房管理","病房管理","病房管理"], general:GEN_WORK, share:["骨科病房"],
+    note:"病房既诊断又治疗，病房管理每级 +20%。每 3 张床放 1 个屏风，9 张床可同时容纳 3 名护士。" },
+  "精神科": { staff:"医生 × 1", required:["精神病学"], slots:["精神病学","精神病学","精神病学","精神病学","精神病学"], general:["体力培训","工作激情","情商"], share:[],
+    note:"精神病学 1 级是资质，之后每级 +20%。前期稀缺，招聘列表里一出现就先招。" },
+  "DNA实验室": { staff:"医生 × 1", required:["遗传病学"], slots:["遗传病学","诊断学","诊断学","治疗","治疗"], general:GEN_WORK, share:[],
+    note:"遗传病学只有 1 级。DNA 实验室同时诊断和治疗，所以诊断学和治疗各练两级最均衡。" },
+  "药房": { staff:"护士 × 1", required:[], slots:["药房管理","治疗","治疗","治疗","注射"], general:GEN_WORK, share:["注射室"],
+    note:"药房管理和注射都只有 1 级（+20%），配上治疗后一个人能兼顾药房和注射室。" },
+  "脱光诊所": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["流行锅实验室","拔头室","电疗诊所","分辨率实验室","折疗室","有害动物防治"],
+    note:"医生专科诊所共用同一个治疗医生，治疗满 5 级 +50%。" },
+  "流行锅实验室": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","拔头室","电疗诊所","分辨率实验室","折疗室"],
+    note:"治疗成功率主要靠机器等级和医生治疗等级，机器优先升级。" },
+  "小丑诊所": { staff:"护士 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["色疗室","破伊学"],
+    note:"护士专科诊所共用同一个治疗护士。" },
+  "色疗室": { staff:"护士 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["小丑诊所","破伊学"],
+    note:"米顿大学需要先研究才能建。" },
+  "注射室": { staff:"护士 × 1", required:[], slots:["注射","治疗","治疗","治疗","药房管理"], general:GEN_WORK, share:["药房"],
+    note:"治疗多种常见病，病人多时建 2~3 间，同一批护士在药房和注射室之间轮转。" },
+  "骨科病房": { staff:"护士 × 每 3~4 张床 1 名", required:[], slots:["病房管理","病房管理","病房管理","病房管理","病房管理"], general:GEN_WORK, share:["病房"],
+    note:"设备不能升级，完全靠护士能力和墙上显示器、药柜等物品；弗莱明顿起至少练到病房管理 III。" },
+  "有害动物防治": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","拔头室","电疗诊所"],
+    note:"只治动物磁力症，同样由治疗医生操作。" },
+  "外科": { staff:"外科医生 × 1 + 护士 × 1", required:["外科学（医生）"], slots:["外科学","外科学","外科学","外科学","外科学"], general:GEN_WORK, share:[],
+    note:"外科学 1 级是资质，之后每级 +20% 成功率。护士资质不影响结果，任何护士都可以。" },
+  "拔头室": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","流行锅实验室","电疗诊所","分辨率实验室","折疗室"],
+    note:"只治藏头症，占 4×4。" },
+  "电疗诊所": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","流行锅实验室","拔头室","分辨率实验室","折疗室"],
+    note:"电熔城需要研究解锁，急诊常见。" },
+  "分辨率实验室": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","流行锅实验室","拔头室","电疗诊所","折疗室"],
+    note:"只治八位症，污克沃斯一星目标需要。" },
+  "折疗室": { staff:"医生 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["脱光诊所","流行锅实验室","拔头室","电疗诊所","分辨率实验室"],
+    note:"只治立体症，后期非常赚钱，放在面积大的地块。" },
+  "破伊学": { staff:"护士 × 1", required:[], slots:["治疗","治疗","治疗","治疗","治疗"], general:GEN_WORK, share:["小丑诊所","色疗室"],
+    note:"只治活人木乃伊化，惊吓掌心一星目标需要。" },
+  "接待处": { staff:"助理 × 1~3（每个接待亭 1 名）", required:[], slots:["客户服务","客户服务","客户服务","客户服务","客户服务"], general:["体力培训","工作激情","情商"], share:["咖啡厅"],
+    note:"客户服务越高登记越快、病人越开心。排队超过 30 人时开新的接待处，而不是只加助理。" },
+  "员工休息室": { staff:"无需员工（勤杂工打扫）", required:[], slots:[], general:[], share:[],
+    note:"勤杂工推荐资质：维护 ×4 + 抓鬼。每个区域一间，推荐 4×3 满星摆法。" },
+  "厕所": { staff:"无需员工（勤杂工打扫）", required:[], slots:[], general:[], share:[],
+    note:"勤杂工推荐资质：维护 ×5（每级 +30% 清洁速度）。放洗手液、干手机，每个区域 2 个以上。" },
+  "培训室": { staff:"讲师 × 1（任意有该资质的员工）", required:[], slots:["培训达人班","培训达人班","讲授的专业资质","讲授的专业资质","讲授的专业资质"], general:["培训达人班","工作激情"], share:[],
+    note:"讲师的培训达人班越高授课越快。院内员工当讲师免费，没有合适的人再外聘。" },
+  "研究室": { staff:"医生 × 1~4（可多人同时研究）", required:["研究"], slots:["研究","研究","研究","研究","研究"], general:GEN_WORK, share:[],
+    note:"研究 1 级是资质，2~5 级每级 +50% 研究速度。研究 III 以上需要先研究解锁。" },
+  "营销部": { staff:"助理 × 1~2", required:["营销学"], slots:["营销学","营销学","营销学","营销学","营销学"], general:GEN_WORK, share:[],
+    note:"营销学越高活动效果越好。定向营销吸引自己治得了、或者星级目标需要的病。" },
+  "咖啡厅": { staff:"助理 × 1", required:[], slots:["客户服务","客户服务","客户服务","客户服务","客户服务"], general:GEN_WORK, share:["接待处"],
+    note:"最受欢迎的房间，客户服务加快出餐。桌椅分散摆，防止人物卡住。" },
+};
+
+/* ======================= 数据：每关布局 ======================= */
+// plots: id, dir(九宫格方位), area(m²，null=未知), price, use, order(建议购买顺序，null=可不买), zone
+// zone: entry 入口/全科, diag 诊断, treat 治疗, hyb 诊断+治疗混合, admin 行政/培训, spare 备用
+const P = (id, dir, area, price, zone, order, use) => ({ id, dir, area, price, zone, order, use });
+const LAYOUTS = {
+  "Hogsport": { cash:"$200,000", climate:"温和",
+    plots:[ P(1,"c",null,0,"hyb",0,"唯一地块：全科、综合诊断、病房、药房、脱光诊所和休息室、厕所全部放在这里") ],
+    phases:[
+      ["开局",["1 间全科 + 1 间综合诊断 + 1 间药房 + 1 间病房","员工休息室、厕所各 1 间，前台 1 名助理","脱光诊所尽早建好，一星只要求治愈光头症"]],
+      ["冲一星",["脱光诊所治愈 3 名光头症即可","有钱再补第 2 间全科"]],
+      ["冲二星",["全科加到 3 间，药房加到 2 间","病房扩到 6~8 张床，配 2 名护士","医院等级靠多放装饰、提高房间吸引力"]],
+      ["冲三星",["余额够就升级机器、多放物品，抬医院价值到 $750,000","收费可上调 10%~20% 加快赚钱"]]],
+    counts:{ "全科医生办公室":3, "综合诊断":1, "病房":2, "药房":2, "脱光诊所":1, "员工休息室":1, "厕所":1 },
+    tips:["这一关只有一块地，不存在扩张问题，重点是学会定价和招人","高资质的全科或治疗医生一出现就招"] },
+
+  "Lower Bullocks": { cash:"$200,000", climate:"温和",
+    plots:[
+      P(1,"c",null,0,"entry",0,"全科、综合诊断、精神科，前期所有房间都塞在这里"),
+      P(3,"w",600,50000,"treat",1,"第一块扩张：员工休息室、药房、病房、流行锅实验室搬过来"),
+      P(2,"e",960,25000,"hyb",2,"二星要求 3 栋建筑：放第 2 间病房和更多全科"),
+      P(4,"n",1364,75000,"spare",null,"三星不需要，可不买") ],
+    phases:[
+      ["开局",["推倒默认布局重建，把空间利用率拉满","全科、综合诊断、药房、病房各 1 间，休息室和厕所","精神科医生一出现就招，精神科先建 1 间"]],
+      ["冲一星",["在第一块地挤下流行锅实验室，治愈 3 人","余额 $40k~$50k 时买第 3 块地，把休息室和治疗室搬过去"]],
+      ["冲二星",["升级 2 台机器（流行锅机最划算）","进入六位数余额后买第 2 块地，凑够 3 栋建筑","新地块也要放厕所和贩卖机，别让病人来回跑"]],
+      ["冲三星",["再建 1 间仅治疗的病房，应对懒骨头急诊","多放装饰把吸引力拉到 65%，再加 1 间全科就能冲到医院等级 10"]]],
+    counts:{ "全科医生办公室":3, "综合诊断":1, "精神科":2, "病房":2, "药房":2, "流行锅实验室":1, "脱光诊所":1, "员工休息室":2, "厕所":2 },
+    tips:["三星只需要 3 块地，第 4 块地完全可以不买","流行锅实验室占 4×4，第一块地要提前留位置"] },
+
+  "Flottering": { cash:"$150,000", climate:"温和",
+    plots:[
+      P(1,"c",null,0,"entry",0,"全科、综合诊断、心脏病科、精神科、病房"),
+      P(4,"e",608,30000,"admin",1,"最便宜，先买：培训室 + 员工休息室"),
+      P(3,"w",808,40000,"treat",2,"治疗区：小丑诊所、药房、脱光诊所、流行锅实验室"),
+      P(2,"ne",1032,50000,"spare",null,"三星布局没用到"),
+      P(5,"nw",1056,50000,"spare",null,"三星布局没用到") ],
+    phases:[
+      ["开局",["全科 2 间、综合诊断、药房、病房、休息室、厕所","尽快建培训室，培训 1 人解锁小丑诊所"]],
+      ["冲一星",["买第 4 块地放培训室，同时培训 3 人并晋升 3 人","接待处在一星时解锁，建好后排队立刻缓解"]],
+      ["冲二星",["买第 3 块地放治疗室，把第一块地让给全科和诊断","培训和晋升各做到 6 人，医院等级 9","每间培训室最多放 4 张学员桌，开 2 间轮流上课"]],
+      ["冲三星",["培训和晋升做到 10 人，医院等级 12","士气卡在 70% 时全员加薪约 30%","账上留 $60k 左右做培训经费"]]],
+    counts:{ "全科医生办公室":4, "综合诊断":2, "心脏病科":1, "精神科":2, "病房":1, "药房":2, "小丑诊所":1, "流行锅实验室":1, "脱光诊所":1, "培训室":2, "接待处":1, "员工休息室":2, "厕所":2 },
+    tips:["开局资金只有 $150k，比前两关少，扩张要更谨慎","病房 8~10 张床配 2~3 名护士，这一关病房病人很多"] },
+
+  "Mitton University": { cash:"$200,000", climate:"寒冷",
+    plots:[
+      P(1,"c",null,0,"entry",0,"多间全科、舒适的休息室、紧凑的病房、病人设施"),
+      P(2,"w",960,50000,"diag",1,"高质量诊断区：体液分析、X光、心脏病科、综合诊断"),
+      P(3,"e",960,50000,"admin",2,"把所有培训室集中到这里，配舒适休息室和厕所"),
+      P(5,"sw",576,30000,"treat",3,"研究室 + 重型治疗室（色疗室、注射室），靠近病人出入口"),
+      P(6,"s",576,30000,"treat",4,"2 间药房、脱光诊所、流行锅实验室、厕所"),
+      P(4,"n",960,50000,"spare",null,"可不买"),
+      P(7,"se",576,30000,"spare",null,"可不买"),
+      P(8,"nw",576,30000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["开局就打开病人快速通道（财务→概览→政策）","全科 2 间、综合诊断、药房、病房、研究室、培训室","寒冷地图：每块地都要铺满暖气"]],
+      ["冲一星",["培训 1 名医生学会研究，研究色疗室","买第 2 块地，建色疗室治愈 1 人","培训优先全科和诊断技能，实习生全部自己培养"]],
+      ["冲二星",["培训 10 人、2000 研究点、治愈 50 人","研究室可以同时容纳多名研究员，多放几张桌子","每培训 1 人学校补贴 $5,000，缺钱就多开培训"]],
+      ["冲三星",["把培训室集中到一块地，形成培训中心","培训 20 人、4000 研究点、治愈 100 人、治愈率 60%"]]],
+    counts:{ "全科医生办公室":5, "综合诊断":2, "心脏病科":1, "体液分析":1, "X光":1, "病房":1, "精神科":1, "药房":2, "色疗室":1, "注射室":1, "脱光诊所":1, "流行锅实验室":1, "培训室":4, "研究室":1, "员工休息室":3, "厕所":3 },
+    tips:["9 块地只用 4~5 块就能三星，别贪多","新地块都要配齐设施，否则病人会绕整个医院跑"] },
+
+  "Tumble": { cash:"$200,000", climate:"寒冷 · 地震",
+    plots:[
+      P(1,"c",null,0,"entry",0,"全科、诊断室、病人设施"),
+      P(2,"s",500,30000,"hyb",1,"更多全科、第 2 间药房、厕所、员工休息室"),
+      P(3,"e",572,30000,"treat",2,"大骨科病房 + 病房（各 7 张床）"),
+      P(4,"w",836,40000,"admin",3,"较大的治疗室 + 培训室"),
+      P(5,"n",800,40000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["开局就打开全科快速通道，铺满暖气","全科 2 间、综合诊断、药房、病房、骨科病房","地震后让勤杂工优先修机器"]],
+      ["冲一星",["治愈 50 人、治愈率 50%、舒适温度 60%","余额攒到 $100k 再扩张"]],
+      ["冲二星",["买第 2、3 块地，把骨科病房和病房挪过去扩到 7 张床","全科加到 5~6 间","每 3~4 张床配 1 个石膏机或屏风"]],
+      ["冲三星",["买第 4 块地放大治疗室和培训室","舒适温度 90%：暖气要比你觉得够的再多一些","治愈 200 人、治愈率 80%、医院价值 200 万"]]],
+    counts:{ "全科医生办公室":6, "综合诊断":2, "心脏病科":1, "病房":1, "骨科病房":1, "药房":2, "精神科":1, "小丑诊所":1, "培训室":2, "员工休息室":2, "厕所":2 },
+    tips:["骨科病房配 4 名护士、病房配 3 名护士","第一块地狭小不规整，大房间尽早挪到方正的新地块"] },
+
+  "Flemington": { cash:"$250,000", climate:"寒冷",
+    plots:[
+      P(1,"c",null,0,"entry",0,"全科中心：多间全科、精神科、体液分析、咖啡厅、接待处"),
+      P(6,"w",632,40000,"admin",1,"最便宜，先买：搬休息室和行政房间，挤下骨科病房；最后变成培训中心（6 间培训室）"),
+      P(3,"e",988,60000,"treat",2,"主治疗区：7 张床的骨科病房 + 注射室等"),
+      P(4,"s",1036,60000,"diag",3,"更多诊断室 + 大病房"),
+      P(2,"n",864,50000,"hyb",4,"最后填满：3 间心脏病科、2 间综合诊断、第 2 间药房、9 张床病房"),
+      P(5,"se",912,55000,"admin",5,"行政区：营销部、研究室"),
+      P(7,"nw",996,60000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["打开快速通道，用温度视图把暖气铺满","第一块地够用到六位数余额：全科、综合诊断、药房、病房","有害动物防治占 4×4，要花心思塞进第一块地"]],
+      ["冲一星",["研究有害动物防治，治愈 10 名动物磁力症","建营销部并发起 1 次营销（可定向吸引自己能治的病）","买第 6 块地搬走行政房间，再买第 3 块地"]],
+      ["冲二星",["骨科病房治愈 20 人：多放墙上显示器和药柜，护士练到病房管理 III","培训室座位优先给病房管理护士","第 4 块地放诊断室和大病房，医院价值 200 万"]],
+      ["冲三星",["注射室治愈 30 人：建 2~3 间注射室，营销改投注射类疾病","医院价值 500 万主要靠升级机器和多放装饰，而不是买地","声誉 90% 需要高治愈率和少死人"]]],
+    counts:{ "全科医生办公室":5, "综合诊断":2, "心脏病科":3, "体液分析":2, "精神科":2, "病房":1, "骨科病房":1, "药房":2, "注射室":3, "色疗室":1, "流行锅实验室":1, "有害动物防治":1, "营销部":1, "培训室":6, "接待处":1, "咖啡厅":1 },
+    tips:["骨科病房是这一关最难治的病人，准备不足会大量治疗失败","病房每 3 张床配 1 个屏风，9 张床可同时容纳 3 名护士"] },
+
+  "Smogley": { cash:"$250,000", climate:"寒冷",
+    plots:[
+      P(1,"c",null,0,"entry",0,"病人入口：多间全科、圆形接待处、小休息室和厕所"),
+      P(4,"e",680,35000,"treat",1,"第一块扩张：营销部搬来，外科、注射室、拔头室；后期改成半治疗半培训"),
+      P(3,"sw",696,35000,"diag",2,"诊断中心：大部分诊断室 + 居中的休息室"),
+      P(5,"se",648,35000,"treat",3,"靠近停机坪：3 间专用外科"),
+      P(2,"s",1020,50000,"treat",4,"急诊治疗区：多间大治疗室 + 大骨科病房"),
+      P(6,"n",776,40000,"hyb",5,"咖啡厅、2 间病房、大厕所；门口有公交站入口"),
+      P(7,"ne",516,25000,"admin",6,"行政区：培训室、研究室") ],
+    phases:[
+      ["开局",["默认布局：2 间全科、综合诊断、紧凑病房、休息室、厕所、培训室、研究室、营销部、药房","病房和综合诊断之间留空，方便以后扩大病房","陷入负债循环很难翻身，确认能稳定赚钱再定布局"]],
+      ["冲一星",["买第 4 块地，把营销部搬过去腾出心脏病科的位置","按外科、注射室、拔头室、骨科病房的顺序建治疗室","培训 10 人、外科治愈 15 人、治愈 5 名藏头症"]],
+      ["冲二星",["买第 3 块地做诊断区，多建全科","在停机坪旁建专用外科区","培训 20 人、外科治愈 30 人、治愈率 75%、医院等级 12"]],
+      ["冲三星",["把病房挪到第 6 块地，第一块地腾给全科","骨科病房搬到第 2 块地并扩大，加培训室","治愈率暴跌时补 X光和磁共振"]]],
+    counts:{ "全科医生办公室":6, "综合诊断":2, "心脏病科":2, "X光":1, "超级磁力强效共振扫描":1, "病房":2, "外科":3, "拔头室":2, "注射室":1, "骨科病房":1, "有害动物防治":2, "药房":2, "培训室":6, "研究室":1, "营销部":1, "咖啡厅":1 },
+    tips:["外科病人才是重点，这一关骨科病房病人不多","外科医生要外科学 III 以上，三星治愈率 90% 必须高资质"] },
+
+  "Melt Downs": { cash:"$250,000", climate:"寒冷 · 雷暴",
+    plots:[
+      P(1,"c",null,0,"entry",0,"所有病人从这里进：7 间全科（挤得下）+ 小接待处"),
+      P(2,"n",544,30000,"diag",1,"诊断区：多间简单诊断室（综合诊断、心脏病科、体液分析）"),
+      P(3,"s",592,30000,"treat",2,"靠近停机坪：3 间 DNA 实验室"),
+      P(4,"se",832,30000,"hyb",3,"第二登记区：野外全科、常用治疗室、餐饮娱乐"),
+      P(5,"ne",832,40000,"treat",4,"两端宽，适合放大房间（电疗诊所、骨科病房）"),
+      P(6,"w",1184,60000,"admin",5,"离入口最远：培训室和员工设施"),
+      P(7,"e",1184,45000,"hyb",6,"最后开发：第二片区的诊断 + 治疗混合区") ],
+    phases:[
+      ["开局",["每块新地都满是垃圾和旧零件，买下后先让勤杂工清理","病房 + 药房足够应付第一批病人","地块形状别扭，别套模板，按 1×1 慢慢凑"]],
+      ["冲一星",["研究 DNA 实验室和电疗诊所，DNA 赚钱很快","DNA 实验室靠近停机坪（急诊多）","1000 研究点、升级 5 台机器、电疗治愈 5 人、DNA 治愈 10 人"]],
+      ["冲二星",["升级 10 台机器、医院等级 10、治愈率 75%","建第二个接待处，把病人分流到第二套全科和诊断区"]],
+      ["冲三星",["治疗室尽量居中、靠近停机坪，行政房间放最远","机器全满时新建一台、升级后卖掉，可以刷升级数","DNA 治愈 40 人、升级 15 台机器、治愈率 90%"]]],
+    counts:{ "全科医生办公室":9, "综合诊断":3, "心脏病科":2, "体液分析":2, "病房":1, "药房":2, "DNA实验室":3, "电疗诊所":1, "骨科病房":1, "接待处":2, "培训室":4, "研究室":1 },
+    tips:["这是第一关可以设两套独立诊断入口的地图","雷暴会损坏机器，多雇机械学勤杂工"] },
+
+  "Duckworth-upon-Bilge": { cash:"$250,000", climate:"寒冷 · 传染病",
+    plots:[
+      P(1,"c",null,0,"entry",0,"接待处、全科、大病房、2 间心脏病科、综合诊断"),
+      P(2,"e",832,40000,"diag",1,"诊断区：5 间全科 + 3 间 DNA 实验室、精神科、厕所"),
+      P(3,"nw",900,45000,"hyb",2,"一半诊断（2 全科、综合诊断、精神科），一半治疗（色疗、小丑、脱光、外科、注射、有害动物防治）"),
+      P(4,"w",676,35000,"admin",3,"行政区：培训室、营销部、研究室"),
+      P(5,"se",580,30000,"treat",4,"靠近停机坪：常见病和急诊治疗室"),
+      P(7,"sw",616,30000,"hyb",5,"小骨科病房、第 2 间拔头室、2 间体液分析、1 间全科"),
+      P(9,"ne",560,20000,"treat",6,"放其他地块塞不下的大房间"),
+      P(6,"s",468,25000,"spare",null,"可不买"),
+      P(8,"n",816,40000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["公立医院没有治疗收入，只靠公立目标拿拨款","推倒默认布局重建，治疗室集中摆，多建全科","前期是药房和病房病人：肠生气症、泥腿子、连眉"]],
+      ["冲一星",["出现流行锅急诊时，直接在第二块地建 2 间流行锅实验室","研究分辨率实验室，治愈 5 名八位症","医院等级 8、士气 60%、声誉 60%"]],
+      ["冲二星",["急诊房间翻倍（病房、骨科病房扩大）","出现大量 DNA 病人时再买一块地放 DNA 实验室","医院等级 12、士气 75%、声誉 75%、治愈 100 人"]],
+      ["冲三星",["士气 90% 要全员加薪 + 高级休息室","只做最必要的开销，难的公立目标点 X 换掉","医院等级 16、声誉 90%、治愈 200 人"]]],
+    counts:{ "全科医生办公室":9, "综合诊断":2, "心脏病科":2, "体液分析":2, "精神科":2, "病房":1, "DNA实验室":3, "药房":2, "流行锅实验室":2, "分辨率实验室":1, "色疗室":2, "外科":1, "拔头室":2, "骨科病房":1, "培训室":3 },
+    tips:["一半地块都用不上，能省则省","浇花、通马桶、晋升这类公立目标最好赚"] },
+
+  "Grockle Bay": { cash:"$250,000", climate:"炎热",
+    plots:[
+      P(1,"c",null,0,"diag",0,"强力全科 + 诊断起点：3 间全科、2 间综合诊断、体液分析、报刊亭（不放主接待处）"),
+      P(2,"n",792,45000,"admin",1,"主要是走廊地块，通往全图；行政房间往这里挪"),
+      P(5,"ne",448,25000,"entry",2,"停机坪旁：后期改成主接待处 + 全科 + 心脏病科"),
+      P(4,"w",584,30000,"hyb",3,"折疗室、骨科病房；后期变成 9 张床大病房 + 2 间溢出全科"),
+      P(3,"e",1160,60000,"treat",4,"最好的治疗地块：面积大没走廊，放大外科和折疗室"),
+      P(9,"se",1020,55000,"treat",5,"3 间 DNA 实验室 + 大骨科病房 + 野外全科"),
+      P(6,"nw",440,25000,"admin",6,"标准行政：2 间培训室、休息室、营销部、研究室"),
+      P(7,"nw",920,50000,"admin",7,"培训附楼"),
+      P(8,"sw",460,25000,"spare",8,"溢出：2 间全科 + 休息室，可不买") ],
+    phases:[
+      ["开局",["第一块地能塞很多：1 全科、精神科、病房、综合诊断","炎热地图：每块地装空调，厕所加洗手液","看到全科排队就多雇勤杂工"]],
+      ["冲一星",["很快买第二块地，第一块地专心处理病人","研究折疗室，治愈 10 名立体症","吸引力 60%：所有房间至少达到声望 3 级，走廊放画和植物"]],
+      ["冲二星",["买第 4 块地放折疗室和骨科病房","入口处 4×4 小方块地适合放全科或诊断室","二星最容易崩盘：一次扩张错了就入不敷出，攒够钱再买"]],
+      ["冲三星",["第一块地排队 30~40 人时，把主接待处搬到第 5 块地","DNA 实验室开始赚钱后再买剩下的地块","各处建野外全科，减少走路；DNA、骨科、外科持续加"]]],
+    counts:{ "全科医生办公室":10, "综合诊断":3, "心脏病科":1, "体液分析":2, "X光":1, "超级磁力强效共振扫描":1, "病房":2, "DNA实验室":3, "折疗室":2, "外科":2, "骨科病房":2, "电疗诊所":1, "接待处":2, "培训室":4 },
+    tips:["地块形状怪、走廊窄，模板要灵活改","不用每块地都塞满治疗室，有的地块当走廊和溢出区就够了"] },
+
+  "Sweaty Palms": { cash:"$250,000", climate:"炎热 · 地震火山",
+    plots:[
+      P(1,"c",null,0,"diag",0,"诊断区：5 间全科、体液分析、X光、心脏病科"),
+      P(2,"w",780,40000,"diag",1,"第二诊断区：体液分析、X光、综合诊断、2 间全科、咖啡厅"),
+      P(3,"n",732,35000,"hyb",2,"3 间精神科、药房、2 间破伊学、休息室"),
+      P(6,"e",1044,50000,"admin",3,"9 张床大病房、营销部、研究室、4 间培训室"),
+      P(4,"nw",624,30000,"diag",4,"可扩展的诊断区：3 间全科、综合诊断、心脏病科、体液分析"),
+      P(5,"ne",544,30000,"treat",5,"大治疗区：脱光、小丑、注射、有害动物防治、色疗、外科"),
+      P(7,"ne",544,30000,"treat",6,"分辨率实验室、电疗诊所、5 张床骨科病房"),
+      P(9,"sw",720,35000,"treat",7,"最后一波：2 间 DNA 实验室、流行锅实验室、大外科"),
+      P(8,"s",720,35000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["病房是好起点，早期急诊多是病房病人","开局别分区规划把钱花光，先紧凑布局赚钱","多放灭火器，多雇勤杂工应对地震火山"]],
+      ["冲一星",["很快就能买第二块地","研究破伊学，治愈 15 名木乃伊化","治愈率 60%、医院价值 75 万"]],
+      ["冲二星",["第三块地先放大病房，腾出诊断室位置","建 2 间外科应付偶发外科急诊","舒适温度 75%：每块地装足空调"]],
+      ["冲三星",["治疗室集中在地图上方，全科和诊断靠近入口","第五块地补骨科病房和电疗诊所，最后再放 DNA、流行锅","治愈率 90%、医院价值 500 万、舒适温度 90%"]]],
+    counts:{ "全科医生办公室":10, "综合诊断":2, "心脏病科":2, "体液分析":3, "X光":2, "精神科":3, "病房":1, "破伊学":2, "药房":1, "DNA实验室":2, "外科":2, "骨科病房":1, "电疗诊所":1, "分辨率实验室":1, "培训室":4 },
+    tips:["地块便宜但都很小，病人要走很远，分区规划更重要","下一关多事湾地块更大、走路更远，这里先练好分区"] },
+
+  "Blighton": { cash:"$250,000", climate:"炎热 · 传染病",
+    plots:[
+      P(1,"c",null,0,"entry",0,"从开局保留到最后：2 间全科、小病房、综合诊断、休息室、厕所，研究室换成体液分析"),
+      P(2,"n",null,40000,"diag",1,"诊断中心：3 间精神科、3 间全科、心脏病科、综合诊断、大体液分析"),
+      P(4,"w",null,30000,"treat",2,"早期治疗区：色疗室、有害动物防治、电疗诊所，几乎没改过"),
+      P(3,"e",null,40000,"admin",3,"先放外科，后来改成行政中心：5 间培训室、营销部、研究室"),
+      P(5,"nw",null,30000,"diag",4,"强力诊断：2 间 DNA 实验室、体液分析、全科、大休息室和厕所"),
+      P(6,"w",null,30000,"treat",5,"大治疗室：分辨率实验室、折疗室、破伊学"),
+      P(9,"se",640,30000,"treat",6,"细长的专用外科区"),
+      P(7,"sw",828,40000,"spare",null,"可不买，或放重复的急诊房间"),
+      P(8,"ne",504,25000,"spare",null,"可不买"),
+      P(10,"ne",704,35000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["打开快速通道，每块地空调装足","起始地块偏小：研究室、休息室、培训室、病房在一侧，厕所、药房、综合诊断、全科在另一侧"]],
+      ["冲一星",["先别急着扩张，在小医院里把接种 30 人做完","尽快买第二块地：色疗室、有害动物防治、电疗诊所","医院等级 10、卫生 70%、舒适温度 90%"]],
+      ["冲二星",["第三块地扩全科和诊断室，病人量大","病房不用大，小病房也能稳定推进","卫生 80%：多雇勤杂工、厕所加洗手液和干手机"]],
+      ["冲三星",["再买一块地放 DNA 实验室","外科单独搬到一块地，原位置改培训室","医院等级 18、卫生 90%、治愈率 90%"]]],
+    counts:{ "全科医生办公室":6, "综合诊断":2, "心脏病科":1, "体液分析":3, "精神科":3, "病房":1, "DNA实验室":2, "药房":2, "色疗室":1, "有害动物防治":1, "电疗诊所":1, "分辨率实验室":1, "折疗室":1, "破伊学":1, "外科":2, "培训室":5 },
+    tips:["第 2~6 块地的面积 GameFAQs 未给出，示意图按平均大小画","点金术很难治，用营销避开它；第二块地有两个 4×4 房间的进深"] },
+
+  "Rotting Hill": { cash:"-$10,000（负债开局）", climate:"寒冷",
+    plots:[
+      P(1,"c",null,0,"entry",0,"全科 + 诊断最大化：小而体面的休息室、厕所，接待处后来改成全科"),
+      P(4,"e",816,40000,"treat",1,"治疗重地：脱光、骨科、流行锅、小丑，后加 X光/磁共振"),
+      P(2,"s",816,40000,"entry",2,"后期改造为大接待区：接待亭、金马桶厕所、报刊亭、2 间全科"),
+      P(10,"nw",816,40000,"hyb",3,"2 间病房、大骨科病房、色疗室、小休息室"),
+      P(3,"sw",816,40000,"diag",4,"高级诊断：DNA 实验室、X光、磁共振、2 间精神科"),
+      P(6,"n",816,40000,"treat",5,"专用外科区 + 折疗室"),
+      P(5,"se",816,40000,"admin",6,"行政中心：4 间培训室、大休息室、研究室、营销部"),
+      P(7,"ne",816,40000,"entry",7,"主要是全科 + 咖啡厅"),
+      P(8,"ne",816,40000,"spare",8,"留白：更多全科和设施，用来微调布局"),
+      P(9,"ne",816,40000,"spare",9,"留白：偏远治疗室") ],
+    phases:[
+      ["开局",["负债开局：贷款到 $25,000，先建全科、综合诊断、药房、小厕所","再补休息室和小病房，药房和病房病人提供稳定收入","全科和休息室铺地毯，便宜又加吸引力"]],
+      ["冲一星",["第一块地加第 2 间全科和精神科","有钱后买第二块地，放脱光、骨科、流行锅、小丑","治愈 100 人、声誉 70%、士气 70%、医院价值 100 万"]],
+      ["冲二星",["每块地都必须有自己的休息室，哪怕很小","2 个病房搬到第三块地，第四块地做第二诊断区","每块地留 4~6 格放贩卖机等设施"]],
+      ["冲三星",["买下第 7 块地后，把第 2 块地整体复制过去，第 2 块地改为主排队区","培训室集中到最远的地块","声誉和士气都要 95%：金马桶、满星休息室、加薪、到处放装饰"]]],
+    counts:{ "全科医生办公室":10, "综合诊断":3, "心脏病科":1, "X光":1, "超级磁力强效共振扫描":1, "精神科":3, "DNA实验室":1, "病房":2, "骨科病房":1, "药房":2, "外科":2, "折疗室":1, "色疗室":1, "接待处":2, "培训室":4, "咖啡厅":1 },
+    tips:["地图上有些看起来能买的排屋地块其实买不了","全局负面效果让所有人幸福感 -10%，士气声誉要额外投入"] },
+
+  "Pelican Wharf": { cash:"$300,000", climate:"寒冷",
+    plots:[
+      P(1,"c",null,0,"entry",0,"入口：3 间全科、休息室、金马桶厕所、综合诊断、中型病房"),
+      P(2,"w",920,90000,"treat",1,"纯治疗：注射、流行锅、分辨率、电疗、药房、骨科、色疗"),
+      P(3,"nw",544,55000,"treat",2,"大治疗室：有害动物防治、拔头室、折疗室"),
+      P(8,"n",544,55000,"admin",3,"最早的培训区：4 间培训室、研究室"),
+      P(4,"n",544,55000,"treat",4,"外科中心：2 间外科 + 小丑诊所"),
+      P(9,"e",712,70000,"diag",5,"偏精神科的诊断区：2 间精神科、X光、体液分析、2 间全科"),
+      P(10,"ne",804,80000,"diag",6,"DNA 实验室 + 诊断区 + 2 间全科"),
+      P(6,"s",684,70000,"admin",7,"培训和员工中心：3 间培训室、营销部、2 间大休息室"),
+      P(5,"sw",956,95000,"hyb",8,"溢出区：磁共振、第 2 间脱光、药房、病房、野外全科"),
+      P(7,"se",1044,105000,"entry",9,"第二入口：备用接待处 + 小诊断区") ],
+    phases:[
+      ["开局",["开局收费拉到 +100%：收入翻倍，还能压住病人数","第一块地塞不下的病人直接拒收，先专心治药房和病房病人","营销投放医生和护士招聘活动，挑便宜好培养的员工"]],
+      ["冲一星",["第一个扩张买第 2 块地（$90k）：行政房间搬过去，腾出全科和诊断位置","培训优先全科资质和诊断机器升级","治愈 100 人、3 人学会研究 III、升级 15 台机器"]],
+      ["冲二星",["攒钱买 $55k 的小地块，行政房间再往外挪","研究员练到研究 IV，研究项目全天跑","第二间病房在 6 张床不够用时补上"]],
+      ["冲三星",["买下剩余地块，第 7 块地做第二入口","1 人学会研究 V、治愈 500 人、治愈率 90%","对手 CEO 会破坏机器，多雇机械学勤杂工"]]],
+    counts:{ "全科医生办公室":10, "综合诊断":1, "X光":2, "体液分析":1, "超级磁力强效共振扫描":1, "精神科":2, "DNA实验室":1, "病房":2, "药房":2, "外科":2, "折疗室":1, "脱光诊所":2, "培训室":7, "研究室":2, "营销部":1, "接待处":2 },
+    tips:["扩张优先选靠近停机坪和街道的地块","钱不够时可以再贷一笔款，第 9 块地 $70k 能大大缓解全科和病房压力"] },
+
+  "Croquembouche": { cash:"$300,000", climate:"寒冷 · 灾害",
+    plots:[
+      P(1,"c",null,0,"entry",0,"十字形中心：3 个接待处、3 间全科、2 间综合诊断、精神科、大厕所"),
+      P(5,"s",1300,130000,"treat",1,"第一块扩张（第二年初贷 $100k）：几乎所有基础治疗室"),
+      P(11,"w",1300,130000,"treat",2,"复杂治疗：2 间外科、分辨率、DNA、折疗室、破伊学、精神科"),
+      P(8,"n",1300,130000,"diag",3,"主诊断区：病房、2 间体液分析、2 间心脏病科、DNA、X光、2 间精神科"),
+      P(12,"sw",1040,105000,"admin",4,"培训和行政：7 间培训室、营销部、满星休息室"),
+      P(2,"e",1300,130000,"entry",5,"推掉树篱迷宫后改成 10 间全科"),
+      P(4,"se",832,85000,"diag",6,"溢出诊断：磁共振、心脏病科、精神科、5 级声望病房"),
+      P(6,"se",1040,105000,"treat",7,"急诊复制：常出急诊的治疗室各建一间"),
+      P(7,"sw",1040,105000,"treat",8,"8 张床的超大骨科病房"),
+      P(3,"ne",936,95000,"diag",9,"第 8 块地的延伸：精神科、体液分析、全科"),
+      P(9,"nw",880,105000,"spare",null,"可不买"),
+      P(10,"nw",1040,105000,"spare",null,"可不买"),
+      P(13,"nw",1040,105000,"spare",null,"可不买") ],
+    phases:[
+      ["开局",["病人压力极大：开局就建 2 间以上全科","需要病房、药房、精神科、脱光诊所","十字形起始地块别纠结，边玩边调"]],
+      ["冲一星",["先买中间一圈 $130k 的大地块，病人集中在中心五块地","第一块扩张放治疗室，起始地块腾给全科","拿到一星就算通关（金色信封）"]],
+      ["冲二星",["接待处瓶颈时，先确认全科和诊断跟得上，再开新接待处","推掉树篱迷宫建 10 间全科，起始地块改为接待中心","二星可以不买地，只靠调整房间和疯狂培训"]],
+      ["冲三星",["中间一圈全开后仍有积压，就外扩：重复急诊房间、超大骨科病房","全部房间升到 5 级声望，机器升满","治愈 1000 人、治愈率 90%、声誉 90%、医院价值 1000 万"]]],
+    counts:{ "全科医生办公室":16, "综合诊断":2, "心脏病科":3, "体液分析":3, "X光":1, "超级磁力强效共振扫描":1, "精神科":5, "病房":2, "DNA实验室":3, "药房":2, "外科":2, "骨科病房":2, "注射室":2, "折疗室":1, "接待处":3, "培训室":7 },
+    tips:["必须打开快速通道，必要时自己当全科，手动把病人送去治疗","治愈率只统计最近一批病人，可以最后再冲"] },
+};
+
+/* ======================= 数据：DLC ======================= */
+const DLCS = [
+  { cn:"大脚怪", en:"Bigfoot", date:"2018.12", region:"雪山地区", hospitals:["Underlook Hotel","Swelbard","Roquefort Castle"],
+    rooms:"冷冻舱 Cryomatic 等新治疗设备", feat:"34 种新病（9 种可视病），雪人 Yeti 是特别访客；极寒天气、怪物城堡主题。", diff:"中" },
+  { cn:"佩伯利岛", en:"Pebberley Island", date:"2019.3", region:"热带地区", hospitals:["Pebberley Reef","Overgrowth","Topless Mountain"],
+    rooms:"逃生室、矫正池、印脸机、假足室、提词器", feat:"34 种新病（10 种可视病）；海边、丛林、火山三种地形，地块偏小。", diff:"中高" },
+  { cn:"亲密接触", en:"Close Encounters", date:"2019.10", region:"沙漠地区", hospitals:["Goldpan","Camouflage Falls","Chasm 24"],
+    rooms:"自组装室、蟾蜍厅、人格化室", feat:"34 种新病（11 种可视病）；外星人伪装成病人霸占诊断室，要识别并赶走。", diff:"高" },
+  { cn:"远离电网", en:"Off the Grid", date:"2020.6", region:"生态地区", hospitals:["Wanderoff","Old Newpoint","Windsock"],
+    rooms:"木工室、草药园、农药房等", feat:"35 种新病（9 种可视病）；健康指数、种植草药、绿色能源发电机。", diff:"中低" },
+  { cn:"文化冲击", en:"Culture Shock", date:"2020.10", region:"文化地区", hospitals:["Plywood Studios","Mudbury Festival","Fitzpocket Academy"],
+    rooms:"危险区、洗涤坑、作战室", feat:"36 种新病（12 种可视病）；电视明星医生不能医死人、音乐节、驱赶狗仔队。", diff:"高" },
+  { cn:"时间缝补", en:"A Stitch in Time", date:"2021.2", region:"时空旅行地区", hospitals:["Clockwise-upon-Thyme","Clockwise-before-Thyme","Clockwise-above-Thyme"],
+    rooms:"没有新治疗室", feat:"34 种新病（13 种可视病）；中世纪、史前、未来三个时代；医院偏小，适合新手。", diff:"低" },
+  { cn:"快速康复", en:"Speedy Recovery", date:"2022.3", region:"紧急地点", hospitals:["Ailing","Betts Shore","Pointy Pass"],
+    rooms:"救护车与停车场", feat:"全新救护车系统：派车去事故现场接病人；新音乐和物品。救护车不会出现在旧关卡。", diff:"中" },
+  { cn:"免费模式", en:"R.E.M.I. X / Sandbox", date:"免费更新", region:"全部关卡", hospitals:["弗莱明顿拿到一星后开放 R.E.M.I. X"],
+    rooms:"—", feat:"R.E.M.I. X：用新规则重玩每家医院，获得蓝色星星，不影响主线存档。沙盒：自定义资金、病种、灾害，自由建造。", diff:"自选" },
+];
+
+/* ======================= 数据：FAQ ======================= */
+const FAQ = [
+  ["全科诊室排长队怎么办？", `<ul>
+    <li>多建全科诊室，并给医生培训<b>全科诊疗</b>（每级 +15% 诊断能力）。</li>
+    <li>补齐 X光、磁共振、体液分析等高权重诊断室，减少来回复诊。</li>
+    <li>全科诊室里多放药柜，每个 +1%。</li>
+    <li>在政策中适当降低“诊断确定阈值”，让病人更早去治疗（会略降治愈率）。</li>
+    <li>布局上让全科位于接待处和饮食区的必经之路，诊断室紧挨全科。</li></ul>`],
+  ["快要破产了怎么办？", `<ul>
+    <li>先停掉不赚钱的扩张，卖掉闲置的房间和机器。</li>
+    <li>把收费上调 10%~30%，声誉高时可以更多。</li>
+    <li>解雇闲置员工，暂停外聘讲师培训。</li>
+    <li>没有对应治疗室的病人直接请回家。</li>
+    <li>接急诊、完成挑战拿奖金；必要时借贷款度过难关。</li>
+    <li>研究室研究的“金钱”类项目只能补充，不能当主要收入。</li></ul>`],
+  ["病人死得太多 / 治愈率太低？", `<ul>
+    <li>治疗员工的<b>治疗技能</b>和专科资质要跟上。</li>
+    <li>研究并升级治疗机器，等级越高成功率越高。</li>
+    <li>房间里放提升治疗的物品（治疗书架、墙面监视器等）。</li>
+    <li>提高诊断阈值，确诊更准再治疗。</li>
+    <li>难治的病用营销“避开”，把精力放在成功率高的病上。</li>
+    <li>病人死亡有 50% 概率变成鬼魂，要有会“抓鬼”的勤杂工。</li></ul>`],
+  ["员工罢工、闹着辞职？", `<ul>
+    <li>查看员工面板里的不满原因：工资、疲劳、饥饿、口渴、温度。</li>
+    <li>每个区域配员工休息室，放高级贩卖机和娱乐设施。</li>
+    <li>满足加薪要求；需要高士气的关卡直接全员加薪约 30%。</li>
+    <li>在政策中调整休息阈值，让员工及时去休息。</li></ul>`],
+  ["地震、机器着火怎么处理？", `<ul>
+    <li>每个大型机器房里放灭火器。</li>
+    <li>多雇勤杂工，并培训“机械学”让他们修得更快。</li>
+    <li>定期检查机器耐久，老化的及时维修或更换，否则会爆炸。</li>
+    <li>地震后有大量碎石，清理不及时会影响卫生和吸引力。</li></ul>`],
+  ["传染病爆发怎么办？", `<ul>
+    <li>注意举着双手像僵尸一样走路的人，这就是感染者。</li>
+    <li>点击感染者，给他接种疫苗，成功后有声誉和奖金。</li>
+    <li>厕所放洗手液、勤打扫、多放垃圾桶，降低传播。</li>
+    <li>医院越小越好找感染者，有接种目标的关卡别急着扩张。</li></ul>`],
+  ["病人太冷 / 太热？", `<ul>
+    <li>寒冷地区（跌落镇、弗莱明顿等）走廊和房间里放暖气片。</li>
+    <li>炎热地区（多事湾、惊吓掌心、凋萎顿）放空调。</li>
+    <li>打开温度热力图，找冷热死角补设备。</li></ul>`],
+  ["鬼魂和单眉怪是什么？", `<ul>
+    <li><b>鬼魂</b>：病人死亡后可能出现，会吓到病人，派会“抓鬼”的勤杂工去吸走。</li>
+    <li><b>单眉怪</b>（Monobeast）：医院太脏时出现，在走廊里乱跑，点击射击消灭。</li>
+    <li>保持清洁、垃圾桶充足就能大大减少它们。</li></ul>`],
+  ["VIP 来访怎么应对？", `<ul>
+    <li>头上有皇冠的就是 VIP，会挨个房间检查。</li>
+    <li>卫生、温度、房间吸引力、员工状态都会影响他们的评价。</li>
+    <li>卫生督察给的钱最多，卫生部长给的声誉和库多什最多。</li>
+    <li>对手 CEO（如 Jumbo McNally）可能破坏机器，提前让勤杂工待命。</li></ul>`],
+  ["什么时候该买新地块？", `<ul>
+    <li>现有地块已经塞满、某类房间长期排队，而且每月稳定盈利时再买。</li>
+    <li>优先买靠近大门、停机坪和街道的地块。</li>
+    <li>买地后把治疗室整间移过去，空出来的位置补诊断室。</li></ul>`],
+];
+
+/* ======================= 工具函数 ======================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sizeArea = s => s.split("×").reduce((a, b) => a * Number(b), 1);
+
+function heatColor(v, max) {
+  const t = Math.min(v / max, 1);
+  const light = 96 - t * 50;
+  return `background:hsl(205,80%,${light}%);color:${t > .55 ? "#fff" : "#1e3a5f"}`;
+}
+function cureColor(v) {
+  if (v >= 70) return "#16a34a";
+  if (v >= 50) return "#84cc16";
+  if (v >= 40) return "#f59e0b";
+  return "#ef4444";
+}
+
+function bindSort(tableSel, state, render) {
+  $$(tableSel + " th.sortable").forEach(th => th.addEventListener("click", () => {
+    const k = th.dataset.key;
+    state.dir = state.key === k ? -state.dir : 1;
+    state.key = k;
+    $$(tableSel + " th").forEach(t => t.classList.remove("asc", "desc"));
+    th.classList.add(state.dir === 1 ? "asc" : "desc");
+    render();
+  }));
+}
+
+/* ======================= 房间表 ======================= */
+const roomState = { type: "all", q: "", key: null, dir: 1 };
+function renderRooms() {
+  const q = roomState.q.trim().toLowerCase();
+  let rows = ROOMS.filter(r =>
+    (roomState.type === "all" || r[2] === roomState.type) &&
+    (!q || (r.join(" ") + " " + TYPE_INFO[r[2]][0]).toLowerCase().includes(q)));
+  if (roomState.key) {
+    const idx = { name: 0, type: 2, size: 3, cost: 4, unlock: 7 }[roomState.key];
+    const get = r => {
+      const v = r[idx];
+      if (roomState.key === "size") return sizeArea(v);
+      if (roomState.key === "cost") return v ?? Infinity;
+      if (roomState.key === "unlock") return LEVEL_ORDER.indexOf(v);
+      return v;
+    };
+    rows = rows.slice().sort((a, b) => {
+      const x = get(a), y = get(b);
+      return (typeof x === "string" ? x.localeCompare(y, "zh") : x - y) * roomState.dir;
+    });
+  }
+  $("#roomTable tbody").innerHTML = rows.map(r => `<tr>
+    <td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td>
+    <td><span class="tag ${TYPE_INFO[r[2]][1]}">${TYPE_INFO[r[2]][0]}</span></td>
+    <td class="num">${r[3]}</td>
+    <td class="num">${r[4] ? "$" + r[4].toLocaleString() : "—"}</td>
+    <td>${esc(r[5])}</td>
+    <td>${esc(r[6])}</td>
+    <td>${esc(r[7])}</td>
+    <td>${esc(r[8])}</td></tr>`).join("");
+  $("#roomCount").textContent = `共 ${rows.length} 个房间`;
+  renderStaffing(rows);
+}
+
+/* ======================= 科室配员 ======================= */
+const roomId = name => "staff-" + name;
+const roomLink = name => STAFFING[name]
+  ? `<a href="#${roomId(name)}" class="rlink" data-room="${esc(name)}">${esc(name)}</a>` : esc(name);
+function renderStaffing(rows) {
+  $("#staffCount").textContent = `${rows.length} 个科室`;
+  $("#staffList").innerHTML = rows.map(r => {
+    const s = STAFFING[r[0]];
+    if (!s) return "";
+    const slots = s.slots.length
+      ? `<div class="slots">${s.slots.map(x => `<span class="slot${s.required.some(q => q.startsWith(x)) ? " req" : ""}">${esc(x)}</span>`).join("")}</div>`
+      : `<div class="slots"><span class="slot none">无需配员</span></div>`;
+    return `<div class="scard" id="${esc(roomId(r[0]))}">
+      <h4><span class="tag ${TYPE_INFO[r[2]][1]}">${TYPE_INFO[r[2]][0]}</span>${esc(r[0])}</h4>
+      <dl class="kv">
+        <dt>员工</dt><dd>${esc(s.staff)}</dd>
+        <dt>必要资质</dt><dd>${s.required.length ? s.required.map(q => `<span class="tag t-req">${esc(q)}</span>`).join("") : "<span class='muted'>无</span>"}</dd>
+      </dl>
+      <div class="slot-title">推荐 5 个资质栏</div>
+      ${slots}
+      <dl class="kv">
+        ${s.general.length ? `<dt>通用技能</dt><dd>${s.general.map(g => `<span class="tag t-soft">${esc(g)}</span>`).join("")}</dd>` : ""}
+        ${s.share.length ? `<dt>可兼顾</dt><dd>${s.share.map(roomLink).join("、")}</dd>` : ""}
+      </dl>
+      <div class="snote">${esc(s.note)}</div>
+    </div>`;
+  }).join("");
+}
+function jumpToRoom(name) {
+  roomState.type = "all"; roomState.q = "";
+  $("#roomSearch").value = "";
+  $$("#roomChips .chip").forEach(x => x.classList.toggle("on", x.dataset.type === "all"));
+  renderRooms();
+  const el = document.getElementById(roomId(name));
+  if (!el) return;
+  el.scrollIntoView({ block: "center" });
+  el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a.rlink");
+  if (!a) return;
+  e.preventDefault();
+  jumpToRoom(a.dataset.room);
+});
+
+/* ======================= 疾病表 ======================= */
+const disState = { q: "", treat: "", level: "", key: null, dir: 1 };
+function bestDiag(w) {
+  let best = 1;
+  for (let i = 2; i <= 8; i++) if (w[i] > w[best]) best = i;
+  return best;
+}
+function renderDiseases() {
+  const q = disState.q.trim().toLowerCase();
+  let rows = DISEASES.filter(d =>
+    (!disState.treat || d[4] === disState.treat) &&
+    (!disState.level || d[5] === disState.level) &&
+    (!q || [d[0], d[1], d[4], d[5]].join(" ").toLowerCase().includes(q)));
+  if (disState.key) {
+    const k = disState.key;
+    const get = d => k === "cn" ? d[0] : k === "treat" ? d[4] : k === "cure" ? d[3]
+      : k === "first" ? LEVEL_ORDER.indexOf(d[5]) : d[2][Number(k.slice(1))];
+    rows = rows.slice().sort((a, b) => {
+      const x = get(a), y = get(b);
+      return (typeof x === "string" ? x.localeCompare(y, "zh") : x - y) * disState.dir;
+    });
+  }
+  $("#disTable tbody").innerHTML = rows.map(d => {
+    const w = d[2], b = bestDiag(w);
+    const cells = w.map((v, i) =>
+      `<td class="num"><span class="heat${i === b ? " best" : ""}" style="${heatColor(v, i === 0 ? 100 : 45)}">${v}%</span></td>`).join("");
+    return `<tr>
+      <td><b>${esc(d[0])}</b><span class="en">${esc(d[1])}</span></td>
+      <td><span class="tag ${HYBRID_ROOMS.includes(d[4]) ? "t-hybrid" : "t-treat"}">${esc(d[4])}</span></td>
+      <td class="num"><span class="bar"><i style="width:${d[3]}%;background:${cureColor(d[3])}"></i></span>${d[3]}%</td>
+      <td>${esc(d[5])}</td>${cells}</tr>`;
+  }).join("");
+  $("#disCount").textContent = `共 ${rows.length} 种`;
+}
+
+/* ======================= 关卡 ======================= */
+function renderLevels() {
+  $("#levelList").innerHTML = REGIONS.map(r => `
+    <details class="region" open>
+      <summary>${esc(r.name)}<span class="sub">${esc(r.en)} · 气候${esc(r.climate)} · ${r.levels.length} 家医院</span></summary>
+      <div class="levels">${r.levels.map(l => `
+        <div class="level">
+          <h4>${esc(l.cn)}<span class="en">${esc(l.en)}</span></h4>
+          <div class="meta"><span class="tag t-soft">解锁：${esc(l.unlock)}</span>${l.tags.map(t => `<span class="tag t-diag">${esc(t)}</span>`).join("")}</div>
+          <div class="desc">${esc(l.desc)}</div>
+          <div class="stars">${l.stars.map((s, i) => `
+            <div class="star-row"><span class="s">${"★".repeat(i + 1)}${"☆".repeat(2 - i)}</span>
+              <div>${esc(s[0])}${s[1] ? `<div class="reward">奖励：${esc(s[1])}</div>` : ""}</div></div>`).join("")}
+          </div>
+          <div class="ltip"><b>要点：</b>${esc(l.tip)}</div>
+          ${LAYOUTS[l.en] ? `<button class="lbtn" data-en="${esc(l.en)}">布局详解 ▾</button>` : ""}
+        </div>
+        ${LAYOUTS[l.en] ? `<div class="lpanel" id="lp-${slug(l.en)}" hidden></div>` : ""}`).join("")}
+      </div>
+    </details>`).join("");
+  $$(".lbtn").forEach(b => b.addEventListener("click", () => toggleLayout(b)));
+}
+
+/* ======================= 布局详解 ======================= */
+const slug = s => s.replace(/[^A-Za-z0-9]+/g, "-");
+const ZONE_INFO = { entry:"入口/全科", diag:"诊断", treat:"治疗", hyb:"诊断+治疗", admin:"行政/培训", spare:"备用" };
+const DIRS = ["nw","n","ne","w","c","e","sw","s","se"];
+const TYPE_SHORT = { diag:"t-d", treat:"t-t", hybrid:"t-h", facility:"t-f" };
+const plotSize = a => Math.round(30 + Math.sqrt(a ?? 700) * 1.25);
+function renderLayout(en, cn) {
+  const L = LAYOUTS[en];
+  const byDir = Object.fromEntries(DIRS.map(d => [d, L.plots.filter(p => p.dir === d)]));
+  const box = p => {
+    const unused = p.order === null;
+    const sz = p.id === 1 ? 84 : plotSize(p.area);
+    return `<div class="pbox pz-${p.zone}${unused ? " unused" : ""}" style="width:${sz}px;height:${Math.round(sz * 0.72)}px" title="${esc(p.use)}">
+      <span class="n">${p.id === 1 ? "起始" : "地块 " + p.id}</span>
+      <span>${p.id === 1 ? "已拥有" : (p.area ? p.area + "m²" : "面积?")}</span>
+      ${p.order ? `<span class="o">${p.order}</span>` : ""}</div>`;
+  };
+  const map = DIRS.map(d => `<div class="pcell">${byDir[d].map(box).join("")}</div>`).join("");
+  const sorted = L.plots.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99) || a.id - b.id);
+  const list = sorted.map(p => `<tr class="${p.order === null ? "unused" : ""}">
+      <td>${p.order === null ? "—" : p.order === 0 ? "起始" : "第 " + p.order + " 块"}</td>
+      <td><b>${p.id === 1 ? "起始地块" : "地块 " + p.id}</b></td>
+      <td class="num hide-s">${p.area ? p.area + " m²" : "—"}</td>
+      <td class="num">${p.price ? "$" + p.price.toLocaleString() : "—"}</td>
+      <td><span class="tag pz-${p.zone}" style="color:#fff">${ZONE_INFO[p.zone]}</span> ${esc(p.use)}</td></tr>`).join("");
+  const roomType = name => (ROOMS.find(r => r[0] === name) || [])[2];
+  const counts = Object.entries(L.counts).map(([name, n]) =>
+    `<span class="c ${TYPE_SHORT[roomType(name)] || ""}"><b>${n}</b>${roomLink(name)}</span>`).join("");
+  return `
+    <div class="lhead"><b>${esc(cn)} · 布局详解</b>
+      <span class="tag t-soft">开局资金 ${esc(L.cash)}</span>
+      <span class="tag t-soft">气候 ${esc(L.climate)}</span>
+      <span class="tag t-soft">可购地块 ${L.plots.length - 1} 块，建议用 ${L.plots.filter(p => p.order).length} 块</span></div>
+    <h5>地块分区示意图</h5>
+    <div class="lmap-wrap">
+      <div>
+        <div class="pmap">${map}</div>
+        <div class="pmap-cap">示意图，不按真实地形：只表示大致方位，方块大小按面积缩放；鼠标悬停看用途。</div>
+        <div class="plegend">${Object.entries(ZONE_INFO).map(([k, v]) => `<span><i class="pz-${k}"></i>${v}</span>`).join("")}<span><i style="border:1.5px dashed #9ca3af"></i>可不买</span></div>
+      </div>
+      <div class="table-wrap" style="max-height:none"><table class="plist">
+        <thead><tr><th>购买顺序</th><th>地块</th><th class="hide-s">面积</th><th>价格</th><th>用途（三星时）</th></tr></thead>
+        <tbody>${list}</tbody></table></div>
+    </div>
+    <h5>分阶段建造顺序</h5>
+    <div class="phases">${L.phases.map((ph, i) => `<div class="phase"><div class="ph"><i>${i}</i>${esc(ph[0])}</div>
+      <ul>${ph[1].map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>
+    <h5>三星时关键房间数量（点房间名看配员）</h5>
+    <div class="counts">${counts}</div>
+    <h5>本关难点</h5>
+    <ul class="ltips">${L.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
+}
+function toggleLayout(btn) {
+  const en = btn.dataset.en;
+  const panel = document.getElementById("lp-" + slug(en));
+  const open = panel.hidden;
+  if (open && !panel.innerHTML) {
+    const cn = btn.closest(".level").querySelector("h4").firstChild.textContent;
+    panel.innerHTML = renderLayout(en, cn);
+  }
+  panel.hidden = !open;
+  btn.classList.toggle("on", open);
+  btn.textContent = open ? "收起布局 ▴" : "布局详解 ▾";
+  if (open) panel.scrollIntoView({ block: "nearest" });
+}
+
+/* ======================= DLC ======================= */
+function renderDlc() {
+  const diffColor = { "低":"#16a34a", "中低":"#84cc16", "中":"#f59e0b", "中高":"#f97316", "高":"#ef4444", "自选":"#6b7280" };
+  $("#dlcList").innerHTML = DLCS.map(d => `
+    <div class="card">
+      <h4><span class="icon">${esc(d.cn[0])}</span>${esc(d.cn)} <span class="count">${esc(d.en)}</span></h4>
+      <dl class="kv">
+        <dt>发售</dt><dd>${esc(d.date)}</dd>
+        <dt>地区</dt><dd>${esc(d.region)}</dd>
+        <dt>医院</dt><dd>${d.hospitals.map(esc).join("、")}</dd>
+        <dt>新房间</dt><dd>${esc(d.rooms)}</dd>
+        <dt>特色</dt><dd>${esc(d.feat)}</dd>
+        <dt>难度</dt><dd><span class="tag" style="background:${diffColor[d.diff]}">${esc(d.diff)}</span></dd>
+      </dl>
+    </div>`).join("");
+}
+
+/* ======================= FAQ ======================= */
+function renderFaq() {
+  $("#faqList").innerHTML = FAQ.map(f => `<details class="faq"><summary>${esc(f[0])}</summary><div class="a">${f[1]}</div></details>`).join("");
+}
+
+/* ======================= 初始化 ======================= */
+renderRooms();
+bindSort("#roomTable", roomState, renderRooms);
+$("#roomSearch").addEventListener("input", e => { roomState.q = e.target.value; renderRooms(); });
+$$("#roomChips .chip").forEach(c => c.addEventListener("click", () => {
+  $$("#roomChips .chip").forEach(x => x.classList.remove("on"));
+  c.classList.add("on");
+  roomState.type = c.dataset.type;
+  renderRooms();
+}));
+
+const treatSet = [...new Set(DISEASES.map(d => d[4]))].sort((a, b) => a.localeCompare(b, "zh"));
+$("#disTreat").innerHTML += treatSet.map(t => `<option>${esc(t)}</option>`).join("");
+$("#disLevel").innerHTML += LEVEL_ORDER.filter(l => DISEASES.some(d => d[5] === l)).map(l => `<option>${esc(l)}</option>`).join("");
+renderDiseases();
+bindSort("#disTable", disState, renderDiseases);
+$("#disSearch").addEventListener("input", e => { disState.q = e.target.value; renderDiseases(); });
+$("#disTreat").addEventListener("change", e => { disState.treat = e.target.value; renderDiseases(); });
+$("#disLevel").addEventListener("change", e => { disState.level = e.target.value; renderDiseases(); });
+
+renderLevels();
+$("#expandAll").addEventListener("click", () => {
+  $$(".region").forEach(d => d.open = true);
+  $("#expandAll").classList.add("on"); $("#collapseAll").classList.remove("on");
+});
+$("#collapseAll").addEventListener("click", () => {
+  $$(".region").forEach(d => d.open = false);
+  $("#collapseAll").classList.add("on"); $("#expandAll").classList.remove("on");
+});
+renderDlc();
+renderFaq();
+
+const navLinks = $$('nav#toc a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+    }
+  });
+}, { rootMargin: "-20% 0px -70% 0px" });
+navLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) observer.observe(s); });
+
+$("#menuBtn").addEventListener("click", () => $("nav#toc").classList.toggle("open"));
+navLinks.forEach(a => a.addEventListener("click", () => $("nav#toc").classList.remove("open")));
+const toTop = $("#toTop");
+window.addEventListener("scroll", () => { toTop.style.display = window.scrollY > 600 ? "block" : "none"; });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0 }));
+</script>
+</body>
+</html>
