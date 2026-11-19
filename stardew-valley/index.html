@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="星露攻略">
+<meta name="theme-color" content="#143028">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<title>星露谷物语 Stardew Valley 全面攻略</title>
+<style>
+:root {
+  --primary: #3d8b4a;
+  --primary-dark: #246332;
+  --primary-light: #e7f5e8;
+  --bg: #f4f7f2;
+  --card: #ffffff;
+  --text: #243028;
+  --muted: #5e6e62;
+  --border: #d5e3d4;
+  --nav: #143028;
+  --nav-w: 230px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px;
+}
+a { color: var(--primary-dark); }
+nav#toc {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: calc(var(--nav-w) + env(safe-area-inset-left));
+  background: var(--nav); color: #d5ead6;
+  padding: calc(20px + env(safe-area-inset-top)) 0 calc(20px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  overflow-y: auto; z-index: 20;
+}
+nav#toc .brand { padding: 0 18px 14px; border-bottom: 1px solid #245038; margin-bottom: 8px; }
+nav#toc .brand b { display: block; font-size: 20px; color: #fff; }
+nav#toc .brand span { font-size: 12px; color: #8fbf96; }
+nav#toc a {
+  display: block; padding: 8px 18px; color: #d5ead6; text-decoration: none;
+  border-left: 3px solid transparent; font-size: 14px;
+}
+nav#toc a:hover { background: #1c4330; color: #fff; }
+nav#toc a.active { background: #245038; color: #fff; border-left-color: #8dce78; font-weight: bold; }
+nav#toc a .num { display: inline-block; width: 22px; color: #8dce78; }
+nav#toc a.home { font-size: 13px; color: #8fbf96; padding: 0 18px 10px; border-left: none; }
+nav#toc a.home:hover { background: none; color: #fff; }
+#menuBtn, #homeBtn { display: none; }
+main { margin-left: var(--nav-w); padding: 0 36px 60px; }
+main > section, main > footer, header.hero > * { max-width: 1400px; }
+header.hero {
+  margin: 0 -36px 28px; padding: 44px 36px 32px;
+  background: linear-gradient(135deg, #3d8b4a 0%, #2f6b38 55%, #1d3d28 100%);
+  color: #fff;
+}
+header.hero h1 { margin: 0 0 6px; font-size: 32px; }
+header.hero p { margin: 0; opacity: .92; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.hero-stats div { background: rgba(255,255,255,.14); padding: 8px 16px; border-radius: 10px; }
+.hero-stats b { font-size: 20px; display: block; line-height: 1.2; }
+.hero-stats span { font-size: 12px; opacity: .85; }
+section { padding-top: 22px; margin-bottom: 36px; }
+section > h2 { font-size: 24px; margin: 0 0 6px; padding-left: 12px; border-left: 5px solid var(--primary); }
+section > .lead { color: var(--muted); margin: 0 0 16px; padding-left: 17px; }
+h3 { font-size: 18px; margin: 22px 0 10px; color: var(--primary-dark); }
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.card h4 { margin: 0 0 8px; font-size: 16px; }
+.card ul, .card ol { margin: 6px 0 0; padding-left: 20px; }
+.card li { margin: 3px 0; }
+.icon {
+  display: inline-flex; width: 28px; height: 28px; border-radius: 8px;
+  align-items: center; justify-content: center; font-size: 14px; font-weight: bold;
+  color: #fff; background: var(--primary); flex-shrink: 0; margin-right: 6px;
+}
+.tip, .warn, .note { border-radius: 10px; padding: 12px 16px; margin: 12px 0; border-left: 4px solid; }
+.tip { background: #ecfdf3; border-color: #16a34a; }
+.warn { background: #fffbeb; border-color: #f59e0b; }
+.note { background: #eff6ff; border-color: #3b82f6; }
+.tag {
+  display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
+  background: var(--primary-light); color: var(--primary-dark); white-space: nowrap; line-height: 1.7;
+}
+.tag.gold { background: #fef3c7; color: #92400e; }
+.tag.marry { background: #fce7f3; color: #9d174d; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.toolbar input[type=search] {
+  flex: 1 1 240px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 14px; outline: none; background: #fff;
+}
+.toolbar input[type=search]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 4px 12px;
+  cursor: pointer; font-size: 13px; color: var(--text); font-family: inherit;
+}
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.count { color: var(--muted); font-size: 13px; }
+.table-wrap { overflow: auto; max-height: 70vh; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
+.table-wrap.static-table { max-height: none; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #e7f0e6; text-align: left; vertical-align: top; }
+th { background: #f3f8f3; position: sticky; top: 0; z-index: 1; white-space: nowrap; color: #2a4a32; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable::after { content: " ⇅"; color: #a8c4ae; font-size: 11px; }
+th.asc::after { content: " ▲"; color: var(--primary); }
+th.desc::after { content: " ▼"; color: var(--primary); }
+tbody tr:hover { background: #f7fbf7; }
+td .en { color: var(--muted); font-size: 12px; display: block; line-height: 1.3; }
+td.num, th.num { text-align: center; white-space: nowrap; }
+.phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.phase { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fff; font-size: 13.5px; }
+.phase .ph { font-weight: bold; margin-bottom: 6px; color: var(--primary-dark); }
+.phase ul { margin: 0; padding-left: 18px; }
+details.room { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
+details.room > summary {
+  cursor: pointer; padding: 12px 16px; font-weight: bold; font-size: 16px; list-style: none;
+  background: #f3f8f3;
+}
+details.room > summary::-webkit-details-marker { display: none; }
+details.room > summary::before { content: "▶ "; font-size: 11px; color: var(--primary); }
+details.room[open] > summary::before { content: "▼ "; }
+details.room .body { padding: 8px 12px 14px; }
+details.faq { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 12px 16px; font-weight: bold; list-style: none; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::before {
+  content: "Q"; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center;
+  border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; margin-right: 10px;
+}
+details.faq[open] summary { border-bottom: 1px solid var(--border); }
+details.faq .a { padding: 10px 16px 14px 48px; }
+details.faq .a ul { margin: 4px 0; padding-left: 18px; }
+footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+footer ul { padding-left: 18px; }
+#toTop {
+  position: fixed; right: calc(20px + env(safe-area-inset-right)); bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; border: none;
+  font-size: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.18); display: none; z-index: 30;
+}
+@media (max-width: 900px) {
+  nav#toc { transform: translateX(-100%); transition: transform .25s; }
+  nav#toc.open { transform: translateX(0); }
+  main { margin-left: 0; padding: 0 calc(16px + env(safe-area-inset-right)) calc(48px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+  header.hero { margin: 0 calc(-16px - env(safe-area-inset-right)) 20px calc(-16px - env(safe-area-inset-left)); padding: calc(58px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 24px calc(16px + env(safe-area-inset-left)); }
+  #menuBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left)); z-index: 40;
+    background: var(--nav); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px;
+  }
+  #homeBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); left: calc(96px + env(safe-area-inset-left)); z-index: 40;
+    background: rgba(20,48,40,.88); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 14px; text-decoration: none;
+  }
+  .phases { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .phases { grid-template-columns: 1fr; }
+  header.hero h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<button id="menuBtn">☰ 目录</button>
+<a id="homeBtn" href="../">← 游戏</a>
+<nav id="toc">
+  <a class="home" href="../">← 游戏目录</a>
+  <div class="brand"><b>星露谷物语</b><span>Stardew Valley · 1.6</span></div>
+  <a href="#basics"><span class="num">1</span>第一年节奏</a>
+  <a href="#calendar"><span class="num">2</span>节日日历</a>
+  <a href="#crops"><span class="num">3</span>作物速查</a>
+  <a href="#trees"><span class="num">4</span>果树</a>
+  <a href="#fish"><span class="num">5</span>钓鱼速查</a>
+  <a href="#mines"><span class="num">6</span>矿洞与战斗</a>
+  <a href="#skills"><span class="num">7</span>技能与职业</a>
+  <a href="#villagers"><span class="num">8</span>村民与礼物</a>
+  <a href="#bundles"><span class="num">9</span>收集包</a>
+  <a href="#animals"><span class="num">10</span>动物与加工</a>
+  <a href="#island"><span class="num">11</span>姜岛与精通</a>
+  <a href="#faq"><span class="num">12</span>常见问题</a>
+  <a href="#sources"><span class="num">·</span>资料来源</a>
+</nav>
+<main>
+<header class="hero">
+  <h1>星露谷物语 全面攻略</h1>
+  <p>按 1.6 整理：第一年怎么过、作物和鱼怎么查、社区中心交什么、姜岛和精通拿什么。</p>
+  <div class="hero-stats">
+    <div><b>1.6</b><span>含姜岛与精通</span></div>
+    <div><b>4</b><span>季，每季 28 天</span></div>
+    <div><b>可搜索</b><span>作物、鱼、村民</span></div>
+    <div><b>标准包</b><span>非重混收集包</span></div>
+  </div>
+</header>
+
+<section id="basics">
+  <h2>第一年节奏</h2>
+  <p class="lead">一季 28 天。作物在换季当天枯死，啤酒花、青豆、葡萄要搭架，玉米和小麦可以跨夏秋。售价表里的数字都是普通品质，银星 ×1.25、金星 ×1.5、铱星 ×2。</p>
+  <div class="phases">
+    <div class="phase"><div class="ph">春 1～12 日</div>
+      <ul>
+        <li>开局防风草先种上，换体力和第一笔钱。</li>
+        <li>采集野山葵、黄水仙、韭葱、蒲公英，留给春季采集包。</li>
+        <li>钓鱼、砍树、下矿到铜级。铜工具：5 铜锭 + 2000g，克林特处升级要 2 天。</li>
+        <li>种土豆或甘蓝。青豆搭一次架能收到季末。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">春 13～28 日</div>
+      <ul>
+        <li>13 日复活节买草莓种子，100g 一包。当天种下，第一年只能再收一两轮。</li>
+        <li>花椰菜要 12 天，最晚大约 16 日还能种完一茬。</li>
+        <li>大黄在沙漠绿洲，100g，13 天，220g，适合以后酿酒。巴士修好之前买不到。</li>
+        <li>尽量在季末前把春季作物包（防风草、青豆、花椰菜、土豆）交掉。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">夏</div>
+      <ul>
+        <li>蓝莓：13 天成熟后每 4 天收一次，每次 3 颗，种子 80g。第一年夏天最稳的田。</li>
+        <li>甜瓜 250g、辣椒会再结。杨桃种子绿洲 400g，果实 750g，酿出来最赚。</li>
+        <li>啤酒花每天收，入酿酒桶做淡啤酒（基础 300g）。</li>
+        <li>种玉米可以留到秋天。红叶卷心菜皮埃尔第二年才卖，第一年看旅行货车。</li>
+        <li>农业 6 级做优质洒水器（1 金锭、1 铁锭、1 精炼石英），开始少浇水。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">秋和冬</div>
+      <ul>
+        <li>蔓越莓种子 240g，7 天成熟后每 5 天收 2 颗。南瓜 320g，用来做金星作物包。</li>
+        <li>金星作物包要 5 个金星，防风草、甜瓜、南瓜、玉米里交满 3 种。</li>
+        <li>秋天多割草，筒仓囤干草。冬天动物不出去吃草。</li>
+        <li>冬天户外只能种粉瓜（1.6，种子靠挖土）。其余时间下矿到 120 层拿骷髅钥匙，升工具，送礼物。</li>
+        <li>冬季种子（冬根、水晶果、雪山药、番红花）能在雪地里种出采集包材料。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>体力和工具</h3>
+  <div class="grid g3">
+    <div class="card"><h4><span class="icon">力</span>体力</h4>
+      <ul>
+        <li>初始上限 270。吃星之果碎片 +34，全收集后上限明显提高。</li>
+        <li>凌晨 12 点之后还不睡会扣体力；凌晨 2 点强制睡觉，在外面晕倒会丢钱，矿洞里还有几率丢物品。</li>
+        <li>前期吃春葱、鱼、沙拉。下矿常备奶酪、辣鳗鱼、咖啡或三重浓缩咖啡。</li>
+      </ul>
+    </div>
+    <div class="card"><h4><span class="icon">具</span>升级费用</h4>
+      <ul>
+        <li>铜：5 铜锭，2000g</li>
+        <li>铁：5 铁锭，5000g</li>
+        <li>金：5 金锭，10000g</li>
+        <li>铱：5 铱锭，25000g</li>
+        <li>每次 2 天。斧头至少铜，才能砍秘密森林的硬木。</li>
+      </ul>
+    </div>
+    <div class="card"><h4><span class="icon">包</span>社区中心优先</h4>
+      <ul>
+        <li>春季采集、春季作物、建设包（木头 99×2、石头 99、硬木 10）最早能交。</li>
+        <li>工艺室修好采石场桥，锅炉室修好矿车，金库修好巴士。</li>
+        <li>食品储藏室修好温室。温室里作物不换季死亡，是稳定酿酒的起点。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip"><b>钱怎么滚：</b>第一年夏天蓝莓、秋天蔓越莓把酒桶和罐头瓶填上。工匠职业让加工品售价 +40%，酒 = 果实基础价 ×3，果酱 = 基础价 ×2 + 50。杨桃酒和上古水果酒是后期主要收入。</div>
+</section>
+
+<section id="calendar">
+  <h2>节日日历</h2>
+  <p class="lead">节日当天商店大多关门，作物不会被乌鸦吃，动物如果留在室内也不吃干草。生日见村民表。</p>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>日期</th><th>节日</th><th>要准备什么</th></tr></thead>
+      <tbody>
+        <tr><td>春 13</td><td>复活节</td><td>买草莓种子。找彩蛋有帽子等奖励。</td></tr>
+        <tr><td>春 15–17</td><td>沙漠节日（1.6）</td><td>巴士修好后才能去。换节日货币，买装饰和稀有品。</td></tr>
+        <tr><td>春 24</td><td>花舞节</td><td>和一名村民跳舞。好感不够会拒绝。单身村民跳完有少量好感。</td></tr>
+        <tr><td>夏 11</td><td>夏威夷宴会</td><td>往锅里放金星作物、金星鱼或高价菜。放垃圾会被全镇讨厌。最好的评价有友谊奖励。</td></tr>
+        <tr><td>夏 20–21</td><td>鳟鱼大赛（1.6）</td><td>河里比赛钓鱼，用分数换奖品。</td></tr>
+        <tr><td>夏 28</td><td>月光水母节</td><td>看水母即可，没有必须携带的物品。</td></tr>
+        <tr><td>秋 16</td><td>星露谷展览会</td><td>准备展示品：铱星物品、满好感动物都能拿高分。奖券换星之果碎片。</td></tr>
+        <tr><td>秋 27</td><td>万灵节</td><td>迷宫终点有金色南瓜。黄金南瓜是多数人的最爱礼物。</td></tr>
+        <tr><td>冬 8</td><td>冰雪节</td><td>钓鱼比赛，奖品里有稀有装饰和钓鱼用品。</td></tr>
+        <tr><td>冬 12–13</td><td>鱿鱼节（1.6）</td><td>夜里比赛钓鱿鱼。</td></tr>
+        <tr><td>冬 15–17</td><td>夜市</td><td>潜艇、商船、免费咖啡。潜艇里能钓到水滴鱼等别处没有的鱼。</td></tr>
+        <tr><td>冬 25</td><td>冬日星盛宴</td><td>秘密礼物。按提示准备对方最爱，送对了加一大截好感。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="crops">
+  <h2>作物速查</h2>
+  <p class="lead">生长天数从浇水后的第二天算起。再收获指成熟之后每隔几天收一次，不用重种。售价是普通品质。银 / 金 / 铱 = ×1.25 / ×1.5 / ×2。创建世界时如果开了“重混收集包”，下面的标准包会对不上。</p>
+  <div class="toolbar">
+    <input type="search" id="cropSearch" placeholder="搜索作物、英文名、种子来源…">
+    <div class="chips" id="cropChips">
+      <button class="chip on" data-s="all">全部</button>
+      <button class="chip" data-s="春">春</button>
+      <button class="chip" data-s="夏">夏</button>
+      <button class="chip" data-s="秋">秋</button>
+      <button class="chip" data-s="冬">冬</button>
+      <button class="chip" data-s="姜岛">姜岛</button>
+      <button class="chip" data-s="室内">室内</button>
+    </div>
+    <span class="count" id="cropCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="cropTable">
+      <thead><tr>
+        <th class="sortable" data-k="0">作物</th>
+        <th class="sortable" data-k="2">季节</th>
+        <th class="sortable num" data-k="3">天数</th>
+        <th class="sortable" data-k="4">再收获</th>
+        <th>种子</th>
+        <th class="sortable num" data-k="6">售价</th>
+        <th>要点</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="note"><b>1.6 的四种新作物</b>（胡萝卜、西葫芦、西兰花、粉瓜）商店不卖。对应季节挖翻土点，或用种子生产器复制。姜岛上多数作物全年可种。齐果只在齐先生任务期间存在，4 天成熟，售价 1g，用来交任务。</div>
+</section>
+
+<section id="trees">
+  <h2>果树</h2>
+  <p class="lead">树苗种下后 28 天结果，周围 8 格要空着。结果季里每天结一颗。果树换季不会死。树苗皮埃尔卖 4000g，旅行货车有时更便宜。</p>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>果树</th><th>季节</th><th>果实售价</th><th>树苗</th></tr></thead>
+      <tbody>
+        <tr><td><b>樱桃</b><span class="en">Cherry</span></td><td>春</td><td class="num">80g</td><td>皮埃尔 4000g</td></tr>
+        <tr><td><b>杏子</b><span class="en">Apricot</span></td><td>春</td><td class="num">50g</td><td>皮埃尔 4000g</td></tr>
+        <tr><td><b>橙子</b><span class="en">Orange</span></td><td>夏</td><td class="num">100g</td><td>皮埃尔 4000g</td></tr>
+        <tr><td><b>桃子</b><span class="en">Peach</span></td><td>夏</td><td class="num">140g</td><td>皮埃尔 4000g</td></tr>
+        <tr><td><b>石榴</b><span class="en">Pomegranate</span></td><td>秋</td><td class="num">140g</td><td>皮埃尔 4000g。艾利欧特最爱</td></tr>
+        <tr><td><b>苹果</b><span class="en">Apple</span></td><td>秋</td><td class="num">100g</td><td>皮埃尔 4000g</td></tr>
+        <tr><td><b>香蕉</b><span class="en">Banana</span></td><td>姜岛全年</td><td class="num">150g</td><td>姜岛商人，龙牙</td></tr>
+        <tr><td><b>芒果</b><span class="en">Mango</span></td><td>姜岛全年</td><td class="num">130g</td><td>姜岛商人，蚌</td></tr>
+        <tr><td><b>茶树</b><span class="en">Tea</span></td><td>春夏秋的最后 7 天</td><td class="num">茶叶 50g</td><td>卡罗琳 2 心后送信给配方。茶叶入桶做绿茶</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="fish">
+  <h2>钓鱼速查</h2>
+  <p class="lead">难度越高，鱼越容易逃出绿条。宝箱和垃圾不逐条列概率：钓鱼等级、宝藏钓具提高宝箱；垃圾在低等级、螃蟹笼没饵、或冬天某些水域更常见。使用“渔夫 / 垂钓者”职业后售价还会提高。</p>
+  <div class="toolbar">
+    <input type="search" id="fishSearch" placeholder="搜索鱼名、地点、季节…">
+    <div class="chips" id="fishChips">
+      <button class="chip on" data-s="all">全部</button>
+      <button class="chip" data-s="河">河</button>
+      <button class="chip" data-s="山湖">山湖</button>
+      <button class="chip" data-s="海">海</button>
+      <button class="chip" data-s="矿">矿洞</button>
+      <button class="chip" data-s="沙漠">沙漠</button>
+      <button class="chip" data-s="姜岛">姜岛</button>
+      <button class="chip" data-s="传说">传说</button>
+    </div>
+    <span class="count" id="fishCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="fishTable">
+      <thead><tr>
+        <th class="sortable" data-k="0">鱼</th>
+        <th class="sortable" data-k="2">地点</th>
+        <th>季节</th>
+        <th>时段</th>
+        <th>天气</th>
+        <th class="sortable num" data-k="6">难度</th>
+        <th class="sortable num" data-k="7">售价</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="note"><b>没写进表的：</b>夜市潜艇（冬 15–17）有午夜鱿鱼、幽灵鱼、水滴鱼。齐先生“鱼族大家庭”任务期间才能钓到传说鱼的下一代，难度更高。螃蟹笼产物（龙虾、虾、蚌、蛤）用于收集包，不占钓鱼抛竿。</div>
+</section>
+
+<section id="mines">
+  <h2>矿洞与战斗</h2>
+  <div class="grid g3">
+    <div class="card"><h4>矿井 1–119 层</h4>
+      <ul>
+        <li>每 5 层一台电梯。10 的倍数是安全层。</li>
+        <li>1–39 层铜多，40–79 层铁和冰冻层，80–119 层金和熔岩层。</li>
+        <li>20 层钓石鱼，60 层冰柱鱼，100 层熔岩鳗。</li>
+        <li>120 层宝箱给骷髅钥匙，用来开骷髅洞穴。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>骷髅洞穴</h4>
+      <ul>
+        <li>先修好巴士（社区中心金库，或乔亚付费）。</li>
+        <li>没有电梯。楼梯（99 石头）、炸弹、辣鳗鱼、咖啡、奶酪、抗性高的鞋子。</li>
+        <li>五彩碎片交给沙漠三柱，换银河剑。</li>
+        <li>越深铱矿越多。宝箱层和恐龙层看运气。不要留到凌晨 2 点。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>危险矿洞与火山</h4>
+      <ul>
+        <li>危险模式：女巫小屋的挑战神龛，或齐先生的相关任务。会刷放射性矿和更强的怪，可随时关。</li>
+        <li>姜岛火山共 10 层。水壶把岩浆浇出一条路。</li>
+        <li>火山底是锻炉，用火山灰烬给工具附魔、合并戒指。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>常见怪物掉落</h3>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>怪物</th><th>出现</th><th>值得捡的</th></tr></thead>
+      <tbody>
+        <tr><td>史莱姆</td><td>矿井、秘密森林、骷髅洞穴</td><td>史莱姆、偶尔史莱姆蛋。冒险者收集包要 99 史莱姆</td></tr>
+        <tr><td>蝙蝠</td><td>矿井</td><td>蝙蝠翅膀。收集包要 10 个</td></tr>
+        <tr><td>骷髅</td><td>矿井后段、骷髅洞穴</td><td>骨头碎片。锻造和 1.6 鱼饵会用到</td></tr>
+        <tr><td>尘埃精灵</td><td>矿井</td><td>煤炭、铜、偶尔咖啡豆</td></tr>
+        <tr><td>熔岩蝙蝠 / 金属头</td><td>矿井下层、骷髅洞穴</td><td>太阳精华、金矿、岩浆晶球</td></tr>
+        <tr><td>飞蛇</td><td>骷髅洞穴</td><td>虚空精华、太阳精华、炸弹、辣鳗鱼、兔子脚（低概率）</td></tr>
+        <tr><td>木乃伊</td><td>骷髅洞穴</td><td>打死还要炸弹补刀，否则会爬起来。布料、仙人掌种子</td></tr>
+        <tr><td>恐龙</td><td>骷髅洞穴恐龙层、姜岛</td><td>恐龙蛋。孵出恐龙后每 7 天一颗蛋</td></tr>
+        <tr><td>火山怪</td><td>姜岛火山</td><td>火山灰烬、龙牙</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warn"><b>太阳精华和虚空精华</b>都要交给冒险者收集包各 1 个。虚空精华主要来自骷髅洞穴和下水道的暗影怪，太阳精华来自矿井深层的幽灵和熔岩层。</div>
+</section>
+
+<section id="skills">
+  <h2>技能与职业</h2>
+  <p class="lead">5 级二选一，10 级在已选的那条上再二选一。职业可以在下水道的狗雕像处用 10000g 洗掉重选。</p>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>技能</th><th>5 级</th><th>10 级</th></tr></thead>
+      <tbody>
+        <tr><td><b>农业</b></td><td>牧场主：动物制品售价 +20%<br>耕种者：作物售价 +10%</td><td>牧场主 → 鸡舍大师（鸡舍孵化减半、好感更快）或 牧羊人（羊产毛更快、畜棚好感更快）<br>耕种者 → 工匠（加工品 +40%）或 农业学家（作物生长加快 10%）</td></tr>
+        <tr><td><b>采矿</b></td><td>矿工：每个矿点多 1 个矿石<br>地质学家：宝石有几率成对出现</td><td>矿工 → 铁匠（金属锭售价 +50%）或 勘探者（找到煤炭的几率提高）<br>地质学家 → 挖掘者（晶球更多）或 宝石学家（宝石售价 +30%）</td></tr>
+        <tr><td><b>采集</b></td><td>护林人：木材售价提高<br>采集者：采集品有几率双倍</td><td>护林人 → 伐木工（树有几率掉硬木）或 采浆人（糖浆类售价 +25%）<br>采集者 → 植物学家（采集品总是铱星）或 追踪者（采集品会显示箭头）</td></tr>
+        <tr><td><b>钓鱼</b></td><td>渔夫：鱼售价 +25%<br>捕猎者：做螃蟹笼更省材料</td><td>渔夫 → 垂钓者（鱼售价 +50%）或 海盗（宝箱更多）<br>捕猎者 → 水手（螃蟹笼不进垃圾）或 诱饵大师（螃蟹笼不用装饵）</td></tr>
+        <tr><td><b>战斗</b></td><td>战士：伤害提高，最大生命 +15<br>侦察兵：暴击率提高</td><td>战士 → 蛮力（伤害再提高）或 防御者（最大生命 +25）<br>侦察兵 → 杂技演员（特殊技冷却减半）或 亡命徒（暴击更痛）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tip"><b>多数农场的选择：</b>卖酒和果酱就走耕种者 → 工匠。下矿刷铱走矿工。采集如果养猪捡松露，植物学家让松露直接铱星。钓鱼想赚钱走渔夫 → 垂钓者。</div>
+</section>
+
+<section id="villagers">
+  <h2>村民与礼物</h2>
+  <p class="lead">每周最多送 2 次礼物，生日再送 1 次且好感按 8 倍计。最爱大约 +80（生日更高）。通用最爱：五彩碎片、珍珠、黄金南瓜、魔法摇滚糖；兔子脚几乎人人最爱，<b>潘妮讨厌兔子脚</b>。垃圾、树液、鱼饵、大多数海藻是通用讨厌。</p>
+  <div class="toolbar">
+    <input type="search" id="vilSearch" placeholder="搜索人名、生日、礼物…">
+    <div class="chips" id="vilChips">
+      <button class="chip on" data-s="all">全部</button>
+      <button class="chip" data-s="可结婚">可结婚</button>
+      <button class="chip" data-s="室友">可同居</button>
+    </div>
+    <span class="count" id="vilCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="vilTable">
+      <thead><tr>
+        <th class="sortable" data-k="0">村民</th>
+        <th class="sortable" data-k="2">生日</th>
+        <th>关系</th>
+        <th>最爱（摘）</th>
+        <th>10 心在做什么</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="note">1.6 起莱奥可以结婚。克罗布斯用虚空幽灵吊坠同居，不能结婚。送礼物前如果拿不准，生日当天送五彩碎片或黄金南瓜最稳。皮埃尔讨厌大多数采集品，别把野山葵当好意。</div>
+</section>
+
+<section id="bundles">
+  <h2>收集包</h2>
+  <p class="lead">下面是<b>标准收集包</b>（新建存档时不要勾重混）。同一房间的包全部交完，睡觉后朱尼莫会修好对应设施。金库要先完成任意 4 个包才出现。</p>
+
+  <details class="room" open>
+    <summary>工艺室 · 修好采石场的桥</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>春季采集</td><td>野山葵、黄水仙、韭葱、蒲公英</td><td>春季种子 ×30</td></tr>
+        <tr><td>夏季采集</td><td>葡萄、香莓、香豌豆</td><td>夏季种子 ×30</td></tr>
+        <tr><td>秋季采集</td><td>普通蘑菇、野梅、榛子、黑莓</td><td>秋季种子 ×30</td></tr>
+        <tr><td>冬季采集</td><td>冬根、水晶果、雪山药、番红花</td><td>冬季种子 ×30</td></tr>
+        <tr><td>建设</td><td>木头 ×99、木头 ×99、石头 ×99、硬木 ×10</td><td>煤炭窑</td></tr>
+        <tr><td>异国采集</td><td>以下任选 5：椰子、仙人掌果、洞穴萝卜、红蘑菇、紫蘑菇、枫糖浆、橡树脂、松焦油、羊肚菌</td><td>秋日恩惠 ×5</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details class="room">
+    <summary>食品储藏室 · 修好温室</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>春季作物</td><td>防风草、青豆、花椰菜、土豆</td><td>生长激素 ×20</td></tr>
+        <tr><td>夏季作物</td><td>西红柿、辣椒、蓝莓、甜瓜</td><td>优质洒水器</td></tr>
+        <tr><td>秋季作物</td><td>玉米、茄子、南瓜、山药</td><td>蜂房</td></tr>
+        <tr><td>优质作物</td><td>金星防风草 ×5、金星甜瓜 ×5、金星南瓜 ×5、金星玉米 ×5，任选 3 种</td><td>罐头瓶</td></tr>
+        <tr><td>动物</td><td>以下任选 5：大瓶牛奶、大鸡蛋（白）、大鸡蛋（棕）、大瓶羊奶、羊毛、鸭蛋</td><td>奶酪压榨机</td></tr>
+        <tr><td>工匠</td><td>以下任选 6：松露油、布料、山羊奶酪、奶酪、蜂蜜、果酱、苹果、杏子、橙子、桃子、石榴、樱桃</td><td>酿酒桶</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details class="room">
+    <summary>鱼缸 · 移开山湖的闪光巨石（之后才能淘盘）</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>河鱼</td><td>太阳鱼、鲶鱼、西鲱、虎纹鳟鱼</td><td>高级鱼饵 ×30</td></tr>
+        <tr><td>湖鱼</td><td>大嘴鲈鱼、鲤鱼、大头鱼、鲟鱼</td><td>礼服旋转亮片</td></tr>
+        <tr><td>海鱼</td><td>沙丁鱼、金枪鱼、红鲷鱼、罗非鱼</td><td>海滩传送图腾 ×5</td></tr>
+        <tr><td>夜间钓鱼</td><td>玻璃梭鲈、海鲷、鳗鱼</td><td>发光戒指</td></tr>
+        <tr><td>螃蟹笼</td><td>以下任选 5：龙虾、小龙虾、螃蟹、鸟蛤、蚌、虾、蜗牛、玉黍螺、牡蛎、蛤蜊</td><td>螃蟹笼 ×3</td></tr>
+        <tr><td>特产鱼</td><td>河豚、幽灵鱼、沙鱼、木跃鱼</td><td>海之料理 ×5</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details class="room">
+    <summary>公告板 · 完成社区中心所必需，本身不修一座建筑</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>厨师</td><td>枫糖浆、蕨菜、松露、虞美人、寿司卷、煎蛋</td><td>粉红蛋糕</td></tr>
+        <tr><td>染色</td><td>红叶卷心菜、海胆、向日葵、鸭毛、海蓝宝石、红蘑菇</td><td>种子生产器</td></tr>
+        <tr><td>田野研究</td><td>紫蘑菇、鹦鹉螺、鲢鱼、冷冻晶球</td><td>回收机</td></tr>
+        <tr><td>饲料</td><td>小麦 ×10、干草 ×10、苹果 ×3</td><td>加热器</td></tr>
+        <tr><td>附魔师</td><td>橡树脂、果酒、兔子脚、石榴</td><td>金锭 ×5</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details class="room">
+    <summary>锅炉室 · 修好矿车</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>铁匠</td><td>铜锭、铁锭、金锭</td><td>熔炉</td></tr>
+        <tr><td>地质学家</td><td>石英、地晶、冰冻之泪、火石英</td><td>万象晶球 ×5</td></tr>
+        <tr><td>冒险者</td><td>史莱姆 ×99、蝙蝠翅膀 ×10、太阳精华、虚空精华</td><td>小磁铁戒指</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details class="room">
+    <summary>金库 · 修好去沙漠的巴士</summary>
+    <div class="body table-wrap static-table"><table>
+      <thead><tr><th>包</th><th>要交</th><th>奖励</th></tr></thead>
+      <tbody>
+        <tr><td>2500g</td><td>2500g</td><td>巧克力蛋糕 ×3</td></tr>
+        <tr><td>5000g</td><td>5000g</td><td>优质肥料 ×30</td></tr>
+        <tr><td>10000g</td><td>10000g</td><td>避雷针</td></tr>
+        <tr><td>25000g</td><td>25000g</td><td>水晶复制机</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+
+  <h3>乔亚仓库路线</h3>
+  <div class="card">
+    <p>花 5000g 买乔亚会员后，社区中心路线关闭，改成直接付钱。下面是常见报价，以游戏里的表格为准：</p>
+    <ul>
+      <li>矿车 15000g，采石场桥 25000g，温室 35000g，淘金 20000g，巴士 40000g。</li>
+      <li>全部买完大约 14 万再加会员费。适合不想钓鱼、不想等作物的档。</li>
+      <li>社区中心路线会拿到酿酒桶、罐头瓶、优质洒水器、水晶复制机这些配方和机器；乔亚路线要自己另找。</li>
+      <li>两条路线最后都能开电影院：社区中心是废弃乔亚超市里的“遗失收集包”（银星以上，清单以游戏内卷轴为准）；乔亚路线是另外一笔大额付款。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="animals">
+  <h2>动物与加工</h2>
+  <p class="lead">玛妮在周二和周一以外的白天卖动物（社区中心或诊所开门的日子她可能不在）。动物要吃草或干草，每天抚摸。心情好才会出大号制品。下雨、冬天它们不出门，豪华鸡舍 / 畜棚会自动喂干草。</p>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>动物</th><th>价格</th><th>建筑</th><th>产物</th><th>间隔</th></tr></thead>
+      <tbody>
+        <tr><td>鸡</td><td class="num">800g</td><td>鸡舍</td><td>蛋 50g，大蛋 95g</td><td>1 天</td></tr>
+        <tr><td>鸭</td><td class="num">1200g</td><td>大鸡舍</td><td>鸭蛋 95g，或鸭毛 250g</td><td>2 天</td></tr>
+        <tr><td>兔子</td><td class="num">8000g</td><td>豪华鸡舍</td><td>羊毛 340g，或兔子脚 565g</td><td>约 4 天</td></tr>
+        <tr><td>牛</td><td class="num">1500g</td><td>畜棚</td><td>牛奶 125g，大瓶 190g。要奶桶</td><td>1 天</td></tr>
+        <tr><td>山羊</td><td class="num">4000g</td><td>大畜棚</td><td>羊奶 225g，大瓶 345g</td><td>2 天</td></tr>
+        <tr><td>羊</td><td class="num">8000g</td><td>豪华畜棚</td><td>羊毛 340g。要剪刀。牧羊人职业可以每天剪</td><td>3 天，好感高则 2 天</td></tr>
+        <tr><td>猪</td><td class="num">16000g</td><td>豪华畜棚</td><td>松露 625g（1.6）。冬天和雨天不出去，就没有松露</td><td>出门的日子</td></tr>
+        <tr><td>虚空鸡</td><td class="num">—</td><td>鸡舍</td><td>虚空蛋 65g。克罗布斯卖蛋 5000g，或谢恩结婚后可能送</td><td>1 天</td></tr>
+        <tr><td>恐龙</td><td class="num">—</td><td>大鸡舍</td><td>恐龙蛋 350g，孵化获得</td><td>7 天</td></tr>
+        <tr><td>鸵鸟</td><td class="num">—</td><td>畜棚</td><td>鸵鸟蛋 600g。姜岛完成化石后获得</td><td>7 天</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>机器</h3>
+  <div class="grid g2">
+    <div class="card"><h4>加工时间和基础售价</h4>
+      <ul>
+        <li><b>蛋黄酱机</b>约 3 小时。普通蛋黄酱 190g（品质随蛋走），大蛋通常出金星蛋黄酱 285g。鸭蛋黄酱 375g，虚空蛋黄酱 275g。</li>
+        <li><b>奶酪压榨机</b>约 3 小时。奶酪 230g，大瓶牛奶出金星奶酪 345g。山羊奶酪 400g，大瓶羊奶出更高品质。</li>
+        <li><b>纺织机</b>约 4 小时。羊毛 → 布料 470g。</li>
+        <li><b>油制造器</b>：松露做成松露油。松露基础价 625g；植物学家让松露直接铱星（1250g）。有工匠职业时，加工品 +40%，松露油通常更赚。</li>
+        <li><b>酿酒桶</b>：蔬菜汁约 4 天，售价 = 基础价 ×2.25；果酒约 7 天，售价 = 基础价 ×3。啤酒花做淡啤酒，基础 300g。5 颗咖啡豆约 2 小时做成咖啡，150g。蜂蜜做蜂蜜酒。</li>
+        <li><b>罐头瓶</b>约 2～3 天。果酱或腌菜 = 基础价 ×2 + 50。短季、低价作物用罐头瓶往往比酒桶回本快。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>酒窖陈化</h4>
+      <ul>
+        <li>房屋最后一次升级带酒窖。桶只能放在酒窖里。</li>
+        <li>果酒到铱星大约 56 天：银 14 天、金再 14 天、铱再 28 天。</li>
+        <li>奶酪、山羊奶酪到铱星大约 14 天。</li>
+        <li>铱星杨桃酒和铱星上古水果酒是酒窖优先放的两种。</li>
+        <li>工匠职业在陈化之后仍按最终售价 +40%。</li>
+      </ul>
+      <p>建筑（罗宾，3 天）：鸡舍 4000g + 木头 300 + 石头 100；大鸡舍 10000g；豪华鸡舍 20000g。畜棚 6000g；大畜棚 12000g；豪华畜棚 25000g。筒仓很便宜，秋天尽量灌满干草。</p>
+    </div>
+  </div>
+  <div class="tip"><b>金动物饼干（精通之后）：</b>喂给除猪以外的动物，永久双倍产出。猪本来就靠松露，饼干对它无效。</div>
+</section>
+
+<section id="island">
+  <h2>姜岛与精通</h2>
+  <h3>怎么上岛</h3>
+  <div class="card">
+    社区中心或乔亚仓库全部完成后，威利会修船。船需要硬木、电池组和铱锭（数量以威利的清单为准）。之后从海滩出发，来回要船票或后来的岛上图腾。姜岛没有季节死亡，多数作物全年可种，也没有乌鸦。
+  </div>
+  <h3>金核桃</h3>
+  <div class="grid g2">
+    <div class="card"><h4>130 颗怎么分布</h4>
+      <ul>
+        <li>期刊碎片上的谜题、宝石鸟、青蛙、飞镖游戏、田里的音乐箱。</li>
+        <li>挖土、摇树、钓鱼、开箱子、打火山和西边蘑菇洞里的怪。</li>
+        <li>种作物、收水果、在姜岛钓鱼有重复奖励，但每类有上限。</li>
+        <li>鹦鹉会用金核桃换桥、农舍、挖掘点和信箱。把找到的都交给对应的鹦鹉。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>攒够之后</h4>
+      <ul>
+        <li>度假村的鹦鹉收金核桃，开放后可以和村民一起度假，友谊更好刷。</li>
+        <li>齐先生的房间在西边悬崖。凑够 100 颗后鹦鹉会开门。里面有完美度追踪、每周任务和齐氏调味料商店。</li>
+        <li>教授蜗牛的化石收集齐后，奖励里有鸵鸟蛋和相关配方。</li>
+        <li>农场上的鹦鹉可以帮你收作物、挖矿，用金核桃雇。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>1.6 精通洞穴</h3>
+  <div class="card">
+    <p>五种技能都到 10 级后，煤矿森林下水道管道南边会出现精通洞穴。点数只从“五种都满级之后”新获得的经验里算，农业经验按一半计入，其余技能全额。旧版本在满级之后多出来的经验不会补进来。五个柱子可以按任意顺序点，点数够就行。</p>
+  </div>
+  <div class="table-wrap static-table">
+    <table>
+      <thead><tr><th>精通</th><th>你拿到什么</th></tr></thead>
+      <tbody>
+        <tr><td><b>农业</b></td><td>铱金镰刀（能收任何作物，也适合割草）。祝福雕像配方，每天摸一次给一个当天增益。可以找到金动物饼干。</td></tr>
+        <tr><td><b>采矿</b></td><td>矮人王雕像配方，每天从两个采矿增益里选一个。重型熔炉配方：一次吃 25 矿石和 3 煤炭，出更多锭。宝石矿点双倍宝石。</td></tr>
+        <tr><td><b>采集</b></td><td>神秘树种子配方。宝藏图腾配方，在可挖的地上召出一圈翻土点。可以找到黄金神秘盒。</td></tr>
+        <tr><td><b>钓鱼</b></td><td>高级铱金鱼竿，可以同时挂两个钓具。挑战鱼饵配方：完美捕捉给 3 条，鱼逃出绿条会扣条数。可以遇到黄金钓鱼宝箱。</td></tr>
+        <tr><td><b>战斗</b></td><td>铁砧配方，花 3 铱锭重铸饰品。迷你锻炉配方，在家里就能锻造。解锁饰品栏，下矿会掉各种小饰品。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><b>完美度：</b>第三年春天爷爷会评估农场，四根蜡烛点亮后，爷爷的神龛每天给铱矿石。蜡烛不满可以再放一颗钻石重新评估。齐先生房间里的追踪器列出运送、烹饪、制作、钓鱼、友谊、金核桃等剩下的项目。</div>
+</section>
+
+<section id="faq">
+  <h2>常见问题</h2>
+  <details class="faq"><summary>第一年春天草莓来得及吗？</summary>
+    <div class="a">13 日才能买种子，种下去 8 天第一茬，之后每 4 天收一次，到 28 日所剩不多。仍然值得买，因为草莓酒和草莓本身都好卖，剩下的种子留到第二年春天 1 日种满一整季。</div></details>
+  <details class="faq"><summary>社区中心和乔亚怎么选？</summary>
+    <div class="a">想要酿酒桶、罐头瓶、洒水器和完整剧情，走社区中心。已经有钱、不想钓鱼或等某一季作物，走乔亚。两条路都能上姜岛、开电影院。乔亚会员一买，社区中心里已经交的包会作废。</div></details>
+  <details class="faq"><summary>动物突然不产东西</summary>
+    <div class="a">先看有没有吃的。冬天和雨天必须有干草，豪华建筑才会自动喂。心情太低只出普通制品甚至停产。门外如果关早了，动物隔夜在外面会心情很差，还有很小的几率被野生动物袭击。节日当天留在室内不会消耗干草。</div></details>
+  <details class="faq"><summary>酒桶和罐头瓶先做哪个？</summary>
+    <div class="a">罐头瓶 2～3 天回本，适合蓝莓、蔓越莓、辣椒这种低单价、收得多的。酒桶占 7 天，适合杨桃、上古水果、甜瓜、南瓜这种高单价。工匠职业对两边都是 +40%。</div></details>
+  <details class="faq"><summary>骷髅洞穴总是死在浅层</summary>
+    <div class="a">不要从 1 层慢慢打。带一叠楼梯跳到 50 层以下再开始炸矿。辣鳗鱼加咖啡提幸运和速度。银河剑之前，方尖碑剑或熔岩武士剑也够用。幸运高的日子（电视上的好运）宝箱层和矿梯更多。</div></details>
+  <details class="faq"><summary>红叶卷心菜第一年哪里找？</summary>
+    <div class="a">皮埃尔第二年夏天才进货。第一年看周五和周日的旅行货车，种子有时出现。染色包需要它，所以第一年交不了公告板很正常。</div></details>
+  <details class="faq"><summary>姜岛作物和山谷作物有什么差别？</summary>
+    <div class="a">姜岛没有换季枯死，也没有乌鸦。菠萝、芋头、香蕉、芒果在岛上全年生长。齐果只能种在岛上，而且只在任务期间算数。岛上农场的鹦鹉可以花钱（金核桃）代收。</div></details>
+</section>
+
+<footer id="sources">
+  <b>资料来源</b>
+  <ul>
+    <li><a href="https://zh.stardewvalleywiki.com/" target="_blank">星露谷物语中文维基</a></li>
+    <li><a href="https://stardewvalleywiki.com/Crops" target="_blank">Stardew Valley Wiki：Crops</a>、<a href="https://stardewvalleywiki.com/Fish" target="_blank">Fish</a>、<a href="https://stardewvalleywiki.com/Bundles" target="_blank">Bundles</a>、<a href="https://stardewvalleywiki.com/Mastery_Cave" target="_blank">Mastery Cave</a>、<a href="https://stardewvalleywiki.com/Animals" target="_blank">Animals</a></li>
+  </ul>
+  <p>本页为离线单文件，整理于 2026 年 11 月，对照 1.6 的标准收集包（不是重混）。售价为普通品质、无职业加成。游戏更新后如果和界面不一致，以游戏内为准。</p>
+</footer>
+</main>
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* 名称, 英文, 季节, 天数, 再收获, 种子, 售价, 要点 */
+const CROPS = [
+  ["防风草","Parsnip","春",4,"—","皮埃尔 20g",35,"开局作物，春季作物包"],
+  ["青豆","Green Bean","春",10,"3 天","皮埃尔 60g",40,"要搭架"],
+  ["花椰菜","Cauliflower","春",12,"—","皮埃尔 80g",175,"春季高价单收"],
+  ["土豆","Potato","春",6,"—","皮埃尔 50g",80,"约 20% 多收一个"],
+  ["甘蓝","Kale","春",6,"—","皮埃尔 70g",110,""],
+  ["大蒜","Garlic","春",4,"—","皮埃尔 40g（第二年起）",60,"第一年看旅行货车"],
+  ["蓝爵士","Blue Jazz","春",7,"—","皮埃尔 30g",50,"花"],
+  ["郁金香","Tulip","春",6,"—","皮埃尔 20g",30,"花，艾芙琳最爱"],
+  ["未碾米","Unmilled Rice","春",8,"—","皮埃尔 40g（第二年起）",30,"靠近水约 6 天。磨坊碾成米"],
+  ["胡萝卜","Carrot","春",3,"—","春季挖土、种子生产器",35,"1.6，商店不卖"],
+  ["大黄","Rhubarb","春",13,"—","绿洲 100g",220,"水果，适合酿酒"],
+  ["草莓","Strawberry","春",8,"4 天","复活节 100g",120,"第一年 13 日才买得到"],
+  ["咖啡豆","Coffee Bean","春/夏",10,"2 天","尘埃精灵、旅行货车",15,"每次 4 颗。5 颗入桶得咖啡"],
+  ["甜瓜","Melon","夏",12,"—","皮埃尔 80g",250,"适合酿酒，金星作物包"],
+  ["西红柿","Tomato","夏",11,"4 天","皮埃尔 50g",60,"夏季作物包"],
+  ["蓝莓","Blueberry","夏",13,"4 天","皮埃尔 80g",50,"每次 3 颗"],
+  ["辣椒","Hot Pepper","夏",5,"3 天","皮埃尔 40g",40,"谢恩最爱"],
+  ["小麦","Wheat","夏/秋",4,"—","皮埃尔 10g",25,"可能掉干草。饲料包要 10 个"],
+  ["萝卜","Radish","夏",6,"—","皮埃尔 40g",90,""],
+  ["杨桃","Starfruit","夏",13,"—","绿洲 400g",750,"常规作物里酿酒利润最高"],
+  ["玉米","Corn","夏/秋",14,"4 天","皮埃尔 150g",50,"跨夏秋不死。金星作物包"],
+  ["啤酒花","Hops","夏",11,"1 天","皮埃尔 60g",25,"要搭架。入桶做淡啤酒 300g"],
+  ["虞美人","Poppy","夏",7,"—","皮埃尔 100g",140,"花。厨师包、莉亚最爱"],
+  ["夏季亮片","Summer Spangle","夏",8,"—","皮埃尔 50g",90,"卡罗琳最爱"],
+  ["向日葵","Sunflower","夏/秋",8,"—","皮埃尔 200g，乔亚 125g",80,"额外掉种子。染色包"],
+  ["红叶卷心菜","Red Cabbage","夏",9,"—","皮埃尔 100g（第二年起）",260,"染色包。第一年看旅行货车"],
+  ["西葫芦","Summer Squash","夏",6,"3 天","夏季挖土、种子生产器",45,"1.6，商店不卖"],
+  ["茄子","Eggplant","秋",5,"5 天","皮埃尔 20g",60,"秋季作物包"],
+  ["南瓜","Pumpkin","秋",13,"—","皮埃尔 100g",320,"阿比盖尔最爱。金星作物包"],
+  ["山药","Yam","秋",10,"—","皮埃尔 60g",160,"秋季作物包"],
+  ["小白菜","Bok Choy","秋",4,"—","皮埃尔 50g",80,""],
+  ["蔓越莓","Cranberries","秋",7,"5 天","皮埃尔 240g",75,"每次 2 颗"],
+  ["甜菜","Beet","秋",6,"—","绿洲 20g",100,"艾芙琳最爱"],
+  ["洋蓟","Artichoke","秋",8,"—","皮埃尔 30g（第二年起）",160,""],
+  ["苋菜","Amaranth","秋",7,"—","皮埃尔 70g",150,""],
+  ["葡萄","Grape","秋",10,"3 天","皮埃尔 60g",80,"要搭架。夏季采集包也要葡萄"],
+  ["精灵玫瑰","Fairy Rose","秋",12,"—","皮埃尔 200g",290,"花蜜最贵的花"],
+  ["宝石甜莓","Sweet Gem Berry","秋",24,"—","稀有种子，旅行货车春夏 1000g",3000,"不能加工"],
+  ["西兰花","Broccoli","秋",8,"4 天","秋季挖土、种子生产器",70,"1.6，商店不卖"],
+  ["粉瓜","Powdermelon","冬",7,"—","冬季挖土、种子生产器",60,"1.6，冬天户外能种"],
+  ["上古水果","Ancient Fruit","春/夏/秋/姜岛",28,"7 天","捐赠远古种子文物后学配方",550,"温室和姜岛全年可种"],
+  ["菠萝","Pineapple","夏/姜岛",14,"7 天","姜岛商人，熔岩菇",300,"姜岛全年可种"],
+  ["芋头","Taro Root","夏/姜岛",10,"—","姜岛商人，骨头碎片",100,"近水更快。姜岛全年可种"],
+  ["仙人掌果","Cactus Fruit","室内",12,"3 天","绿洲，仙人掌种子 150g",75,"只能种在室内花盆"],
+  ["齐果","Qi Fruit","姜岛",4,"—","任务期间用齐豆繁殖",1,"过期消失，用来交齐先生的任务"]
+];
+
+/* 名称, 英文, 地点, 季节, 时段, 天气, 难度, 售价 */
+const FISH = [
+  ["太阳鱼","Sunfish","河","春、夏","6:00–19:00","晴",30,30],
+  ["鲶鱼","Catfish","河","春、秋","6:00–24:00","雨",75,200],
+  ["西鲱","Shad","河","春、夏、秋","9:00–2:00","雨",45,60],
+  ["虎纹鳟鱼","Tiger Trout","河","秋、冬","6:00–19:00","任何",60,150],
+  ["蛇齿单线鱼","Lingcod","河","冬","全天","任何",85,120],
+  ["玻璃梭鲈","Walleye","河","秋、冬","12:00–2:00","雨",45,105],
+  ["海鲷","Bream","河","全季","18:00–2:00","任何",35,45],
+  ["鲯鳅","Dorado","河","夏","6:00–19:00","任何",78,100],
+  ["大嘴鲈鱼","Largemouth Bass","山湖","全季","6:00–19:00","任何",50,100],
+  ["鲤鱼","Carp","山湖","全季","全天","任何",15,30],
+  ["大头鱼","Bullhead","山湖","全季","全天","任何",46,75],
+  ["鲢鱼","Chub","山湖","全季","全天","任何",35,50],
+  ["鲟鱼","Sturgeon","山湖","夏、冬","6:00–19:00","任何",78,200],
+  ["午夜鲤鱼","Midnight Carp","山湖","秋、冬","22:00–2:00","任何",55,150],
+  ["沙丁鱼","Sardine","海","春、秋、冬","6:00–19:00","任何",30,40],
+  ["金枪鱼","Tuna","海","夏、冬","6:00–19:00","任何",70,100],
+  ["红鲷鱼","Red Snapper","海","夏、秋、冬","6:00–19:00","雨",40,50],
+  ["大比目鱼","Halibut","海","春、夏、冬","6:00–11:00、19:00–2:00","任何",50,80],
+  ["罗非鱼","Tilapia","海","夏、秋","6:00–14:00","任何",50,75],
+  ["河豚","Pufferfish","海","夏","12:00–16:00","晴",80,200],
+  ["章鱼","Octopus","海","夏","6:00–13:00","任何",95,150],
+  ["大海参","Super Cucumber","海","夏、秋","18:00–2:00","任何",80,250],
+  ["鳀鱼","Anchovy","海","春、秋","全天","任何",30,30],
+  ["鲱鱼","Herring","海","春、冬","全天","任何",25,30],
+  ["鳗鱼","Eel","海","春、秋","16:00–2:00","雨",70,85],
+  ["红鲻鱼","Red Mullet","海","夏、冬","6:00–19:00","任何",55,75],
+  ["鱿鱼","Squid","海","冬","18:00–2:00","任何",75,80],
+  ["海参","Sea Cucumber","海","秋、冬","6:00–19:00","任何",40,75],
+  ["比目鱼","Flounder","海","春、夏","6:00–20:00","任何",50,100],
+  ["青花鱼","Albacore","海","秋、冬","6:00–11:00、18:00–2:00","任何",60,75],
+  ["木跃鱼","Woodskip","秘密森林","全季","全天","任何",50,75],
+  ["幽灵鱼","Ghostfish","矿洞 20/60/100","全季","全天","—",50,45],
+  ["石鱼","Stonefish","矿洞 20 层","全季","全天","—",65,300],
+  ["冰柱鱼","Ice Pip","矿洞 60 层","全季","全天","—",85,500],
+  ["熔岩鳗鱼","Lava Eel","矿洞 100 层、火山","全季","全天","—",90,700],
+  ["沙鱼","Sandfish","沙漠","全季","全天","任何",65,75],
+  ["蝎鲤鱼","Scorpion Carp","沙漠","全季","18:00–2:00","任何",90,150],
+  ["狮子鱼","Lionfish","姜岛海","全年","全天","任何",50,100],
+  ["蓝铁饼鱼","Blue Discus","姜岛溪","全年","全天","任何",60,120],
+  ["黄貂鱼","Stingray","姜岛海盗湾","全年","全天","任何",80,180],
+  ["绯红鱼","Crimsonfish","传说·海边","夏","全天","任何",95,1500],
+  ["鮟鱇鱼","Angler","传说·北边河边","秋","全天","任何",85,900],
+  ["传说之鱼","Legend","传说·山湖","春","全天","雨",110,5000],
+  ["冰川鱼","Glacierfish","传说·南边河边","冬","全天","任何",100,1000],
+  ["变种鲤鱼","Mutant Carp","传说·下水道","全季","全天","任何",80,1000]
+];
+
+/* 名字, 英文, 生日, 关系, 最爱, 10心 */
+const VILS = [
+  ["阿比盖尔","Abigail","秋 13","可结婚","紫水晶、南瓜、河豚、黑莓酥、辣鳗鱼","一起下矿，她有自己的剑"],
+  ["亚历克斯","Alex","夏 13","可结婚","完美早餐、鲑鱼晚餐","格子球的梦想，后来把你算进未来"],
+  ["艾利欧特","Elliott","秋 5","可结婚","蟹饼、鸭毛、龙虾、石榴、冬阴功汤","书出版，在海边读书会"],
+  ["艾米丽","Emily","春 27","可结婚","布料、宝石（紫水晶、翡翠、红宝石等）、羊毛、生存汉堡","服装和鹦鹉，她做的衣服可以穿"],
+  ["海莉","Haley","春 14","可结婚","椰子、水果沙拉、粉红蛋糕、向日葵","暗房和摄影，开始拍小镇"],
+  ["哈维","Harvey","冬 14","可结婚","咖啡、腌菜、松露油、葡萄酒、超级餐","热气球体检，他担心你的健康"],
+  ["莉亚","Leah","冬 23","可结婚","山羊奶酪、松露、沙拉、葡萄酒、虞美人、蔬菜杂烩","雕塑展，离开以前的城市生活"],
+  ["玛鲁","Maru","夏 10","可结婚","电池组、钻石、金锭、铱锭、花椰菜、草莓、矿工待遇","机器人，以及她想离开诊所看更远的地方"],
+  ["潘妮","Penny","秋 2","可结婚","钻石、翡翠、甜瓜、虞美人、罂粟籽松饼、沙鱼。讨厌兔子脚","想给弟弟妹妹一个真正的家"],
+  ["山姆","Sam","夏 17","可结婚","仙人掌果、枫糖棒、披萨、虎眼石","乐队演出"],
+  ["塞巴斯蒂安","Sebastian","冬 10","可结婚","冰冻之泪、黑曜石、南瓜汤、生鱼片、虚空蛋","雨天骑摩托出门"],
+  ["谢恩","Shane","春 20","可结婚","啤酒、辣椒、辣椒波普尔、披萨","对着小鸡查理慢慢好转，格子球比赛"],
+  ["莱奥","Leo","夏 26","可结婚","鸭毛、芒果、鸵鸟蛋、夏威夷芋泥","1.6 可结婚。从姜岛搬到山谷"],
+  ["克罗布斯","Krobus","冬 1","室友","钻石、铱锭、南瓜、虚空蛋、虚空蛋黄酱、野山葵","用虚空幽灵吊坠同居，不能结婚"],
+  ["罗宾","Robin","秋 21","朋友","山羊奶酪、桃子、意大利面","—"],
+  ["德米特里厄斯","Demetrius","夏 19","朋友","草莓、冰淇淋、豆类火锅、米饭布丁","—"],
+  ["卡洛琳","Caroline","冬 7","朋友","夏季亮片、鱼肉玉米饼","2 心后给茶树配方"],
+  ["皮埃尔","Pierre","春 26","朋友","炸鱿鱼","讨厌大多数采集品"],
+  ["乔迪","Jodi","秋 11","朋友","巧克力蛋糕、脆鲈鱼、钻石、炸鳗鱼、煎饼、大黄派","—"],
+  ["肯特","Kent","春 4","朋友","蕨菜烩饭、烤榛子","第一年不在镇上"],
+  ["刘易斯","Lewis","春 7","朋友","秋日恩惠、釉面山药、热辣椒、绿茶、蔬菜杂烩","—"],
+  ["玛妮","Marnie","秋 18","朋友","钻石、农夫午餐、粉红蛋糕、南瓜派","—"],
+  ["格斯","Gus","夏 8","朋友","钻石、橙、鱼肉玉米饼、田螺","—"],
+  ["帕姆","Pam","春 18","朋友","啤酒、仙人掌果、淡啤酒、蜂蜜酒、防风草","巴士修好后她开车"],
+  ["威利","Willy","夏 24","朋友","鲶鱼、钻石、章鱼、南瓜、海参、鲟鱼、铱锭","—"],
+  ["克林特","Clint","冬 26","朋友","各种宝石、金锭、万象晶球、洋蓟蘸酱","—"],
+  ["艾芙琳","Evelyn","冬 20","朋友","甜菜、巧克力蛋糕、钻石、精灵玫瑰、郁金香","—"],
+  ["乔治","George","秋 24","朋友","韭葱、炒蘑菇","—"],
+  ["文森特","Vincent","春 10","朋友","葡萄、粉红蛋糕、蔓越莓糖果、姜汁汽水","—"],
+  ["贾斯","Jas","夏 4","朋友","精灵玫瑰、粉红蛋糕、李子布丁","—"],
+  ["莱纳斯","Linus","冬 3","朋友","蓝莓挞、仙人掌果、椰子、山药、海之料理","—"],
+  ["巫师","Wizard","冬 17","朋友","紫蘑菇、太阳精华、虚空精华、大海参","好感够后进地下室看法术"],
+  ["矮人","Dwarf","夏 22","朋友","各种宝石、万象晶球","要先学会矮人语卷轴"],
+  ["桑迪","Sandy","秋 15","朋友","黄水仙、番红花、香豌豆、芒果糯米饭","住在沙漠绿洲"],
+  ["海鸥老婆婆","Birdie","—","任务","—","姜岛任务角色，不按每周礼物算"]
+];
+
+function num(v){ const n = parseFloat(String(v).replace(/[^\d.]/g,"")); return isNaN(n) ? v : n; }
+function bind(tableSel, searchSel, chipSel, data, state, render){
+  const table = $(tableSel);
+  table.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
+    const k = th.dataset.k;
+    state.dir = state.key === k ? -state.dir : 1;
+    state.key = k;
+    table.querySelectorAll("th").forEach(x => x.classList.remove("asc","desc"));
+    th.classList.add(state.dir > 0 ? "asc" : "desc");
+    render();
+  }));
+  $(searchSel).addEventListener("input", e => { state.q = e.target.value; render(); });
+  $$(chipSel+" .chip").forEach(c => c.addEventListener("click", () => {
+    $$(chipSel+" .chip").forEach(x => x.classList.remove("on"));
+    c.classList.add("on");
+    state.f = c.dataset.s;
+    render();
+  }));
+}
+function sortRows(rows, state){
+  if (!state.key) return rows;
+  const k = +state.key, dir = state.dir;
+  return rows.slice().sort((a,b) => {
+    const x = num(a[k]), y = num(b[k]);
+    return (typeof x === "number" && typeof y === "number" ? x - y : String(a[k]).localeCompare(String(b[k]), "zh")) * dir;
+  });
+}
+
+const cropState = { q:"", f:"all", key:null, dir:1 };
+function renderCrops(){
+  const q = cropState.q.trim().toLowerCase();
+  let rows = CROPS.filter(r => (cropState.f==="all" || r[2].includes(cropState.f)) && (!q || r.join(" ").toLowerCase().includes(q)));
+  rows = sortRows(rows, cropState);
+  $("#cropTable tbody").innerHTML = rows.map(r => `<tr>
+    <td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td>
+    <td>${esc(r[2])}</td><td class="num">${r[3]}</td><td class="num">${esc(r[4])}</td>
+    <td>${esc(r[5])}</td><td class="num">${r[6]}g</td><td>${esc(r[7])}</td></tr>`).join("");
+  $("#cropCount").textContent = `共 ${rows.length} 种`;
+}
+const fishState = { q:"", f:"all", key:null, dir:1 };
+function renderFish(){
+  const q = fishState.q.trim().toLowerCase();
+  let rows = FISH.filter(r => (fishState.f==="all" || r[2].includes(fishState.f)) && (!q || r.join(" ").toLowerCase().includes(q)));
+  rows = sortRows(rows, fishState);
+  $("#fishTable tbody").innerHTML = rows.map(r => `<tr>
+    <td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td>
+    <td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td>
+    <td class="num">${r[6]}</td><td class="num">${r[7].toLocaleString()}g</td></tr>`).join("");
+  $("#fishCount").textContent = `共 ${rows.length} 种`;
+}
+const vilState = { q:"", f:"all", key:null, dir:1 };
+function renderVils(){
+  const q = vilState.q.trim().toLowerCase();
+  let rows = VILS.filter(r => (vilState.f==="all" || r[3]===vilState.f) && (!q || r.join(" ").toLowerCase().includes(q)));
+  rows = sortRows(rows, vilState);
+  $("#vilTable tbody").innerHTML = rows.map(r => `<tr>
+    <td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td>
+    <td>${esc(r[2])}</td>
+    <td>${r[3]==="可结婚"?'<span class="tag marry">可结婚</span>':r[3]==="室友"?'<span class="tag gold">室友</span>':`<span class="tag">${esc(r[3])}</span>`}</td>
+    <td>${esc(r[4])}</td><td>${esc(r[5])}</td></tr>`).join("");
+  $("#vilCount").textContent = `共 ${rows.length} 人`;
+}
+bind("#cropTable","#cropSearch","#cropChips",CROPS,cropState,renderCrops);
+bind("#fishTable","#fishSearch","#fishChips",FISH,fishState,renderFish);
+bind("#vilTable","#vilSearch","#vilChips",VILS,vilState,renderVils);
+renderCrops(); renderFish(); renderVils();
+
+const navLinks = $$('nav#toc a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+  });
+}, { rootMargin: "-20% 0px -70% 0px" });
+navLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) observer.observe(s); });
+$("#menuBtn").addEventListener("click", () => $("nav#toc").classList.toggle("open"));
+navLinks.forEach(a => a.addEventListener("click", () => $("nav#toc").classList.remove("open")));
+const toTop = $("#toTop");
+window.addEventListener("scroll", () => { toTop.style.display = window.scrollY > 600 ? "block" : "none"; });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0 }));
+</script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="饥荒攻略">
+<meta name="theme-color" content="#2a2118">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<title>饥荒 Don't Starve 全面攻略</title>
+<style>
+:root {
+  --primary: #8a6239;
+  --primary-dark: #5c3e22;
+  --primary-light: #f6efe4;
+  --bg: #f6f1e8;
+  --text: #2c241c;
+  --muted: #6e6256;
+  --border: #e2d5c4;
+  --nav: #2a2118;
+  --nav-w: 232px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px;
+}
+a { color: var(--primary-dark); }
+nav#toc {
+  position: fixed; top: 0; left: 0; bottom: 0; width: calc(var(--nav-w) + env(safe-area-inset-left));
+  background: var(--nav); color: #eadcc8;
+  padding: calc(20px + env(safe-area-inset-top)) 0 calc(20px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  overflow-y: auto; z-index: 20;
+}
+nav#toc .brand { padding: 0 18px 14px; border-bottom: 1px solid #4a3b2c; margin-bottom: 8px; }
+nav#toc .brand b { display: block; font-size: 20px; color: #fff; }
+nav#toc .brand span { font-size: 12px; color: #c4a882; }
+nav#toc a { display: block; padding: 8px 18px; color: #eadcc8; text-decoration: none; border-left: 3px solid transparent; font-size: 14px; }
+nav#toc a:hover { background: #3a2e22; color: #fff; }
+nav#toc a.active { background: #4a3b2c; color: #fff; border-left-color: #e0b56a; font-weight: bold; }
+nav#toc a .num { display: inline-block; width: 22px; color: #e0b56a; }
+nav#toc a.home { font-size: 13px; color: #c4a882; padding: 0 18px 10px; border-left: none; }
+nav#toc a.home:hover { background: none; color: #fff; }
+#menuBtn, #homeBtn { display: none; }
+main { margin-left: var(--nav-w); padding: 0 36px 60px; }
+main > section, main > footer, header.hero > * { max-width: 1400px; }
+header.hero {
+  margin: 0 -36px 28px; padding: 44px 36px 32px; color: #fff;
+  background: linear-gradient(135deg, #8a6239 0%, #5c3e22 55%, #2a2118 100%);
+}
+header.hero h1 { margin: 0 0 6px; font-size: 32px; }
+header.hero p { margin: 0; opacity: .92; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.hero-stats div { background: rgba(255,255,255,.14); padding: 8px 16px; border-radius: 10px; }
+.hero-stats b { font-size: 20px; display: block; line-height: 1.2; }
+.hero-stats span { font-size: 12px; opacity: .85; }
+section { padding-top: 22px; margin-bottom: 36px; }
+section > h2 { font-size: 24px; margin: 0 0 6px; padding-left: 12px; border-left: 5px solid var(--primary); }
+section > .lead { color: var(--muted); margin: 0 0 16px; padding-left: 17px; }
+h3 { font-size: 18px; margin: 22px 0 10px; color: var(--primary-dark); }
+.card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card h4 { margin: 0 0 8px; font-size: 16px; }
+.card ul { margin: 6px 0 0; padding-left: 20px; }
+.card li { margin: 3px 0; }
+.tip, .warn, .note { border-radius: 10px; padding: 12px 16px; margin: 12px 0; border-left: 4px solid; }
+.tip { background: #f3f7ea; border-color: #65a30d; }
+.warn { background: #fffbeb; border-color: #f59e0b; }
+.note { background: #f8f1e7; border-color: var(--primary); }
+.phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.phase { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fff; font-size: 13.5px; }
+.phase .ph { font-weight: bold; margin-bottom: 6px; color: var(--primary-dark); }
+.phase ul { margin: 0; padding-left: 18px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.toolbar input[type=search] {
+  flex: 1 1 240px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none;
+}
+.toolbar input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px; font-family: inherit; }
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.count { color: var(--muted); font-size: 13px; }
+.table-wrap { overflow: auto; max-height: 70vh; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
+.table-wrap.static { max-height: none; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #efe6da; text-align: left; vertical-align: top; }
+th { background: #f8f3eb; position: sticky; top: 0; z-index: 1; white-space: nowrap; color: #5c3e22; }
+td .en { color: var(--muted); font-size: 12px; display: block; }
+details.faq { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 12px 16px; font-weight: bold; list-style: none; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::before {
+  content: "Q"; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center;
+  border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; margin-right: 10px;
+}
+details.faq[open] summary { border-bottom: 1px solid var(--border); }
+details.faq .a { padding: 10px 16px 14px 48px; }
+details.faq .a ul { margin: 4px 0; padding-left: 18px; }
+footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+footer ul { padding-left: 18px; }
+#toTop {
+  position: fixed; right: calc(20px + env(safe-area-inset-right)); bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; border: none; font-size: 20px;
+  cursor: pointer; display: none; z-index: 30;
+}
+@media (max-width: 900px) {
+  nav#toc { transform: translateX(-100%); transition: transform .25s; }
+  nav#toc.open { transform: none; }
+  main { margin-left: 0; padding: 0 calc(16px + env(safe-area-inset-right)) calc(48px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+  header.hero { margin: 0 calc(-16px - env(safe-area-inset-right)) 20px calc(-16px - env(safe-area-inset-left)); padding: calc(58px + env(safe-area-inset-top)) 16px 24px 16px; }
+  #menuBtn, #homeBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); z-index: 40;
+    background: var(--nav); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px; text-decoration: none;
+  }
+  #menuBtn { left: calc(12px + env(safe-area-inset-left)); }
+  #homeBtn { left: calc(96px + env(safe-area-inset-left)); }
+  .phases { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) { .phases { grid-template-columns: 1fr; } header.hero h1 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<button id="menuBtn">☰ 目录</button>
+<a id="homeBtn" href="../">← 游戏</a>
+<nav id="toc">
+  <a class="home" href="../">← 游戏目录</a>
+  <div class="brand"><b>饥荒</b><span>Don't Starve · 单机</span></div>
+  <a href="#start"><span class="num">1</span>开局 20 天</a>
+  <a href="#chars"><span class="num">2</span>角色</a>
+  <a href="#craft"><span class="num">3</span>合成速查</a>
+  <a href="#food"><span class="num">4</span>烹饪锅</a>
+  <a href="#seasons"><span class="num">5</span>巨人国四季</a>
+  <a href="#caves"><span class="num">6</span>洞穴与远古</a>
+  <a href="#sw"><span class="num">7</span>海难</a>
+  <a href="#ham"><span class="num">8</span>哈姆雷特</a>
+  <a href="#faq"><span class="num">9</span>常见问题</a>
+  <a href="#sources"><span class="num">·</span>资料来源</a>
+</nav>
+<main>
+<header class="hero">
+  <h1>饥荒 全面攻略</h1>
+  <p>单机版。巨人的王国是主体，海难和哈姆雷特各有一章。联机版的角色和 Boss 在另一页，不要混着用。</p>
+  <div class="hero-stats">
+    <div><b>3</b><span>个世界：巨人国 / 海难 / 哈姆雷特</span></div>
+    <div><b>19</b><span>名可选角色</span></div>
+    <div><b>可搜索</b><span>角色、合成、菜谱</span></div>
+  </div>
+</header>
+
+<section id="start">
+  <h2>开局 20 天</h2>
+  <p class="lead">默认从秋天开始。巨人国常见季长是秋 20、冬 15、春 20、夏 15 天，世界设置里可以改。下面按“第一年冬天之前要活下来”来排。</p>
+  <div class="phases">
+    <div class="phase"><div class="ph">第 1 天</div>
+      <ul>
+        <li>捡燧石、树枝、干草。做斧头和稿子。</li>
+        <li>砍树、挖石头、摘浆果和胡萝卜。</li>
+        <li>找到金块就做科学机器（金块 ×1、木头 ×4、石头 ×4）。</li>
+        <li>天黑前生营火。火把先顶过第一夜。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">第 2～6 天</div>
+      <ul>
+        <li>基地别贴着牛群，也别贴着池塘和蜂巢。靠近兔子洞和石头比较好。</li>
+        <li>移植干草、树枝、浆果，每种先围一小块。用篱笆或石头隔开，免得被烧。</li>
+        <li>做烹饪锅、绳子、长矛、木甲。猪皮做橄榄球头盔：喂猪 4 块怪物肉把它变成疯猪再打死。</li>
+        <li>鸟笼：把活鸟关进去，用怪物肉换鸡蛋，这是饺子的来源。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">第 7～15 天</div>
+      <ul>
+        <li>猎犬大约从这个窗口开始来。牙套陷阱铺一片，或把狗引到牛、触手、青蛙旁边。</li>
+        <li>齿轮来自发条生物或风滚草。有齿轮就做炼金引擎，然后做冰箱。</li>
+        <li>晾肉架把大肉做成肉干，冬天不打猎时也能吃。</li>
+        <li>找考拉象：冬天的冬考拉象有象鼻，做保暖背心。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">过冬前</div>
+      <ul>
+        <li>保暖石放在火边烤热，离火太远会冻上。牛毛帽（牛角 + 牛毛）是最值的帽子。</li>
+        <li>冰箱里留饺子（回血）和肉丸（回饥饿）。</li>
+        <li>干草和树枝农场在下雪前收一波，冬天它们不长。</li>
+        <li>巨鹿会在冬天后半吼。听到吼声就准备木甲、头盔和营火，别在基地中间打。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn"><b>三种死法最常见：</b>第一夜没火，被冻死或吓疯；猎犬来的时候手里只有斧头；冬天把保暖石忘在箱子里。火把、长矛、木甲、烹饪锅，这四样比探索远古更优先。</div>
+</section>
+
+<section id="chars">
+  <h2>角色</h2>
+  <p class="lead">本体和巨人国的角色，解锁后在三个世界都能选。海难、哈姆雷特专属角色要进对应资料片。韦斯和麦斯威尔要先打通冒险模式（麦斯威尔之门）。</p>
+  <div class="toolbar">
+    <input type="search" id="chSearch" placeholder="搜索角色、特长…">
+    <div class="chips" id="chChips">
+      <button class="chip on" data-s="all">全部</button>
+      <button class="chip" data-s="巨人国">巨人国</button>
+      <button class="chip" data-s="海难">海难</button>
+      <button class="chip" data-s="哈姆雷特">哈姆雷特</button>
+    </div>
+    <span class="count" id="chCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="chTable">
+      <thead><tr><th>角色</th><th>资料片</th><th>特长</th><th>短板 / 注意</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="craft">
+  <h2>合成速查</h2>
+  <p class="lead">只列活过第一年会反复做的东西。科学机器解锁生存和科学的原型，炼金引擎解锁更上面一层。做一次原型之后，多数物品可以不站在机器旁继续做。</p>
+  <div class="toolbar">
+    <input type="search" id="crSearch" placeholder="搜索物品、材料…">
+    <span class="count" id="crCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="crTable">
+      <thead><tr><th>物品</th><th>机器</th><th>材料</th><th>用来干什么</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="food">
+  <h2>烹饪锅</h2>
+  <p class="lead">四个格子。锅按优先级选菜，不是你想做什么就做什么。可靠做法是：按下面的搭配填，空格子用浆果或冰块，<b>不要放树枝</b>，除非这道菜本身要树枝。怪物肉两块以上会优先变成怪物千层饼。</p>
+  <div class="toolbar">
+    <input type="search" id="fdSearch" placeholder="搜索菜名、材料…">
+    <span class="count" id="fdCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="fdTable">
+      <thead><tr><th>菜</th><th>可靠放法</th><th>效果</th><th>什么时候做</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="note"><b>肉的价值：</b>大肉、怪物肉算 1，小肉和鸡腿算 0.5。肉汤要肉价值加起来至少 3，所以三块大肉加一份填料。一块大肉加三份浆果是肉丸，饥饿 62.5，是最省的主食。鸡蛋来自鸟笼：怪物肉喂鸟，掉一颗蛋。</div>
+</section>
+
+<section id="seasons">
+  <h2>巨人国四季</h2>
+  <div class="grid g2">
+    <div class="card"><h4>秋 · 准备季</h4>
+      <ul>
+        <li>最好过的一季。把基地、农场、帽子和冰箱做完。</li>
+        <li><b>熊獾</b>在秋天出现。它打哈欠、拍地板，会拆箱子吃掉里面的食物，也能帮你拆树。</li>
+        <li>打法：穿木甲和头盔风筝，或者把它引去拆一片石果树。掉厚毛皮，做保温包（背着的冰箱）和冬眠背心。</li>
+        <li>别在种满草和树枝的基地中间打，拍地板会拆建筑。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>冬 · 巨鹿</h4>
+      <ul>
+        <li>不站在火边会结冰。保暖石、牛毛帽、火坑是三件套。</li>
+        <li>白天变短。干草、树枝、浆果、农场停长。蜜蜂不出门。</li>
+        <li><b>巨鹿</b>在冬天后半，先吼一天再落地。单机血量 2000。会把你冻住。</li>
+        <li>打法：在空地或牛群旁边风筝，两三下就拉开。营火可以解冻，但别让它踩灭你的基地。</li>
+        <li>掉眼球。眼球伞同时防雨和防过热，是后面两季最重要的装备。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>春 · 麋鹿鹅</h4>
+      <ul>
+        <li>一直下雨。潮湿掉理智，雷会劈建筑。避雷针插在基地边上。</li>
+        <li>眼球伞或花伞。地面出现水坑，走路变慢。</li>
+        <li><b>麋鹿鹅</b>到来前，附近会落雷。它下蛋，蛋孵出小鸭子，小鸭子成群追人。</li>
+        <li>打法：先处理或引开小鸭子，再风筝鹅。掉羽绒，做天气风向标和奢华风扇。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>夏 · 龙蝇</h4>
+      <ul>
+        <li>过热会着火。冰冻石、吸热营火、花衬衫、眼球伞。世界会自燃，灭火器或雪球机看住农场。</li>
+        <li>洞穴里不过热，也可以整季待在地下，但地上的农场会被烧掉。</li>
+        <li><b>龙蝇</b>在沙漠。发怒后喷出熔岩虫，熔岩虫到处点火。</li>
+        <li>打法：冬天再去打更从容。用雪球机围住场地，或者在它睡觉时放一圈火药。掉鳞片，做鳞甲（防火）和龙蝇宝箱（里面的东西不会被点燃）。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="caves">
+  <h2>洞穴与远古</h2>
+  <div class="grid g2">
+    <div class="card"><h4>下去之前</h4>
+      <ul>
+        <li>地上的洞要挖开。带矿工帽或提灯，火把在地下不够用。</li>
+        <li>兔人掉兔毛和胡萝卜，打死会掉胡萝卜。用兔毛做兔耳罩，在黑暗里也能看清，但理智会掉。</li>
+        <li>荧光果和发光浆果是地下的光源和口粮。灯泡花用来做提灯。</li>
+        <li>别在满理智的时候挖发光浆果丛边上的洞，那是洞穴蠕虫。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>噩梦周期</h4>
+      <ul>
+        <li>洞穴和远古有理智风暴的周期：平静、警告、狂野、黎明。</li>
+        <li>狂野阶段影子生物会出来，噩梦灯座可以打，掉噩梦燃料。</li>
+        <li>理智高时影子不主动追你。理智低时，地上也会出现影子。</li>
+        <li>燃料用来做暗影剑、暗影甲，以及法师角色的书和影子傀儡。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>远古遗迹</h3>
+  <div class="card">
+    <ul>
+      <li>遗迹在洞穴的更深处，入口是一块需要敲开的塞子，旁边通常有柱子和迷宫。</li>
+      <li>远古伪科学站用来做铥矿装备。铥矿甲和铥矿皇冠是单机后期的主流护甲。站可以留着，以后还要做。</li>
+      <li>迷宫中心是<b>远古守卫</b>。它会吼，把你身边的东西震开，近战要贴着走位。掉守卫者之角，用来做射击猎犬（一座自动炮塔）。</li>
+      <li>破碎的雕像在噩梦狂野期打掉，是噩梦燃料的主要来源。一次别挖太干净，留着以后再刷。</li>
+      <li>遗迹里的发条生物掉齿轮。齿轮给冰箱、雪球机和机器人吃。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sw">
+  <h2>海难</h2>
+  <p class="lead">海难是一片海。没有船就出不去出生的小岛。季节换成温和、飓风、雨季、旱季，和巨人国的四季不是同一套。</p>
+  <div class="grid g3">
+    <div class="card"><h4>船和基地</h4>
+      <ul>
+        <li>第一艘是木筏，慢，但能探附近的岛。</li>
+        <li>之后做划艇、货船。货船装东西，装甲船抗海怪。</li>
+        <li>基地选一座资源齐的岛：石头、竹子或木头、浆果。把干草和树枝移植过来。</li>
+        <li>船上也要有灯。海上天黑一样死。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>四季在海上意味着什么</h4>
+      <ul>
+        <li><b>飓风季</b>：大风把你吹着走，浪会打船。海豹龙卷风出现，把地上的物品卷进风里。引到海上打，别在箱子旁边硬接。</li>
+        <li><b>雨季</b>：发洪水，毒蚊子。地面建筑会被泡。把重要的东西垫高，或者做防洪的地皮。</li>
+        <li><b>旱季</b>：过热，火山喷发，灰烬和熔岩虫。和巨人国的夏天一样，要降温装备。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>火山和特有目标</h4>
+      <ul>
+        <li>火山里有黑曜石、咖啡丛和龙骑士。咖啡是海难最好的加速食物，一丛移植回基地。</li>
+        <li>火山顶可以安抚喷发。黑曜石工具耐久高，适合砍竹和砍树。</li>
+        <li><b>虎鲨</b>在特定季节上岸或靠岸。鱼翅用来做双层伞，作用接近眼球伞。</li>
+        <li><b>海妖</b>（大乌贼）在深海钓鱼时被拖出来。触手多，用船风筝，别站在漩涡上。</li>
+        <li><b>渡渡鸟</b>全图往往只剩一对。杀光就绝种。想要稳定的渡渡鸟蛋，就把它们关起来孵。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip"><b>和巨人国的关系：</b>海难是另一张图。角色可以带一部分东西通过海难特有的通道来回，但基地、季节和 Boss 都是独立的。眼球伞带得走，牛毛帽在海上用处不大，船和咖啡更重要。</div>
+</section>
+
+<section id="ham">
+  <h2>哈姆雷特</h2>
+  <p class="lead">哈姆雷特是猪人的城市。货币是硬币，不是金块。攻击平民会引来守卫。季节是温和、潮湿、繁茂，另外还有一条独立的天启日历。</p>
+  <div class="grid g2">
+    <div class="card"><h4>进城</h4>
+      <ul>
+        <li>先做点猪喜欢的东西换硬币，或者卖掉多余的资源。商店卖绳子、工具、种子和房子。</li>
+        <li>买一间自己的房子当基地，箱子就不会被路过的生物拆。</li>
+        <li>城里有铁匠、厨师和杂货。女王在宫殿里，她的任务和商店是这条资料片的主线入口。</li>
+        <li>别在城里生火烧到房子。猪人会来灭火，也会来打你。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>三个季节</h4>
+      <ul>
+        <li><b>温和季</b>最适合建家和做任务。</li>
+        <li><b>潮湿季</b>有花粉，会打喷嚏、掉理智。防毒面具或在室内等过去。</li>
+        <li><b>繁茂季</b>多雨，雷鸟会来。避雷，和巨人国的春天类似，但生物是另一套。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>末日将至和几只值得认识的 Boss</h3>
+  <div class="card">
+    <ul>
+      <li><b>天启</b>由宫殿里的日历推动。日历走到头，天会裂开，远古先驱落下来，城市进入长期的危险状态。先把女王的委托做完，弄清楚这档怎么推迟，比在红天上硬打轻松。</li>
+      <li><b>远古先驱</b>是天启的脸。它召唤暗影生物。准备铥矿甲或足够的头盔，把战场选在空地。</li>
+      <li><b>蛇狮</b>在彩绘地形的迷宫里。身体分段，打头部。掉落用来做后期工具，打之前把迷宫的路口记下来，不然容易在里面饿死。</li>
+      <li><b>巨型蚂蚁和蚁后</b>在蚁丘深处。可以打，也可以顺着任务走和平路线。蚁丘里有独特的资源，但守卫多，带火把和回血食物。</li>
+      <li><b>铁巨人</b>是把散落的大型铁质零件拼起来再打。这是哈姆雷特后期的目标，不是开局任务。零件在不同遗迹里，拼装之前先把护甲和回血准备好。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>常见问题</h2>
+  <details class="faq"><summary>猎犬一来就死</summary>
+    <div class="a">听到吼声还有半天到一天。在基地外铺 10 个以上牙套，或者把狗引到发情期以外的牛群、触手、青蛙、蜘蛛旁边，让它们帮你打。自己打的话要有木甲或橄榄球头盔，风筝，不要站桩。</div></details>
+  <details class="faq"><summary>冬天第一夜就被冻死</summary>
+    <div class="a">保暖石要提前在火边烤热再拿走。牛毛帽、冬眠背心、火坑至少有两样。晚上不要离开火源去探索。干草农场在入冬前收完，冬天长不出来。</div></details>
+  <details class="faq"><summary>烹饪锅老是做出怪物千层饼或失败料理</summary>
+    <div class="a">怪物肉最多放一块，除非你就是要做千层饼。树枝只放进烤串、鱼排、西瓜冰。龙果会优先变成龙果派，曼德拉草会变成汤，这两样别拿去填肉丸。四个格子填不满就用浆果或冰块。</div></details>
+  <details class="faq"><summary>巨鹿把家拆了</summary>
+    <div class="a">吼声出现就离开基地。把它引到石果林、沼泽或者一片你本来就要清理的树。打完再把眼球捡回来。眼球伞做成之后，春雨和夏天会好过很多。</div></details>
+  <details class="faq"><summary>海难船被打沉</summary>
+    <div class="a">木筏只用来探路。货和战斗换划艇或装甲船。海妖和海豹龙卷风不要在唯一一条船的耐久见底时打。岛上留一套备用船材料。</div></details>
+  <details class="faq"><summary>哈姆雷特的猪人突然全部敌对</summary>
+    <div class="a">你打了平民，或者在守卫眼前做了它们认为是攻击的事。跑出城等敌对消退，下次交易时把武器收起来。天启期间城市本身就不安全，那是日历问题，不是好感问题。</div></details>
+</section>
+
+<footer id="sources">
+  <b>资料来源</b>
+  <ul>
+    <li><a href="https://dontstarve.fandom.com/wiki/Don%27t_Starve" target="_blank">Don't Starve Wiki（Fandom）</a>：角色、烹饪锅、巨人国、海难、哈姆雷特</li>
+    <li><a href="https://dontstarve.wiki.gg/wiki/Don%27t_Starve" target="_blank">Don't Starve Wiki（wiki.gg）</a></li>
+  </ul>
+  <p>本页为离线单文件，整理于 2026 年 11 月，写的是单机饥荒。联机版的血量、技能树和季节 Boss 不同，见饥荒联机版那一页。制作栏若和这里不一致，以游戏内为准。</p>
+</footer>
+</main>
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* 中文, 英文, 资料片, 特长, 短板 */
+const CHARS = [
+  ["威尔逊","Wilson","巨人国","会长胡子，胡子能保暖，剃下来是胡须","没有明显短板，适合用来学机制"],
+  ["薇洛","Willow","巨人国","自带打火机，靠近火回理智，免疫火焰伤害","理智低的时候会自己点东西，基地要隔开"],
+  ["沃尔夫冈","Wolfgang","巨人国","吃饱进入强壮，伤害和血量提高","挨饿会变成虚弱，伤害和血量都很差"],
+  ["温蒂","Wendy","巨人国","阿比盖尔之花召唤鬼魂帮忙打","自己的伤害偏低，要靠妹妹清小怪"],
+  ["WX-78","WX-78","巨人国","吃齿轮升级，能吃变质食物，被雷劈会充电加速","下雨掉血。夏天和春天要躲雨"],
+  ["薇克巴顿","Wickerbottom","巨人国","书本：催生、唤鸟、睡觉、末日。科学少一级机器也能解锁","不能睡觉。书本消耗大量理智"],
+  ["伍迪","Woodie","巨人国","露西斧砍树不掉耐久。可以变海狸","变海狸会吃掉木头和理智，满月也会变"],
+  ["韦斯","Wes","巨人国","气球可以当诱饵和装饰","血量和饥饿更低，饥饿掉得更快。冒险模式解锁"],
+  ["麦斯威尔","Maxwell","巨人国","暗影秘典召唤影子帮你砍、挖、打架。开局装备好","血量很低。影子持续掉理智。冒险模式解锁"],
+  ["薇格弗德","Wigfrid","巨人国","只能吃肉。自带战斗头盔和长矛。击杀回血回理智","蔬菜、水果、鸡蛋做的菜很多不能吃"],
+  ["韦伯","Webber","巨人国","蜘蛛不攻击你，可以吃怪物肉，也会长胡子","猪人一开始就敌对。胡子和威尔逊类似"],
+  ["瓦拉尼","Walani","海难","冲浪板。在水上更自在，晾干得快","饥饿掉得稍快。离开海就亏了她的特长"],
+  ["沃利","Warly","海难","便携烹饪锅。同一道菜连续吃，效果会变差","要换着吃。只做肉丸会越吃越亏"],
+  ["威尔伯","Wilbur","海难","猴子。其他猴子不主动攻击，跑起来很快","开局很脆，先做护甲再去惹海怪"],
+  ["伍德莱格","Woodlegs","海难","船上更快，幸运帽和船炮是他的方向","在陆地上走路不利索"],
+  ["瓦格斯塔夫","Wagstaff","哈姆雷特","护目镜。不戴的时候视线是糊的，戴上才能看清和发明","护目镜按场景换。不戴等于半盲"],
+  ["威尔芭","Wilba","哈姆雷特","猪人公主，城里的猪不敌对。吃怪物肉或满月会变身","变身期间控制方式不同，别在商店里变"],
+  ["沃姆伍德","Wormwood","哈姆雷特","种花种树会回血，开花时有加成","食物不回血。回血靠种植，不靠饺子"],
+  ["惠勒","Wheeler","哈姆雷特","导航护目镜，还有一件能把她弹开的装备，用来躲拍地板和冲锋","装备要自己做，开局并没有变强"]
+];
+
+/* 物品, 英文, 机器, 材料, 用途 */
+const CRAFT = [
+  ["斧头","Axe","徒手","燧石 ×1、树枝 ×1","砍树。第一天就做"],
+  ["稿子","Pickaxe","徒手","燧石 ×2、树枝 ×2","挖石头、金块、燧石"],
+  ["营火","Campfire","徒手","干草 ×3、木头 ×2","第一夜的光源和取暖。会烧尽"],
+  ["火把","Torch","徒手","干草 ×2、树枝 ×2","移动光源。雨天容易灭"],
+  ["长矛","Spear","科学机器","树枝 ×2、绳子 ×1、燧石 ×1","前期武器。比斧头打得远一点"],
+  ["木甲","Log Suit","科学机器","木头 ×8、绳子 ×2","挡伤害。和头盔叠在一起穿"],
+  ["橄榄球头盔","Football Helmet","科学机器","猪皮 ×1、绳子 ×1","比木甲更常戴的头。猪皮来自疯猪"],
+  ["火腿棒","Ham Bat","科学机器","猪皮 ×1、大肉 ×2、树枝 ×2","伤害高，但会腐烂"],
+  ["烹饪锅","Crock Pot","科学机器","石砖 ×3、木炭 ×6、树枝 ×6","四格做饭。见烹饪锅一节"],
+  ["鸟笼","Birdcage","科学机器","纸 ×2、金块 ×6、种子 ×2","怪物肉换鸡蛋"],
+  ["晾肉架","Drying Rack","科学机器","树枝 ×3、木炭 ×2、绳子 ×2","大肉做成肉干，耐放"],
+  ["科学机器","Science Machine","徒手","金块 ×1、木头 ×4、石头 ×4","解锁第一层原型"],
+  ["炼金引擎","Alchemy Engine","科学机器","木板 ×4、石砖 ×2、电子元件 ×2","解锁第二层。电子元件要金和电气"],
+  ["冰箱","Ice Box","炼金引擎","齿轮 ×1、金块 ×2、石砖 ×1","食物腐烂变慢。齿轮来自发条"],
+  ["背包","Backpack","科学机器","树枝 ×4、干草 ×4","多 8 格。猪皮包更大，但要炼金"],
+  ["火坑","Fire Pit","科学机器","木头 ×2、石头 ×12","不会烧尽的火。基地用这个"],
+  ["避雷针","Lightning Rod","科学机器","金块 ×4、石砖 ×1","春天和雨季插在基地边"],
+  ["保暖石","Thermal Stone","科学机器","石头 ×10、燧石 ×3、镐子","火边加热，冰箱里冰镇。冬夏都用"],
+  ["雪球发射器","Ice Flingomatic","炼金引擎","齿轮 ×2、冰 ×15、电子元件 ×1","夏天和龙蝇战用来灭火"],
+  ["牙套陷阱","Tooth Trap","科学机器","狗牙 ×1、绳子 ×1、木头 ×1","猎犬走道。做一排比硬接安全"],
+  ["牛毛帽","Beefalo Hat","科学机器","牛角 ×1、牛毛 ×8","冬天最值的帽子"],
+  ["眼球伞","Eyebrella","炼金引擎附近的服装","巨鹿眼球 ×1、树枝若干、骨片","防雨加防过热。巨鹿的主要理由"],
+  ["暗影剑","Dark Sword","暗影操纵仪","噩梦燃料 ×5、活木 ×1、紫宝石 ×1","伤害高，装备着掉理智"],
+  ["铥矿皇冠","Thulecite Crown","远古伪科学站","铥矿 ×4、噩梦燃料 ×4","后期头盔，有几率完全免伤"]
+];
+
+/* 菜, 英文, 放法, 效果, 何时 */
+const FOOD = [
+  ["肉丸","Meatballs","1 小肉或 1 怪物肉 + 3 浆果 / 冰","饥饿 62.5","天天做的主食"],
+  ["肉汤","Meaty Stew","3 大肉 + 1 浆果。不要 2 块怪物肉","饥饿 150，少量血和理智","大肉多的时候，最顶饱"],
+  ["饺子","Pierogi","1 蛋 + 1 肉 + 1 蔬菜 + 1 填料","血量 40","打架前后回血。蛋来自鸟笼"],
+  ["培根煎蛋","Bacon and Eggs","2 蛋 + 至少 1.5 肉","饥饿 75，血量 20","蛋多、要顶饱时"],
+  ["蜜汁火腿","Honey Ham","2 蜂蜜 + 1 大肉 + 1 怪物肉","饥饿 75，血量 30","蜂巢多的秋天"],
+  ["烤串","Kabobs","1 肉 + 1 树枝 + 2 填料","把肉变成更好吃的一串","只有一根树枝的时候"],
+  ["鱼排","Fishsticks","1 鱼 + 1 树枝 + 2 填料","血量 40","有鱼的时候代替饺子"],
+  ["怪物千层饼","Monster Lasagna","2 块以上怪物肉","饥饿尚可，扣血扣理智","尽量别做。韦伯相对能吃"],
+  ["太妃糖","Taffy","3 蜂蜜 + 1 树枝","回复理智","理智低、蜂蜜多"],
+  ["水果蛋糕棒","Trail Mix","1 烤桦栗果 + 1 浆果 + 1 水果","血量 30","巨人国。便宜的回血"],
+  ["蝴蝶松饼","Butter Muffin","1 蝴蝶翅膀 + 1 蔬菜 + 2 填料","血量 20","顺手做，别专门抓蝴蝶"],
+  ["龙果派","Dragonpie","1 火龙果，其余不要肉","饥饿 75，血量 40","火龙果几乎总会变成这道"],
+  ["华夫饼","Waffles","1 黄油 + 1 蛋 + 1 浆果 + 1 填料","血量 60","黄油很稀有，留着打 Boss"],
+  ["果酱","Fistful of Jam","水果，不要肉和蔬菜","少量饥饿","浆果太多、肉不够时"],
+  ["蔬菜杂烩","Ratatouille","蔬菜，不要肉","少量属性","农场菜多的时候"],
+  ["西瓜冰","Melonsicle","1 西瓜 + 1 冰 + 1 树枝","降温，回复一点理智","夏天防过热"],
+  ["冰淇淋","Ice Cream","1 冰 + 1 蜂蜜 + 1 乳制品（黄油）","理智很高","快疯了而且有黄油"],
+  ["花沙拉","Flower Salad","1 仙人掌花","血量 40","沙漠仙人掌。夏天也能做"]
+];
+
+const chState = { q:"", f:"all" };
+function renderCh(){
+  const q = chState.q.trim().toLowerCase();
+  const rows = CHARS.filter(r => (chState.f==="all"||r[2]===chState.f) && (!q || r.join(" ").toLowerCase().includes(q)));
+  $("#chTable tbody").innerHTML = rows.map(r => `<tr><td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("");
+  $("#chCount").textContent = `共 ${rows.length} 名`;
+}
+const crState = { q:"" };
+function renderCr(){
+  const q = crState.q.trim().toLowerCase();
+  const rows = CRAFT.filter(r => !q || r.join(" ").toLowerCase().includes(q));
+  $("#crTable tbody").innerHTML = rows.map(r => `<tr><td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("");
+  $("#crCount").textContent = `共 ${rows.length} 项`;
+}
+const fdState = { q:"" };
+function renderFd(){
+  const q = fdState.q.trim().toLowerCase();
+  const rows = FOOD.filter(r => !q || r.join(" ").toLowerCase().includes(q));
+  $("#fdTable tbody").innerHTML = rows.map(r => `<tr><td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("");
+  $("#fdCount").textContent = `共 ${rows.length} 道`;
+}
+$("#chSearch").addEventListener("input", e => { chState.q = e.target.value; renderCh(); });
+$$("#chChips .chip").forEach(c => c.addEventListener("click", () => {
+  $$("#chChips .chip").forEach(x => x.classList.remove("on"));
+  c.classList.add("on"); chState.f = c.dataset.s; renderCh();
+}));
+$("#crSearch").addEventListener("input", e => { crState.q = e.target.value; renderCr(); });
+$("#fdSearch").addEventListener("input", e => { fdState.q = e.target.value; renderFd(); });
+renderCh(); renderCr(); renderFd();
+
+const navLinks = $$('nav#toc a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href")==="#"+en.target.id)); });
+}, { rootMargin: "-20% 0px -70% 0px" });
+navLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) observer.observe(s); });
+$("#menuBtn").addEventListener("click", () => $("nav#toc").classList.toggle("open"));
+navLinks.forEach(a => a.addEventListener("click", () => $("nav#toc").classList.remove("open")));
+const toTop = $("#toTop");
+window.addEventListener("scroll", () => { toTop.style.display = window.scrollY > 600 ? "block" : "none"; });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0 }));
+</script>
+</body>
+</html>

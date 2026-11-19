@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="联机饥荒">
+<meta name="theme-color" content="#152033">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<title>饥荒联机版 Don't Starve Together 全面攻略</title>
+<style>
+:root {
+  --primary: #3d5a80;
+  --primary-dark: #243652;
+  --primary-light: #e7eef6;
+  --bg: #f3f6fa;
+  --text: #1c2430;
+  --muted: #5c6b7c;
+  --border: #d5e0ea;
+  --nav: #152033;
+  --nav-w: 236px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px;
+}
+a { color: var(--primary-dark); }
+nav#toc {
+  position: fixed; top: 0; left: 0; bottom: 0; width: calc(var(--nav-w) + env(safe-area-inset-left));
+  background: var(--nav); color: #d5e2f2;
+  padding: calc(20px + env(safe-area-inset-top)) 0 calc(20px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  overflow-y: auto; z-index: 20;
+}
+nav#toc .brand { padding: 0 18px 14px; border-bottom: 1px solid #2c4566; margin-bottom: 8px; }
+nav#toc .brand b { display: block; font-size: 20px; color: #fff; }
+nav#toc .brand span { font-size: 12px; color: #8eafd4; }
+nav#toc a { display: block; padding: 8px 18px; color: #d5e2f2; text-decoration: none; border-left: 3px solid transparent; font-size: 14px; }
+nav#toc a:hover { background: #1d3350; color: #fff; }
+nav#toc a.active { background: #243e5e; color: #fff; border-left-color: #8ec5ff; font-weight: bold; }
+nav#toc a .num { display: inline-block; width: 22px; color: #8ec5ff; }
+nav#toc a.home { font-size: 13px; color: #8eafd4; padding: 0 18px 10px; border-left: none; }
+nav#toc a.home:hover { background: none; color: #fff; }
+#menuBtn, #homeBtn { display: none; }
+main { margin-left: var(--nav-w); padding: 0 36px 60px; }
+main > section, main > footer, header.hero > * { max-width: 1400px; }
+header.hero {
+  margin: 0 -36px 28px; padding: 44px 36px 32px; color: #fff;
+  background: linear-gradient(135deg, #3d5a80 0%, #243652 58%, #152033 100%);
+}
+header.hero h1 { margin: 0 0 6px; font-size: 32px; }
+header.hero p { margin: 0; opacity: .92; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.hero-stats div { background: rgba(255,255,255,.14); padding: 8px 16px; border-radius: 10px; }
+.hero-stats b { font-size: 20px; display: block; line-height: 1.2; }
+.hero-stats span { font-size: 12px; opacity: .85; }
+section { padding-top: 22px; margin-bottom: 36px; }
+section > h2 { font-size: 24px; margin: 0 0 6px; padding-left: 12px; border-left: 5px solid var(--primary); }
+section > .lead { color: var(--muted); margin: 0 0 16px; padding-left: 17px; }
+h3 { font-size: 18px; margin: 22px 0 10px; color: var(--primary-dark); }
+.card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card h4 { margin: 0 0 8px; font-size: 16px; }
+.card ul { margin: 6px 0 0; padding-left: 20px; }
+.card li { margin: 3px 0; }
+.tip, .warn, .note { border-radius: 10px; padding: 12px 16px; margin: 12px 0; border-left: 4px solid; }
+.tip { background: #eef6ff; border-color: #3d5a80; }
+.warn { background: #fffbeb; border-color: #f59e0b; }
+.note { background: #f4f0ff; border-color: #7c6bc4; }
+.phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.phase { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fff; font-size: 13.5px; }
+.phase .ph { font-weight: bold; margin-bottom: 6px; color: var(--primary-dark); }
+.phase ul { margin: 0; padding-left: 18px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.toolbar input[type=search] {
+  flex: 1 1 240px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none;
+}
+.toolbar input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px; font-family: inherit; }
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.count { color: var(--muted); font-size: 13px; }
+.table-wrap { overflow: auto; max-height: 72vh; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
+.table-wrap.static { max-height: none; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #e6eef5; text-align: left; vertical-align: top; }
+th { background: #f2f7fb; position: sticky; top: 0; z-index: 1; white-space: nowrap; color: #243652; }
+td .en { color: var(--muted); font-size: 12px; display: block; }
+.tag { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 12px; background: var(--primary-light); color: var(--primary-dark); }
+.tag.no { background: #f1f5f9; color: #64748b; }
+details.faq { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 12px 16px; font-weight: bold; list-style: none; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::before {
+  content: "Q"; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center;
+  border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; margin-right: 10px;
+}
+details.faq[open] summary { border-bottom: 1px solid var(--border); }
+details.faq .a { padding: 10px 16px 14px 48px; }
+details.faq .a ul { margin: 4px 0; padding-left: 18px; }
+footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+footer ul { padding-left: 18px; }
+#toTop {
+  position: fixed; right: calc(20px + env(safe-area-inset-right)); bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; border: none; font-size: 20px;
+  cursor: pointer; display: none; z-index: 30;
+}
+@media (max-width: 900px) {
+  nav#toc { transform: translateX(-100%); transition: transform .25s; }
+  nav#toc.open { transform: none; }
+  main { margin-left: 0; padding: 0 calc(16px + env(safe-area-inset-right)) calc(48px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+  header.hero { margin: 0 calc(-16px - env(safe-area-inset-right)) 20px calc(-16px - env(safe-area-inset-left)); padding: calc(58px + env(safe-area-inset-top)) 16px 24px 16px; }
+  #menuBtn, #homeBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); z-index: 40;
+    background: var(--nav); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px; text-decoration: none;
+  }
+  #menuBtn { left: calc(12px + env(safe-area-inset-left)); }
+  #homeBtn { left: calc(96px + env(safe-area-inset-left)); }
+  .phases { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) { .phases { grid-template-columns: 1fr; } header.hero h1 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<button id="menuBtn">☰ 目录</button>
+<a id="homeBtn" href="../">← 游戏</a>
+<nav id="toc">
+  <a class="home" href="../">← 游戏目录</a>
+  <div class="brand"><b>饥荒联机版</b><span>Don't Starve Together</span></div>
+  <a href="#start"><span class="num">1</span>联机开局</a>
+  <a href="#chars"><span class="num">2</span>角色与技能树</a>
+  <a href="#boss"><span class="num">3</span>Boss</a>
+  <a href="#world"><span class="num">4</span>洞穴、远古、月岛</a>
+  <a href="#farm"><span class="num">5</span>农场与烹饪</a>
+  <a href="#faq"><span class="num">6</span>常见问题</a>
+  <a href="#sources"><span class="num">·</span>资料来源</a>
+</nav>
+<main>
+<header class="hero">
+  <h1>饥荒联机版 全面攻略</h1>
+  <p>和单机不是同一套数字。这里写联机的分工、当前角色的技能树分支、季节 Boss 和主要 Raid。</p>
+  <div class="hero-stats">
+    <div><b>18</b><span>名可选角色</span></div>
+    <div><b>15</b><span>点洞察上限</span></div>
+    <div><b>12</b><span>人已有技能树</span></div>
+    <div><b>2026-11</b><span>按当时版本整理</span></div>
+  </div>
+</header>
+
+<section id="start">
+  <h2>联机开局</h2>
+  <p class="lead">血量会随玩家人数变高，一个人能风筝的 Boss，四个人站桩就会被拍死。第一年的目标不是打龙蝇，是活过四个季节。</p>
+  <div class="phases">
+    <div class="phase"><div class="ph">第 1～3 天</div>
+      <ul>
+        <li>分开捡：一个人找金、石头、燧石，一个人找牛群和猪王方向，一个人看洞穴入口在哪。</li>
+        <li>科学机器尽快落地。火坑、长矛、木甲、背包。</li>
+        <li>基地别建在出生点正中间。靠近猪王方便换金，靠近洞穴方便夏天躲进去，但不要贴着龙蝇沙漠。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">第一周</div>
+      <ul>
+        <li>烹饪锅、鸟笼、冰箱、晾肉架。两口锅比一口锅有用。</li>
+        <li>干草、树枝、浆果移植到基地，用雪球机或石墙隔开，免得夏天烧掉。</li>
+        <li>猎犬：牙套铺在基地外一条直线上。别把陷阱做在箱子门口。</li>
+        <li>复活点先找地图上的试金石。肉雕像和重生护符是之后的事。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">秋天剩下的时间</div>
+      <ul>
+        <li>猪皮头盔、火腿棒或触手尖刺。帐篷给回理智的人用，薇克巴顿不能睡。</li>
+        <li>有齿轮就做雪球机，朝向农场和蜂箱。</li>
+        <li>熊獾可能在秋天来。把它引去拆石果，不要引到冰箱。</li>
+      </ul>
+    </div>
+    <div class="phase"><div class="ph">过四季的最低配置</div>
+      <ul>
+        <li>冬：保暖石、牛毛帽、火坑。巨鹿吼了就离基地。</li>
+        <li>春：眼球伞或雨衣，避雷针。麋鹿鹅的小鸭子会拆家。</li>
+        <li>夏：给蚁狮进贡，不然地上出坑。冰镇保暖石、吸热火坑、眼球伞。</li>
+        <li>每个人至少能独立做一顶头盔和一份回血食物，掉线或鬼魂时别人救得过来。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip"><b>分工比选最强角色有用。</b>一个人管锅和农场，一个人管护甲和猎犬，一个人专门下洞找灯泡和齿轮。三个人挤在一个火堆旁边，和单机没有区别，还更吃食物。</div>
+</section>
+
+<section id="chars">
+  <h2>角色与技能树</h2>
+  <p class="lead">洞察点跟账号走，不跟世界走。大约第 3 天给第 1 点，第 68 天给满 15 点。鬼魂状态的天数不算。点得比技能多，所以必须舍弃一条线。选人前可以重置；进世界之后，用月岩偶像在天体传送门上重置。有技能树的角色，后期还要在月圆和暗影之间选亲和，两条互斥。</p>
+  <div class="note">截至 2026 年 11 月：<b>12 名角色有技能树</b>，薇克巴顿、韦斯、麦斯威尔、韦伯、沃利、旺达还没有。科雷 2026 年的计划里还包括继续补树。节点的具体句子以游戏内技能树为准，下面只写每一支在决定什么。</div>
+  <div class="toolbar">
+    <input type="search" id="chSearch" placeholder="搜索角色、分支…">
+    <div class="chips" id="chChips">
+      <button class="chip on" data-s="all">全部</button>
+      <button class="chip" data-s="有">有技能树</button>
+      <button class="chip" data-s="无">还没有</button>
+    </div>
+    <span class="count" id="chCount"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="chTable">
+      <thead><tr><th>角色</th><th>树</th><th>本来就会什么</th><th>技能树在分的支</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="warn"><b>芜猴</b>不是可选角色。身上攒满被诅咒的小饰品会变成芜猴，原角色的专属能力暂时没了。把饰品处理掉才能变回来。</div>
+</section>
+
+<section id="boss">
+  <h2>Boss</h2>
+  <p class="lead">季节 Boss 会自己来找你。Raid 要你去召唤。联机血量按世界里的玩家人数上涨，一个人练习的走位，人多了仍然适用，但护甲消耗会快一截。</p>
+  <h3>会自己来的</h3>
+  <div class="table-wrap static">
+    <table>
+      <thead><tr><th>Boss</th><th>何时</th><th>怎么打</th><th>为什么要打</th></tr></thead>
+      <tbody>
+        <tr><td><b>巨鹿</b><span class="en">Deerclops</span></td><td>冬，先吼再落地</td><td>离开基地。营火解冻，木甲加头盔风筝。冰冻范围大，别叠在一起挨拍</td><td>眼球做眼球伞，防雨也防过热</td></tr>
+        <tr><td><b>麋鹿鹅</b><span class="en">Moose/Goose</span></td><td>春，附近先落雷</td><td>它会下蛋。小鸭子成群追人，先引开再打鹅。风筝，别在箱子中间打</td><td>羽绒。奢华风扇能灭阴燃、帮忙降温</td></tr>
+        <tr><td><b>蚁狮</b><span class="en">Antlion</span></td><td>夏。不进贡就会在你脚下出坑</td><td>洞穴里的沙坑可以丢石头、小饰品进贡，换一夏天的平安。要打就去沙漠洞穴，准备防沙和回血</td><td>懒人传送阵的图纸。打死就不再为这个夏天挖坑</td></tr>
+        <tr><td><b>熊獾</b><span class="en">Bearger</span></td><td>秋</td><td>会拍地板、拆箱子、吃食物。引去拆石果或蜂后的巢，不要引去冰箱</td><td>厚毛皮：保温包和冬眠背心</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>要自己去开的</h3>
+  <div class="table-wrap static">
+    <table>
+      <thead><tr><th>Boss</th><th>怎么开始</th><th>要点</th></tr></thead>
+      <tbody>
+        <tr><td><b>龙蝇</b><span class="en">Dragonfly</span></td><td>绿洲沙漠的岩浆池。她平时在睡觉</td><td>血量掉到发怒阶段会召唤熔岩虫，熔岩虫点火。墙、雪球机或火药都行。掉鳞片，做防火箱子和鳞甲</td></tr>
+        <tr><td><b>蜂后</b><span class="en">Bee Queen</span></td><td>把巨大的蜂巢敲掉。杀人蜂聚集的地方，蜂巢会慢慢长成那样</td><td>咕噜蜂会追人。大理石甲或风筝，捆扎包装掉落。掉蜂王浆和皇冠图纸</td></tr>
+        <tr><td><b>克劳斯</b><span class="en">Klaus</span></td><td>落叶林里没有眼睛的鹿，身上有钥匙。钥匙开赃物袋</td><td>冬天活动里最常见，其他季节赃物袋不会刷新。先打鹿还是先打克劳斯，看你们谁负责风筝。袋子里是整包中期资源</td></tr>
+        <tr><td><b>邪天翁</b><span class="en">Malbatross</span></td><td>在海面鱼群反复钓鱼，把它钓上来</td><td>在海上打，船要有耐久。掉鸟嘴，能做成呼风的工具</td></tr>
+        <tr><td><b>帝王蟹</b><span class="en">Crab King</span></td><td>海上那块可疑大理石。放入月亮玻璃，再镶宝石</td><td>宝石颜色决定冰、火或其他攻击。隐士螃蟹的任务会把这场战斗需要的东西给你。在船上打，准备修船</td></tr>
+        <tr><td><b>恐怖之眼 / 双子</b><span class="en">Eye of Terror</span></td><td>远古里找到盒子。夜里、在地面上打开</td><td>不要在洞穴里开。双子是更难的一档。掉落用来做魔光护符一类的装备</td></tr>
+        <tr><td><b>远古织影者</b><span class="en">Ancient Fuelweaver</span></td><td>先打远古守卫拿暗影心房，再收集洞穴里的化石碎片，在遗迹的远古大门组装</td><td>战斗中会有影子去治疗它，先杀掉那些影子。复活的骷髅会打断输出。这是暗影路线的大门</td></tr>
+        <tr><td><b>天体英雄</b><span class="en">Celestial Champion</span></td><td>月岛线做完天体贡品，交给月台</td><td>多阶段。在月岛打。这是月亮路线的大门，和织影者二选一深入，不是第一年的目标</td></tr>
+        <tr><td><b>噩梦猪人</b><span class="en">Nightmare Werepig</span></td><td>洞穴裂隙推进之后才会遇到</td><td>较新的洞穴目标。开打前看当前版本的裂隙任务，场地和机制会随更新变</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warn"><b>月圆和暗影是两条后期。</b>织影者走向暗影亲和，天体英雄走向月亮亲和。技能树末端的亲和点互斥。先决定这一季要打哪一边，再点那一格。</div>
+</section>
+
+<section id="world">
+  <h2>洞穴、远古、月岛</h2>
+  <div class="grid g3">
+    <div class="card"><h4>洞穴</h4>
+      <ul>
+        <li>矿工帽或提灯。火把不够。</li>
+        <li>灯泡花做提灯，荧光果照明，兔人给胡萝卜和兔毛。</li>
+        <li>夏天进洞穴避过热，但地上的雪球机要提前加好燃料。</li>
+        <li>噩梦周期到狂野阶段，影子会刷出来，可以打燃料。</li>
+        <li>裂隙是后来加的一层内容：先把灯、护甲和回程食物准备好再往下走。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>远古</h4>
+      <ul>
+        <li>入口在洞穴深处，敲开石头塞子。</li>
+        <li>远古站做铥矿甲、铥矿皇冠。站留着，别第一天就敲掉。</li>
+        <li>迷宫尽头是远古守卫。掉守卫者之角，做猎犬丘炮塔，也是织影者的材料之一。</li>
+        <li>发条生物掉齿轮。齿轮给冰箱、雪球机，也是 WX-78 的食物。</li>
+        <li>恐怖之眼的盒子也在这条线上找。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>月岛</h4>
+      <ul>
+        <li>海上往月亮方向走，会遇到月岛。带船、修船材料和一盏灯。</li>
+        <li>岛上有裂隙、天体祭坛、无眼鹿不一定在这、以及月岛专属的植物和石头。</li>
+        <li>月岩、玻璃和天体贡品是天体英雄的前置，不是落地就能打。</li>
+        <li>海难式的整张新地图这里没有。月岛是联机主世界边上的一座岛。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="farm">
+  <h2>农场与烹饪</h2>
+  <div class="grid g2">
+    <div class="card"><h4>农场地块</h4>
+      <ul>
+        <li>用园艺锄把地变成农田。种子种下去之后要浇水，也可以做洒水器。</li>
+        <li>作物会提要求：缺水、缺肥料、想让你说话。对着植株做它要的那件事，长得快，也更容易出巨大作物。</li>
+        <li>肥料分堆肥、粪肥和生长配方，对应不同的养分。只倒一种，地会偏科。</li>
+        <li>季节和单机巨人国一样会换。冬天农田停摆，提前把干草和肉干存够。</li>
+      </ul>
+    </div>
+    <div class="card"><h4>和单机一样的锅</h4>
+      <ul>
+        <li>肉丸：1 份肉 + 3 浆果或冰。主食。</li>
+        <li>肉汤：3 大肉 + 1 填料。最顶饱。</li>
+        <li>饺子：蛋 + 肉 + 蔬菜。回血。</li>
+        <li>怪物肉两块以上会变成怪物千层饼，扣血。</li>
+        <li>树枝只放进烤串、鱼排、西瓜冰。</li>
+        <li>沃利的香料可以加在做好的菜上，是联机额外的一层，不是另一口锅。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note"><b>复活：</b>鬼魂自己不能打人。队友用告密之心（干草、树枝、蜘蛛腺）把鬼魂拉回来。重生护符戴在身上，死的时候消耗。肉雕像要先附身一次。旺达用自己的表回血和复位，别把她的老表当普通饰品扔掉。试金石全图就那么几个，激活过才能用。</div>
+</section>
+
+<section id="faq">
+  <h2>常见问题</h2>
+  <details class="faq"><summary>旺达的表怎么读</summary>
+    <div class="a">她没有普通的饥饿惩罚那么直观，年龄会变。年轻伤害高、血少，年老反过来，回血方式也不同。不老表让她保持在想要的年龄。倒走表用来脱离战场。第一次玩先别把表的耐久耗在平时赶路上，留着打巨鹿和熊獾。</div></details>
+  <details class="faq"><summary>沃拓克斯的灵魂怎么用</summary>
+    <div class="a">灵魂从打死生物来，有上限。可以用来治疗自己、传送，或者把灵魂丢出去。技能树把灵魂分成善良、中立、顽皮三条，点得太偏，灵魂的行为会跟着倒向一边。传送会消耗灵魂，别在灵魂见底的时候开团。</div></details>
+  <details class="faq"><summary>人多了 Boss 突然打不死</summary>
+    <div class="a">联机按人数加血。人越多越不要站在一起吃范围伤害。一个人风筝，其他人只在安全窗口输出。护甲带两套。巨鹿的冰、熊獾的拍地、龙蝇的熔岩虫，都是会同时打到所有人的。</div></details>
+  <details class="faq"><summary>夏天地板一直出坑</summary>
+    <div class="a">那是蚁狮。找到洞穴里通向它的沙坑，把石头或小饰品丢进去当贡品，这个夏天就不再挖。贡品可以换一些沙漠用品。不想进贡，就准备一场沙漠战斗，把它打死。</div></details>
+  <details class="faq"><summary>技能点错了</summary>
+    <div class="a">还没进服务器时，在选人界面重置洞察。已经在里面，做一个月岩偶像，到天体传送门上用。洞察跟账号，不跟这个世界，换服务器也不会重新从 0 开始长。</div></details>
+  <details class="faq"><summary>鬼魂状态队友一直被狗追</summary>
+    <div class="a">鬼魂可以吓一吓生物，但杀不了它们。尽快做告密之心。基地的复活点如果没人激活过，鬼魂跑过去也站不起来。开局先把试金石点亮，比讨论谁玩谁更要紧。</div></details>
+</section>
+
+<footer id="sources">
+  <b>资料来源</b>
+  <ul>
+    <li><a href="https://dontstarve.wiki.gg/wiki/Don%27t_Starve_Together" target="_blank">Don't Starve Together Wiki（wiki.gg）</a></li>
+    <li><a href="https://dontstarve.wiki.gg/wiki/Insight" target="_blank">Insight / 技能树</a>。12 名角色有树、15 点上限、第 68 天封顶，对照的是 2026 年秋季仍有效的说明</li>
+  </ul>
+  <p>本页为离线单文件，整理于 2026 年 11 月。技能树还在陆续补，节点文字以游戏内为准。单机海难和哈姆雷特不在这里，见饥荒单机那一页。</p>
+</footer>
+</main>
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* 中文, 英文, 有无, 本职, 分支 */
+const CHARS = [
+  ["威尔逊","Wilson","有","会长胡子，胡子保暖","火把（更久、更亮、扔出去能立住）、炼金（树枝木头、石头燧石、硝石金子、宝石互转）、胡子、月/暗亲和"],
+  ["薇洛","Willow","有","打火机，靠近火回理智，不怕火","打火机、伯尼（熊会变得更能打）、月/暗亲和"],
+  ["沃尔夫冈","Wolfgang","有","吃饱变强壮，挨饿变虚弱","杂务、锻炼（哑铃）、力量、月/暗亲和"],
+  ["温蒂","Wendy","有","阿比盖尔帮忙打","哀悼花瓶、药剂、指挥鬼魂、墓碑、月/暗亲和"],
+  ["WX-78","WX-78","有","吃齿轮升级，雨天掉血，雷击会充电","电路插板、机箱、无人机、月/暗亲和"],
+  ["伍迪","Woodie","有","露西斧。可以变海狸，联机里还有鹅和鹿","诅咒形态、伐木、月/暗亲和"],
+  ["薇格弗德","Wigfrid","有","只吃肉。战歌、战斗长矛和头盔，击杀回血","战歌、骑牛、武器、月/暗亲和"],
+  ["薇诺娜","Winona","有","工程师。投石机、聚光灯、发电机是她的建筑","三层置物架：投石机和探照灯、发电机、和查理 / 瓦格斯塔夫相关的末端"],
+  ["沃拓克斯","Wortox","有","灵魂。用来治疗和传送","善良、中立、顽皮。两边点太偏，灵魂的倾向会翻面"],
+  ["沃姆伍德","Wormwood","有","种植回血，食物不回血。会开花","种子和制作、左右两条植物线、月/暗亲和"],
+  ["沃特","Wurt","有","小鱼人。蜘蛛和鱼人是朋友，猪人敌对","两栖、鱼人王（给族群加增益）、月/暗亲和"],
+  ["沃尔特","Walter","有","弹弓，沃比会跟着。怕挨打，受击容易掉理智","弹药、弹弓改装、侦察、沃比（能变大、能骑）"],
+  ["薇克巴顿","Wickerbottom","无","书：催生、唤鸟、末日。不能睡觉","2026 年 11 月还没有技能树"],
+  ["韦斯","Wes","无","气球。血量和饥饿都更紧","还没有技能树。不建议用来学第一年"],
+  ["麦斯威尔","Maxwell","无","暗影秘典，影子帮你干活，血量低","还没有技能树。影子持续掉理智"],
+  ["韦伯","Webber","无","蜘蛛不打你，能吃怪物肉，猪人敌对","还没有技能树"],
+  ["沃利","Warly","无","便携锅。同一道菜连续吃会变差。香料给菜加效果","还没有技能树"],
+  ["旺达","Wanda","无","用表管理年龄。年轻伤害高、年老更耐打。有自己的回血方式","还没有技能树。表的耐久要留给战斗"]
+];
+
+const st = { q:"", f:"all" };
+function render(){
+  const q = st.q.trim().toLowerCase();
+  const rows = CHARS.filter(r => (st.f==="all" || (st.f==="有"&&r[2]==="有") || (st.f==="无"&&r[2]==="无")) && (!q || r.join(" ").toLowerCase().includes(q)));
+  $("#chTable tbody").innerHTML = rows.map(r => `<tr>
+    <td><b>${esc(r[0])}</b><span class="en">${esc(r[1])}</span></td>
+    <td>${r[2]==="有"?'<span class="tag">有技能树</span>':'<span class="tag no">还没有</span>'}</td>
+    <td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("");
+  $("#chCount").textContent = `共 ${rows.length} 名`;
+}
+$("#chSearch").addEventListener("input", e => { st.q = e.target.value; render(); });
+$$("#chChips .chip").forEach(c => c.addEventListener("click", () => {
+  $$("#chChips .chip").forEach(x => x.classList.remove("on"));
+  c.classList.add("on"); st.f = c.dataset.s; render();
+}));
+render();
+
+const navLinks = $$('nav#toc a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href")==="#"+en.target.id)); });
+}, { rootMargin: "-20% 0px -70% 0px" });
+navLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) observer.observe(s); });
+$("#menuBtn").addEventListener("click", () => $("nav#toc").classList.toggle("open"));
+navLinks.forEach(a => a.addEventListener("click", () => $("nav#toc").classList.remove("open")));
+const toTop = $("#toTop");
+window.addEventListener("scroll", () => { toTop.style.display = window.scrollY > 600 ? "block" : "none"; });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0 }));
+</script>
+</body>
+</html>
