@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="熊与早餐">
+<meta name="theme-color" content="#3b2a1e">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<title>熊与早餐 Bear and Breakfast 全面攻略</title>
+<style>
+:root {
+  --primary: #c2703d;
+  --primary-dark: #8f4d24;
+  --primary-light: #fbeee3;
+  --forest: #4f7a4a;
+  --bg: #f8f5f0;
+  --card: #ffffff;
+  --text: #33291f;
+  --muted: #7d7064;
+  --border: #e8ded3;
+  --nav-bg: #3b2a1e;
+  --nav-w: 230px;
+  --bed: #e0915a; --bath: #4f9fd6; --dining: #d9a62e; --kitchen: #c75c4a; --utility: #7a7f8a;
+  --lounge: #8e6cc0; --theater: #3f4f8f; --bar: #a0522d; --arcade: #d65f9c; --museum: #4f7a4a;
+  --desk: #2e8b7a; --camp: #6b9a3a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px;
+}
+a { color: var(--primary-dark); }
+
+/* ---------- 侧边目录 ---------- */
+nav#toc {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: calc(var(--nav-w) + env(safe-area-inset-left));
+  background: var(--nav-bg); color: #eadccd;
+  padding: calc(20px + env(safe-area-inset-top)) 0 calc(20px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  overflow-y: auto; z-index: 20;
+}
+nav#toc a.home { font-size: 13px; color: #c9a98c; padding: 0 20px 10px; display: block; text-decoration: none; }
+nav#toc a.home:hover { color: #fff; }
+nav#toc .brand { padding: 0 20px 16px; border-bottom: 1px solid #5a4331; margin-bottom: 10px; }
+nav#toc .brand b { display: block; font-size: 20px; color: #fff; }
+nav#toc .brand span { font-size: 12px; color: #c9a98c; }
+nav#toc a.sec {
+  display: block; padding: 9px 20px; color: #eadccd; text-decoration: none;
+  border-left: 3px solid transparent; font-size: 14px;
+}
+nav#toc a.sec:hover { background: #4d3828; color: #fff; }
+nav#toc a.sec.active { background: #5a4331; color: #fff; border-left-color: #f0b27a; font-weight: bold; }
+nav#toc a .num { display: inline-block; width: 22px; color: #f0b27a; }
+#menuBtn, #homeBtn { display: none; }
+
+/* ---------- 主体 ---------- */
+main { margin-left: var(--nav-w); padding: 0 40px 60px; }
+main > section, main > footer, header.hero > * { max-width: 1400px; }
+header.hero {
+  margin: 0 -40px 30px; padding: 48px 40px 36px;
+  background: linear-gradient(135deg, #c2703d 0%, #8f4d24 55%, #4f7a4a 100%); color: #fff;
+}
+header.hero h1 { margin: 0 0 8px; font-size: 34px; }
+header.hero p { margin: 0 0 20px; opacity: .92; }
+.stats { display: flex; flex-wrap: wrap; gap: 12px; }
+.stats div { background: rgba(255,255,255,.16); border-radius: 10px; padding: 10px 16px; min-width: 110px; }
+.stats b { display: block; font-size: 22px; }
+.stats span { font-size: 12px; opacity: .9; }
+section { padding-top: 10px; margin-bottom: 40px; }
+h2 { font-size: 24px; border-left: 5px solid var(--primary); padding-left: 12px; margin: 30px 0 6px; }
+h3 { font-size: 18px; color: var(--primary-dark); margin: 26px 0 10px; }
+h4 { margin: 0 0 8px; font-size: 16px; }
+.lead { color: var(--muted); margin: 0 0 16px; padding-left: 17px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+.card ul, .card ol { margin: 4px 0; padding-left: 20px; }
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.g5 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.icon { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--primary); color: #fff; align-items: center; justify-content: center; font-size: 14px; margin-right: 8px; vertical-align: middle; }
+.tag { display: inline-block; border-radius: 999px; padding: 0 9px; font-size: 12px; margin: 0 4px 3px 0; background: var(--primary-light); color: var(--primary-dark); white-space: nowrap; }
+.tag.g { background: #e6f0e4; color: #3d6238; }
+.tag.b { background: #e3eef8; color: #2f6c9c; }
+.tag.r { background: #fde8e4; color: #a63d2c; }
+.tip, .warn, .note { border-radius: 10px; padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.tip { background: #e9f3e6; border-left: 4px solid var(--forest); }
+.warn { background: #fdf1e3; border-left: 4px solid #e08a2e; }
+.note { background: #eef3fa; border-left: 4px solid #4f9fd6; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0 12px; }
+.toolbar input, .toolbar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff; }
+.toolbar input { flex: 1; min-width: 200px; max-width: 380px; }
+.chip { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 5px 14px; cursor: pointer; font-size: 13px; }
+.chip.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+.count { color: var(--muted); font-size: 13px; }
+.table-wrap { overflow: auto; max-height: 75vh; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { background: #f4ece3; position: sticky; top: 0; z-index: 1; white-space: nowrap; }
+th.sortable { cursor: pointer; }
+th.sortable::after { content: " ⇅"; color: #b9a896; font-size: 11px; }
+th.sortable.asc::after { content: " ▲"; color: var(--primary); }
+th.sortable.desc::after { content: " ▼"; color: var(--primary); }
+th.asc::after { content: " ▲"; color: var(--primary); } th.desc::after { content: " ▼"; color: var(--primary); }
+td.num, th.num { text-align: right; white-space: nowrap; }
+.en { display: block; color: var(--muted); font-size: 12px; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13.5px; margin: 0; }
+.kv dt { color: var(--muted); white-space: nowrap; }
+.kv dd { margin: 0; }
+
+/* ---------- 评分指标 ---------- */
+.stat-card { text-align: center; }
+.stat-card .big { font-size: 26px; }
+.stat-card b { display: block; font-size: 16px; margin: 4px 0; }
+.stat-card p { margin: 0; font-size: 13px; color: #5d5146; text-align: left; }
+
+/* ---------- 度假村 ---------- */
+.resorts { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); grid-auto-flow: row dense; gap: 16px; }
+.resort { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; }
+.resort .hd { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.resort .no { width: 34px; height: 34px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.resort h4 { margin: 0; font-size: 17px; line-height: 1.3; }
+.resort .desc { font-size: 13.5px; color: #5d5146; margin: 6px 0 10px; flex: 1; }
+.prestige { color: #e0a22e; letter-spacing: 1px; }
+.lbtn { margin-top: 10px; width: 100%; padding: 8px; border: 1px solid var(--primary); background: #fff; color: var(--primary-dark); border-radius: 8px; cursor: pointer; font-size: 13.5px; font-weight: bold; }
+.lbtn:hover, .lbtn.on { background: var(--primary); color: #fff; }
+.lpanel { grid-column: 1 / -1; border: 2px solid var(--primary); border-radius: 14px; background: #fff; padding: 18px; }
+.lpanel[hidden] { display: none; }
+.lpanel h5 { margin: 20px 0 8px; font-size: 15px; color: var(--primary-dark); }
+.lhead { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 4px; }
+.lhead b { font-size: 18px; margin-right: 6px; }
+.floors { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.floor { min-width: 0; border: 1px solid var(--border); border-radius: 10px; padding: 10px; background: #fcfaf7; }
+.floor .ft { font-weight: bold; font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 8px; }
+.floor .ft span { font-weight: normal; color: var(--muted); font-size: 12px; }
+.fgrid { display: grid; gap: 2px; background: repeating-linear-gradient(45deg, #efe6db 0 6px, #f6efe6 6px 12px); border: 3px solid #8a6a4f; border-radius: 4px; padding: 2px; }
+.room { color: #fff; font-size: 11.5px; line-height: 1.25; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2px; overflow: hidden; }
+.room small { opacity: .9; font-size: 10.5px; }
+.r-bed { background: var(--bed); } .r-bath { background: var(--bath); } .r-dining { background: var(--dining); }
+.r-kitchen { background: var(--kitchen); } .r-utility { background: var(--utility); } .r-lounge { background: var(--lounge); }
+.r-theater { background: var(--theater); } .r-bar { background: var(--bar); } .r-arcade { background: var(--arcade); }
+.r-museum { background: var(--museum); } .r-desk { background: var(--desk); } .r-camp { background: var(--camp); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin-top: 8px; color: #5d5146; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
+.cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.step { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fcfaf7; font-size: 13px; }
+.step .sh { font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.step .sh i { font-style: normal; background: var(--primary); color: #fff; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; font-size: 12px; }
+.step ul { margin: 0; padding-left: 18px; }
+.mats { display: flex; flex-wrap: wrap; gap: 6px; }
+.mat { border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 13px; background: #fff; }
+.mat b { color: var(--primary-dark); }
+.furn { columns: 2 220px; font-size: 13.5px; margin: 0; padding-left: 18px; }
+.mq td:first-child { white-space: nowrap; font-weight: bold; }
+
+/* ---------- 任务 ---------- */
+details.region { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; }
+details.region > summary { cursor: pointer; padding: 12px 16px; font-weight: bold; font-size: 16px; list-style: none; display: flex; align-items: center; gap: 8px; }
+details.region > summary::-webkit-details-marker { display: none; }
+details.region > summary::before { content: "▶"; font-size: 11px; color: var(--primary); transition: transform .2s; }
+details.region[open] > summary::before { transform: rotate(90deg); }
+details.region > summary .sub { color: var(--muted); font-weight: normal; font-size: 13px; }
+.timeline { list-style: none; margin: 0; padding: 0 16px 14px 34px; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 21px; top: 0; bottom: 18px; width: 2px; background: var(--border); }
+.timeline li { position: relative; padding: 6px 0 6px 6px; font-size: 14px; }
+.timeline li::before { content: ""; position: absolute; left: -17px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--primary); }
+.timeline li.key::before { background: #e0a22e; box-shadow: 0 0 0 1px #e0a22e; }
+.timeline .qn { font-weight: bold; }
+.timeline .qe { color: var(--muted); font-size: 12px; margin-left: 4px; }
+.timeline .qm { display: block; font-size: 12.5px; color: var(--primary-dark); }
+
+/* ---------- 地图 ---------- */
+.wmap { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(4, 74px); gap: 8px; background: #eef3ea; border-radius: 12px; padding: 12px; max-width: 760px; }
+.area { border-radius: 10px; color: #fff; font-size: 13px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.25; padding: 4px; }
+.area small { font-weight: normal; font-size: 11px; opacity: .9; }
+.a-home { background: #8a6a4f; } .a-resort { background: var(--primary); } .a-wild { background: var(--forest); } .a-end { background: #555; }
+.map-cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ---------- FAQ ---------- */
+details.faq { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+details.faq summary { cursor: pointer; padding: 12px 16px; font-weight: bold; list-style: none; }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::before { content: "Q"; display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; margin-right: 10px; }
+details.faq[open] summary { border-bottom: 1px solid var(--border); }
+details.faq .a { padding: 10px 16px 14px 48px; font-size: 14px; }
+details.faq .a ul { margin: 4px 0; padding-left: 18px; }
+
+footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+footer ul { padding-left: 18px; }
+#toTop {
+  position: fixed; right: calc(24px + env(safe-area-inset-right)); bottom: calc(24px + env(safe-area-inset-bottom)); width: 44px; height: 44px; border-radius: 50%;
+  background: var(--primary); color: #fff; border: none; font-size: 20px; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18); display: none; z-index: 30;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 900px) {
+  nav#toc { transform: translateX(-100%); transition: transform .25s; }
+  nav#toc.open { transform: translateX(0); }
+  main { margin-left: 0; padding: 0 calc(16px + env(safe-area-inset-right)) calc(50px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+  header.hero { margin: 0 calc(-16px - env(safe-area-inset-right)) 24px calc(-16px - env(safe-area-inset-left)); padding: calc(60px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 28px calc(16px + env(safe-area-inset-left)); }
+  #menuBtn, #homeBtn {
+    display: block; position: fixed; top: calc(12px + env(safe-area-inset-top)); z-index: 40;
+    background: var(--nav-bg); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px; line-height: normal; text-decoration: none; font-family: inherit;
+  }
+  #menuBtn { left: calc(12px + env(safe-area-inset-left)); }
+  #homeBtn { left: calc(96px + env(safe-area-inset-left)); background: rgba(59,42,30,.85); }
+  .resorts { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .lpanel { padding: 12px; }
+  .wmap { grid-template-rows: repeat(4, 64px); gap: 5px; padding: 8px; }
+  .area { font-size: 11.5px; }
+}
+@media (max-width: 560px) {
+  .steps { grid-template-columns: 1fr; }
+  .floors { grid-template-columns: minmax(0, 1fr); }
+  header.hero h1 { font-size: 27px; }
+  .area small { display: none; }
+}
+</style>
+</head>
+<body>
+<button id="menuBtn">☰ 目录</button>
+<a id="homeBtn" href="../">← 游戏</a>
+<nav id="toc">
+  <a class="home" href="../">← 游戏目录</a>
+  <div class="brand"><b>熊与早餐</b><span>Bear and Breakfast 全面攻略</span></div>
+  <a class="sec" href="#basics"><span class="num">1</span>新手入门</a>
+  <a class="sec" href="#resorts"><span class="num">2</span>度假村布局</a>
+  <a class="sec" href="#quests"><span class="num">3</span>主线任务</a>
+  <a class="sec" href="#map"><span class="num">4</span>地图与资源</a>
+  <a class="sec" href="#cooking"><span class="num">5</span>食谱与烹饪</a>
+  <a class="sec" href="#staff"><span class="num">6</span>员工与博物馆</a>
+  <a class="sec" href="#faq"><span class="num">7</span>常见问题</a>
+  <a class="sec" href="#sources"><span class="num">·</span>资料来源</a>
+</nav>
+
+<main>
+<header class="hero">
+  <h1>熊与早餐 全面攻略</h1>
+  <p>扮演小熊汉克，把森林里的废弃屋子改造成民宿。5 个度假村分楼层布局、家具清单、主线任务、地图资源和全部食谱。</p>
+  <div class="stats">
+    <div><b>5</b><span>个度假村</span></div>
+    <div><b>11</b><span>个区域</span></div>
+    <div><b>46</b><span>道食谱（可搜索）</span></div>
+    <div><b>8</b><span>件博物馆展品</span></div>
+  </div>
+</header>
+
+<!-- ================= 1. 新手入门 ================= -->
+<section id="basics">
+  <h2>新手入门</h2>
+  <p class="lead">先弄懂客人怎么给你打分，后面所有布局都是围绕这五项指标做的。</p>
+
+  <h3>卧室评分的五项指标</h3>
+  <div class="grid g5">
+    <div class="card stat-card"><div class="big">🛏</div><b>舒适度</b><p>主要来自床、脚垫、床头柜等家具。床的等级决定上限，后期换“路易斯”床。</p></div>
+    <div class="card stat-card"><div class="big">🖼</div><b>装饰度</b><p>画、植物、书堆、地毯、熊雕像等。杂物间和厨房会给范围内的卧室扣装饰分。</p></div>
+    <div class="card stat-card"><div class="big">🧼</div><b>整洁度</b><p>A24 起需要浴室。马桶、淋浴、洗手池等级越高，加的整洁分越多、覆盖范围越大。</p></div>
+    <div class="card stat-card"><div class="big">🍲</div><b>食物</b><p>高湖起需要餐厅。同一栋建筑的卧室共享餐厅里餐具柜的食物分，菜的质量和种类都算。</p></div>
+    <div class="card stat-card"><div class="big">🔥</div><b>温度</b><p>冬青镇和松瀑需要杂物间放锅炉。每栋有卧室的建筑都要自己的杂物间，燃料每天要补。</p></div>
+  </div>
+  <div class="tip"><b>五星好评的条件：</b>卧室各项数值都大于等于客人的要求，客人要求的特殊房间（酒吧、篝火、休息室、影院、博物馆等）也要有。五星评价越多，客人请求越多，收入越高。</div>
+
+  <h3>房间的影响范围</h3>
+  <div class="grid g2">
+    <div class="card"><h4><span class="icon" style="background:var(--bath)">浴</span>浴室（正面）</h4>
+      给范围内的卧室加整洁度。在建造模式里点房间，会用蓝色显示它的覆盖范围。浴室放在几间卧室中间，一间浴室可以覆盖 2~4 间卧室。</div>
+    <div class="card"><h4><span class="icon" style="background:var(--utility)">杂</span>杂物间 / 厨房（负面）</h4>
+      会给范围内的卧室<b>扣装饰度</b>（红色范围）。卧室一定要远离厨房和杂物间，最好放到另一层或建筑另一端。</div>
+    <div class="card"><h4><span class="icon" style="background:var(--dining)">餐</span>餐厅</h4>
+      每栋有卧室的建筑都需要一间餐厅。食物放进餐厅里的餐具柜（自助餐台），该建筑所有卧室共享这个食物分。</div>
+    <div class="card"><h4><span class="icon" style="background:var(--lounge)">特</span>特殊房间</h4>
+      酒吧（酿酒坊）、篝火营地、休息室、电影院、游戏厅、博物馆。同一度假村只要有一间，所有建筑的客人都能用。</div>
+  </div>
+
+  <h3>接待客人的流程</h3>
+  <div class="grid g3">
+    <div class="card"><h4><span class="icon">1</span>邀请</h4>前期要走到前台才能打开客人请求列表；后期拿到“寻呼机”可以在任何地方操作。选数值匹配的客人，别把高要求客人塞进低分房。</div>
+    <div class="card"><h4><span class="icon">2</span>入住</h4>客人第二天入住，住 1~2 晚。入住期间可以换家具，但不能改房间大小，否则要先把客人请走。</div>
+    <div class="card"><h4><span class="icon">3</span>结账</h4>退房时才付钱，账单 = 基础房费 + 食物、温度、声誉、特殊房间等奖励。客人越满意，奖励越高。</div>
+  </div>
+
+  <h3>前期节奏</h3>
+  <div class="grid g2">
+    <div class="card"><h4>该做的</h4><ul>
+      <li>先把 1~2 间卧室做到客人满意，再考虑扩张</li>
+      <li>看到木材堆、垃圾堆全捡完，让它们重新刷新；三色木材堆能同时给胶合板、松木板和桃花心木板</li>
+      <li>汉克要穿至少两件衣服，否则会吓到客人</li>
+      <li>多用小地图：食材、花、木材、NPC 都有图标；黄色箭头指向有任务的 NPC</li>
+      <li>每个鲨鱼芬货车旁都有“熊箱”，五个度假村互通，背包满了往里放</li></ul></div>
+    <div class="card"><h4>别做的</h4><ul>
+      <li>别给每间卧室把每一级家具都做一遍。够用就行，等解锁 5 级家具再一次升级到位，省钱省材料</li>
+      <li>低级家具不能卖钱，只能丢掉，别乱做</li>
+      <li>管理任务常要求“几级房间”，比如要 6 间 4 级卧室，做成 5 级反而可能不算</li>
+      <li>游戏速度设置（默认 50）可以调慢，让白天更长</li></ul></div>
+  </div>
+
+  <h3>PC 常用按键</h3>
+  <div class="table-wrap" style="max-height:none"><table>
+    <thead><tr><th>按键</th><th>作用</th><th>按键</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td>WASD</td><td>移动 / 建造时平移镜头</td><td>E</td><td>互动</td></tr>
+      <tr><td>I</td><td>背包</td><td>C</td><td>角色界面</td></tr>
+      <tr><td>H / L</td><td>任务追踪 / 任务日志</td><td>B</td><td>建造模式（拿到卷尺后随处可用）</td></tr>
+      <tr><td>G</td><td>旅馆管理</td><td>M</td><td>地图</td></tr>
+      <tr><td>R</td><td>建造时旋转物品</td><td>Delete</td><td>建造时删除物品</td></tr>
+      <tr><td>F5 / F9</td><td>快速存档 / 读档</td><td>左上角蜘蛛网按钮</td><td>汉克卡住时点它脱困</td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ================= 2. 度假村 ================= -->
+<section id="resorts">
+  <h2>度假村布局</h2>
+  <p class="lead">5 个度假村按剧情顺序解锁。每张卡片底部点“布局详解”，展开后能看到分楼层房间示意图、推荐卧室家具清单、修复材料、建造顺序、管理任务和难点。</p>
+  <div class="note"><b>示意图怎么看：</b>每个格子约等于游戏里的 1 格，色块是房间，斜纹是走廊和空地。房间位置按攻略截图和说明整理，只表示推荐的相对位置和大小，<b>不按真实户型</b>，实际建造时按你的建筑形状微调。核心原则：卧室挨着浴室，远离厨房和杂物间；每栋有卧室的建筑都要有餐厅（冬青镇、松瀑还要杂物间）。</div>
+  <div class="resorts" id="resortList"></div>
+</section>
+
+<!-- ================= 3. 主线任务 ================= -->
+<section id="quests">
+  <h2>主线任务</h2>
+  <p class="lead">按剧情顺序、按区域分组。<span class="tag">橙点</span> 是解锁新度假村或新区域的关键任务；修建筑需要的材料写在任务下面。</p>
+  <div class="toolbar">
+    <button class="chip on" id="qOpen">全部展开</button>
+    <button class="chip" id="qClose">全部收起</button>
+  </div>
+  <div id="questList"></div>
+</section>
+
+<!-- ================= 4. 地图 ================= -->
+<section id="map">
+  <h2>地图与资源</h2>
+  <p class="lead">11 个区域的大致方位、NPC、可采集资源和商店。</p>
+  <div class="wmap" id="worldMap"></div>
+  <div class="map-cap">示意图，只表示区域之间的连接关系和大致方位。棕色是家，橙色有度假村，绿色是野外，灰色是终章区域。</div>
+  <h3>区域一览</h3>
+  <div class="table-wrap"><table id="areaTable">
+    <thead><tr><th>区域</th><th>NPC</th><th>可采集</th><th>商店 / 设施</th><th>怎么去</th></tr></thead>
+    <tbody></tbody></table></div>
+  <h3>商店速查</h3>
+  <div class="grid g3" id="shopList"></div>
+</section>
+
+<!-- ================= 5. 烹饪 ================= -->
+<section id="cooking">
+  <h2>食谱与烹饪</h2>
+  <p class="lead">在高湖完成茱莉娅的任务后解锁烹饪。厨具决定你有哪些“烹饪卡”，菜谱需要的卡不够就做不了。</p>
+
+  <h3>怎么做菜</h3>
+  <div class="grid g3">
+    <div class="card"><h4><span class="icon">1</span>准备</h4>建厨房并放厨具，只能用自己度假村的厨房。先在背包里右键学会菜谱。</div>
+    <div class="card"><h4><span class="icon">2</span>摆卡</h4>选菜谱，切换“方法”（厨具），把对应的烹饪卡拖到中间，再把食材拖进卡里，燃料卡放燃料。</div>
+    <div class="card"><h4><span class="icon">3</span>出菜</h4>点“烹饪”，会按放入食材数量做出最多份数；点“全部拾取”放进背包，再放进餐厅的餐具柜。拿到“食谱盒”后可以一键自动摆卡。</div>
+  </div>
+  <div class="tip"><b>食物分怎么算：</b>同一道菜放再多份，餐具柜的分数也不会增加；要多放几种不同的菜才能提高。食物分高的菜优先做，后期雇茱莉娅掌勺最省事。</div>
+
+  <h3>厨具（三个等级）</h3>
+  <div class="table-wrap" style="max-height:none"><table>
+    <thead><tr><th>等级</th><th>厨具</th><th>提供的烹饪卡</th><th>材料</th></tr></thead>
+    <tbody id="applianceBody"></tbody></table></div>
+
+  <h3>餐具柜（自助餐台）</h3>
+  <div class="table-wrap" style="max-height:none"><table>
+    <thead><tr><th>等级</th><th>名称</th><th class="num">可放食物种类</th><th>材料</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>迷你餐台 Tiny Buffet</td><td class="num">2</td><td>胶合板 ×2</td></tr>
+      <tr><td>2</td><td>小餐台 Small Buffet</td><td class="num">6</td><td>胶合板 ×2、铁板 ×4、松木板 ×2</td></tr>
+      <tr><td>3</td><td>冷热餐台 Hot &amp; Cold Buffet</td><td class="num">8</td><td>铁板 ×8、玻璃板 ×2</td></tr>
+      <tr><td>4</td><td>豪华餐台 Grand Buffet</td><td class="num">10</td><td>桃花心木板 ×4、棉布床单 ×2、铁板 ×2</td></tr>
+    </tbody></table></div>
+
+  <h3>全部食谱</h3>
+  <div class="toolbar">
+    <input type="search" id="recipeSearch" placeholder="搜索菜名或食材，例如：土豆、蘑菇、Soup…">
+    <select id="recipeLevel"><option value="">全部厨房等级</option><option value="1">1 级厨房可做</option><option value="2">2 级厨房可做</option><option value="3">需要 3 级厨房</option></select>
+    <span class="count" id="recipeCount"></span>
+  </div>
+  <div class="table-wrap"><table id="recipeTable">
+    <thead><tr>
+      <th class="sortable" data-key="name">菜名</th>
+      <th class="sortable num" data-key="score">食物分</th>
+      <th class="sortable num" data-key="level">厨房等级</th>
+      <th>烹饪卡 + 食材</th>
+      <th class="sortable num" data-key="fuel">燃料</th>
+    </tr></thead>
+    <tbody></tbody></table></div>
+  <p class="cap">中文菜名为意译，游戏内中文可能略有不同，括号里的英文是原名。“厨房等级”是按菜谱用到的烹饪卡推算的最低厨具等级。</p>
+
+  <h3>食材产地</h3>
+  <div class="table-wrap"><table id="ingTable">
+    <thead><tr><th>食材</th><th>哪里拿</th><th>用到它的菜</th></tr></thead>
+    <tbody></tbody></table></div>
+</section>
+
+<!-- ================= 6. 员工与博物馆 ================= -->
+<section id="staff">
+  <h2>员工与博物馆</h2>
+  <p class="lead">后期可以雇 NPC 帮你打理度假村，省掉每天跑来跑去补燃料、做菜、捡垃圾。</p>
+  <h3>可雇佣的员工</h3>
+  <div class="grid g2">
+    <div class="card"><h4><span class="icon" style="background:#8a6a4f">格</span>格斯 Gus（礼宾）</h4>
+      <dl class="kv"><dt>解锁</dt><dd>阴暗森林里给他做一份溏心蛋（任务“Con Cierge”），解锁礼宾台</dd>
+      <dt>作用</dt><dd>礼宾台放在哪个度假村，他就每天自动给那里的空房间邀请客人</dd>
+      <dt>费用</dt><dd>每天收一些金币</dd></dl></div>
+    <div class="card"><h4><span class="icon" style="background:var(--dining)">茱</span>茱莉娅 Julia（厨师）</h4>
+      <dl class="kv"><dt>解锁</dt><dd>做一份低温慢煮芝士蛋糕给她（任务“Say Cheesecake”），解锁茱莉娅的烹饪台</dd>
+      <dt>作用</dt><dd>烹饪台放进度假村的厨房，她自动给餐厅供餐，<b>不消耗你背包里的食材</b></dd>
+      <dt>费用</dt><dd>食物数量越多、质量越高，佣金越高</dd></dl></div>
+    <div class="card"><h4><span class="icon" style="background:var(--utility)">韦</span>韦德 Wade（捡垃圾）</h4>
+      <dl class="kv"><dt>解锁</dt><dd>白石湾的任务线，给他做法式洋葱汤</dd>
+      <dt>作用</dt><dd>放下韦德的垃圾车，他会去那个度假村捡贵重物品（垃圾）</dd>
+      <dt>费用</dt><dd>按客流量收佣金</dd></dl></div>
+    <div class="card"><h4><span class="icon" style="background:var(--kitchen)">贾</span>贾克斯 Jax（供暖）</h4>
+      <dl class="kv"><dt>解锁</dt><dd>做 3 份桃子烧酒给他（任务“Fired Up”）</dd>
+      <dt>作用</dt><dd>自动给度假村的锅炉保温，<b>不需要燃料</b></dd>
+      <dt>费用</dt><dd>收取佣金（以游戏内显示为准）</dd></dl></div>
+  </div>
+  <div class="warn">分配茱莉娅或贾克斯上岗时，原来餐具柜里的食物和锅炉里的燃料可能会丢失，先把东西取出来再分配。</div>
+
+  <h3>博物馆（松瀑）</h3>
+  <div class="card" style="margin-bottom:14px">博物馆房间最小 <b>5×5</b>，至少 2500 金币，至少要有一个放了展品的展台。展品都要拿到黑泥沼找鳄鱼巫婆<b>夏洛特</b>，用<b>炭黑百合</b>（黑泥沼南部、阴暗森林洞穴、艾普斯维奇商店都有）加工。共 8 件。</div>
+  <div class="table-wrap" style="max-height:none"><table>
+    <thead><tr><th>展品</th><th>怎么拿</th><th class="num">炭黑百合</th></tr></thead>
+    <tbody id="museumBody"></tbody></table></div>
+  <div class="tip">交完前三件后，夏洛特会一次性要 100 朵炭黑百合（任务“Pound for Pound”），之后每件 30 朵。完成这一步还能升级展台，博物馆也就能升到 2 级。</div>
+</section>
+
+<!-- ================= 7. FAQ ================= -->
+<section id="faq">
+  <h2>常见问题</h2>
+  <p class="lead">卡关、缺材料、客人不满意时先来这里查。</p>
+  <div id="faqList"></div>
+</section>
+
+<footer id="sources">
+  <b>资料来源</b>
+  <ul>
+    <li><a href="https://ladiesgamers.com/bear-and-breakfast-all-story-quests-walkthrough/" target="_blank">LadiesGamers：Bear and Breakfast All Story Quests Walkthrough</a></li>
+    <li><a href="https://ladiesgamers.com/bear-and-breakfast-100-walkthrough/" target="_blank">LadiesGamers：Bear and Breakfast 100% Walkthrough（食谱、厨具、管理任务、博物馆）</a></li>
+    <li><a href="https://www.beihangsoft.cn/article/1817.html" target="_blank">北行软件库：熊与早餐布局攻略（声誉等级、卧室家具清单）</a></li>
+    <li><a href="https://3loumao.org/775803124" target="_blank">3 楼猫：《熊与早餐》简评与指南（中文译名、区域资源、商店、员工）</a></li>
+    <li><a href="https://bear-and-breakfast.fandom.com/wiki/Buildings" target="_blank">Bear and Breakfast Fandom Wiki：Buildings</a>、<a href="https://techraptor.net/gaming/guides/bear-and-breakfast-resorts-guide-how-they-work" target="_blank">TechRaptor：Resorts Guide</a></li>
+    <li><a href="https://www.reddit.com/r/bearandbreakfast/" target="_blank">Reddit r/bearandbreakfast 玩家布局讨论</a></li>
+  </ul>
+  <p>本页整理于 2026 年 11 月。游戏版本更新可能导致个别数值变化，以游戏内为准。</p>
+</footer>
+</main>
+
+<button id="toTop" title="回到顶部">↑</button>
+
+<script>
+/* ======================= 数据：度假村 ======================= */
+const ROOM_TYPES = {
+  bed:["卧室","#e0915a"], bath:["浴室","#4f9fd6"], dining:["餐厅","#d9a62e"], kitchen:["厨房","#c75c4a"],
+  utility:["杂物间","#7a7f8a"], lounge:["休息室","#8e6cc0"], theater:["电影院","#3f4f8f"], bar:["酿酒坊","#a0522d"],
+  arcade:["游戏厅","#d65f9c"], museum:["博物馆","#4f7a4a"], desk:["前台","#2e8b7a"], camp:["篝火营地","#6b9a3a"],
+};
+// 楼层：cols×rows 网格；房间 [类型, x, y, 宽, 高, 备注]
+const F = (name, cols, rows, rooms, note) => ({ name, cols, rows, rooms, note });
+const RESORTS = [
+  { name:"棚屋", en:"Dinky Shed", area:"原木十字路 Timber Crossing", unlock:"开局剧情：跟着鲨鱼芬的雕像来到原木十字路",
+    prestige:5, climate:"温和", rooms:["bed","desk"],
+    desc:"第一家民宿，空间很小，只能建卧室。主要用来熟悉建房、做家具、接客。声誉到 5 级就够了，别在这里花太多钱。",
+    buildings:[{ name:"棚屋（单层）", floors:[
+      F("一楼", 9, 7, [["bed",0,0,4,3,"4×3"],["bed",5,0,4,3,"4×3"],["bed",0,4,4,3,"4×3"],["desk",5,5,2,2,""]], "中间一列留作走廊，门朝走廊开") ]}],
+    bedroom:{ size:"4×3", comfort:38, clean:49, furn:["“侯爵”床","“甜心”脚垫","雕花床头柜","黄铜桌灯","坚固的木架 ×2","可爱而舒适的脚垫","大号森林绘画","快乐鱼儿牌匾","小号龙舌兰植物 ×2","一堆书籍 ×2","中号几何图案地毯"] },
+    repair:[["棚屋","胶合板 ×5（交给托尼），清理棚屋里的垃圾"],["工作台","松木板 ×3"],["前台","松木板 ×4"],["豪华厕所（增加客人请求）","胶合板 ×10、松木板 ×10、棉布床单 ×5、伐木工工具 ×1（奥利维工具店）"]],
+    steps:[
+      ["开局",["清理棚屋、修工作台，造第一张简易床（胶合板 + 棉布床单）","建 2×3 起的卧室（60 金币起），放床和门","造前台，开始接第一位客人"]],
+      ["声誉 2~3",["卧室扩到 4×3，补脚垫、床头柜、台灯提高舒适度","捡垃圾去浣熊图克的商店换装饰品","钱不够时找妈妈，背包少于 100 金币她会给钱"]],
+      ["声誉 4",["从鲨鱼芬货车买 2 级、3 级卧室蓝图","建 2 间 2 级卧室、1 间 3 级卧室","修好旁边的豪华厕所和小卖部，增加客人请求"]],
+      ["声誉 5",["三间卧室都换成表中的整套家具","攒 10 个五星好评拿“松树 T 恤”","之后重心转去 A24，不用继续升级"]]],
+    mq:[["A Better Shed","再完成 2 位客人入住","橄榄色裤子"],["A Great Shed","声誉达到 3 级","150 金币"],["More Than a Shed","获得 3 个五星好评","混合干果（移动速度 +50%）"],["Out of Proportion","建 2 间 2 级卧室","200 金币"],["Bed of Roses","声誉达到 4 级","250 金币"],["On the Up Again","建 1 间 3 级卧室，接待 2 位“娇生惯养”客人","300 金币"],["Get Your Hopes Up","累计 10 个五星好评","松树 T 恤"]],
+    attractions:["豪华厕所（棚屋南边）","小卖部（图克家南边）"],
+    tips:["这里只能建卧室，客人只看舒适度和装饰度","棚屋很小，最多放 3 间 4×3 卧室，别建太大的单间"] },
+
+  { name:"汽车旅馆", en:"The Motel", area:"A24", unlock:"完成棚屋任务“A Good Shed”后，鲨鱼芬南下到 A24",
+    prestige:6, climate:"沙漠", rooms:["bed","bath","bar","desk"],
+    desc:"沙漠里的长条形汽车旅馆，第一次需要浴室和酿酒坊（酒吧）。房间一字排开，浴室夹在卧室中间最省地方。",
+    buildings:[{ name:"汽车旅馆（单层）", floors:[
+      F("一楼", 19, 8, [["bed",0,0,4,3,"4×3"],["bed",4,0,4,3,"4×3"],["bath",8,0,3,3,"覆盖两侧"],["bed",11,0,4,3,"4×3"],["bed",15,0,4,3,"4×3"],
+        ["bar",0,4,5,4,"4×5 起"],["bed",6,5,4,3,"4×3"],["bath",10,5,3,3,""],["bed",13,5,4,3,"4×3"],["desk",17,6,2,2,""]], "中间一排是走廊；酿酒坊放在一端，不挡卧室和浴室") ]}],
+    bedroom:{ size:"4×3", comfort:38, clean:39, furn:["“侯爵”床","“甜心”脚垫","雕花床头柜","黄铜桌灯","坚固的木架","可爱而舒适的脚垫","小号龙舌兰植物 ×2","中号几何图案地毯"] },
+    repair:[["汽车旅馆","胶合板 ×8、铁钉 ×5、石砖 ×5（石砖在 A24 地图边缘的黄褐色石堆）"],["第一间浴室","破马桶（胶合板 + 塑料板 + 铜板）、生锈洗手池（铜板 ×3）、木头淋浴（胶合板 ×2、铜板 ×2、橡胶板 ×1）"],["酿酒坊 4×5（400 金币）","木吧台（松木板 ×4、胶合板 ×2、铁钉 ×4）、吧凳（松木板 ×2，最多 3 个）、酒龙头（铜板 ×1、铁板 ×2、松木板 ×2）"],["餐馆（增加客人请求）","瓷器块 ×10、铜板 ×8、玻璃板 ×5"]],
+    steps:[
+      ["开局",["清理旅馆，交材料修好","建 1 间卧室 + 前台，订房前确保身上至少有 135 金币","接第一位客人，先不管整洁度要求，解锁马桶、洗手池、淋浴"]],
+      ["浴室和酒吧",["建第一间浴室，放三件套","建 4×5 酿酒坊：吧台、吧凳、酒龙头各至少 1 个","之后可以接带“酒鬼”标签的客人"]],
+      ["声誉 4",["卧室加到 5 间 2 级，浴室 2 间","建 3 间 3 级卧室，1 间 3 级浴室","去 A24 垃圾场刷铁钉、铁板、电子元件，约 2 天刷新一次"]],
+      ["声誉 6~7",["卧室换成表中家具","北行攻略：调整酿酒坊、只留一间 4 级浴室再多塞一间卧室，可以勉强到 7 级","修好加油站、餐馆、金属机车熊，增加客人请求"]]],
+    mq:[["Grand Motel","建 5 间 2 级卧室","手表（右上角显示时间）"],["Put it On My Tab","完成 10 次入住","300 金币"],["One for the Road","建至少 2 间 1 级浴室","腰包（背包容量翻倍）"],["Ways to Go","建 3 间 3 级卧室","350 金币"],["Grease the Wheels","声誉达到 4 级","400 金币"],["Best with Friends","建 1 间 3 级浴室，接待 2 位“爱干净”客人","550 金币"],["On the Rocks","再拿 15 个五星好评","舒适毛衣"]],
+    attractions:["加油站（艾普斯维奇商店外）","金属机车熊（艾普斯维奇西边地图边缘，熊雕像成就需要）","餐馆（旅馆正东）"],
+    tips:["“腰包”非常重要，背包容量直接翻倍，优先做 2 间浴室","浴室门有时会锁住进不去：睡一晚，或在工作台删掉门再装一个"] },
+
+  { name:"农舍与营地", en:"Farmhouse", area:"高湖 Highlake", unlock:"A24 剧情帮芭芭拉找回笔记本后，开放去高湖的路",
+    prestige:7, climate:"温和", rooms:["bed","bath","dining","kitchen","camp","desk"],
+    desc:"第一次出现楼层、餐厅、厨房和户外篝火营地。一楼放餐厅和厨房，二楼全放卧室和浴室，厨房的负面影响就碰不到卧室。",
+    buildings:[
+      { name:"农舍", floors:[
+        F("一楼", 12, 9, [["dining",0,0,5,4,"桌椅 + 餐具柜"],["bath",9,0,3,3,""],["kitchen",0,5,4,4,"远离卧室"],["desk",5,7,2,2,""],["bed",8,6,4,3,"4×3"]], "一楼只放 1 间卧室，并且要放在离厨房最远的角落"),
+        F("二楼", 12, 9, [["bed",0,0,4,3,"4×3"],["bath",4,0,3,3,""],["bed",7,0,4,3,"4×3"],["bed",0,6,4,3,"4×3"],["bath",4,6,3,3,""],["bed",7,6,4,3,"4×3"]], "两间浴室各覆盖左右两间卧室") ]},
+      { name:"户外营地", floors:[ F("篝火营地", 8, 6, [["camp",1,1,6,4,"4×4 起"]], "篝火 + 椅子 + 棉花糖台各至少 1 个") ]}],
+    bedroom:{ size:"4×3", comfort:33, clean:53, furn:["“侯爵”床","大号盆栽","带垫子的脚垫","黄铜桌灯","坚固的木架 ×2","可爱而舒适的脚垫","小号龙舌兰植物 ×2","一堆书籍 ×2","中号几何图案地毯","熊架子","樱花 ×2"] },
+    repair:[["农舍","松木板 ×8、石砖 ×8、玻璃板 ×5、铁钉 ×7"],["户外营地","胶合板 ×6、石砖 ×6、铜板 ×5，再给赛宾燃料 ×5"],["篝火营地 4×4（400 金币）","篝火、椅子、棉花糖台各至少 1 个"],["第一套厨具","迷你砧板（铜板 ×2、松木板 ×2）、铸铁炉（铜板 ×3、松木板 ×3）"]],
+    steps:[
+      ["开局",["清理并修复农舍，去阴暗森林采鼠尾草给茱莉娅，开放她的菜园","一楼建餐厅（桌子 + 椅子 + 餐具柜）和厨房","做 1 份土豆泥 + 1 份薄荷茶放进餐具柜"]],
+      ["营地",["修户外营地，交燃料给赛宾","建 4×4 篝火营地","接待 6 位客人完成“Animal Farm”"]],
+      ["声誉 5",["二楼建满卧室和两间浴室","建 5 间 3 级卧室拿卷尺（随处可进建造模式）","做 10 份饭让客人吃掉，拿食谱盒（一键摆卡）"]],
+      ["声誉 7",["厨房升到 2 级，营地升到 2 级并接待 2 位观鸟客","餐具柜放多种菜提高食物分","修好拖船、广告牌、广播站增加客人请求"]]],
+    mq:[["Germinate the Farm","做 10 份饭放进餐具柜，让客人吃掉 10 份","食谱盒（一键自动摆卡）"],["Take Root / Grow the Farm","建 2 级厨房","550 金币"],["Bearing Fruit","建 5 间 3 级卧室","卷尺（随处建造）"],["Overgrow the Farm","声誉达到 5 级","650 金币"],["Cook the Books","建 2 级营地，接待 2 位“观鸟”客人","850 金币"],["Top Banana","再拿 20 个五星好评","厚滑雪裤"]],
+    attractions:["拖船（农舍正西）","广告牌（农舍西边水对岸，每天多 1 个客人请求）","广播站（广告牌北边）"],
+    tips:["每栋有卧室的建筑都要一间餐厅，同栋卧室共享餐具柜的食物分","菜园每天刷新：玉米、香草、洋葱、番茄、土豆"] },
+
+  { name:"滑雪屋", en:"Ski Cabins", area:"冬青镇 Winterberry", unlock:"高湖剧情“In Stark Contrast”后，从高湖西北角进入冬青镇",
+    prestige:7, climate:"寒冷，需要锅炉", rooms:["bed","bath","dining","kitchen","utility","lounge","theater","desk"],
+    desc:"两栋木屋：大滑雪屋（两层）和中型滑雪屋（单层）。第一次需要杂物间锅炉供暖，还有休息室和电影院。卧室升级到 5×4。",
+    buildings:[
+      { name:"大滑雪屋", floors:[
+        F("一楼", 14, 9, [["dining",0,0,5,4,""],["kitchen",5,0,4,4,"全村共用"],["utility",10,0,4,3,"2 台锅炉"],["lounge",9,5,5,4,"沙发 + 扶手椅 + 书架"],["desk",0,7,2,2,""]], "一楼全是公共房间，厨房和杂物间的负面范围碰不到二楼"),
+        F("二楼", 14, 9, [["bed",0,0,5,4,"5×4"],["bath",5,0,4,3,""],["bed",9,0,5,4,"5×4"],["bed",0,5,5,4,"5×4"],["bath",5,6,4,3,""],["bed",9,5,5,4,"5×4"]], "4 间 5×4 卧室，两间浴室居中") ]},
+      { name:"中型滑雪屋", floors:[
+        F("一楼", 14, 9, [["bed",0,0,5,4,"5×4"],["bath",5,0,4,3,""],["bed",9,0,5,4,"5×4"],["theater",0,5,6,4,"电影院"],["dining",7,5,4,4,"必须有"],["utility",11,6,3,3,"2 台锅炉"]], "这栋也有卧室，所以也要自己的餐厅和杂物间") ]}],
+    bedroom:{ size:"5×4", comfort:45, clean:75, furn:["“路易斯”床","带垫子的脚垫 ×2","雕花床头柜","黄铜桌灯","坚固的木架","可爱而舒适的脚垫","墙面挂毯","石制壁炉","王室衣柜","吸音泡沫板","一堆书籍 ×2","大号几何图案地毯","小熊雕像","熊架子","樱花 ×2"] },
+    repair:[["大滑雪屋","铁板 ×6、松木板 ×10、桃花心木板 ×4、钢螺丝 ×4"],["中型滑雪屋","铁板 ×6、松木板 ×8、钢螺丝 ×3"],["杂物间 2×3 起（340 金币）","基础锅炉 + 贾克斯给的燃料"],["温室（食材产地）","玻璃板 ×10、石砖 ×8、种子袋 ×1（阴暗森林两辆撞毁的车旁）"]],
+    steps:[
+      ["开局",["和贾克斯对话，先修一栋滑雪屋（两栋都修拿恒温器）","去白石湾东南角木栈道拿桑拿石给贾克斯","建杂物间、放锅炉、加燃料，解锁贾克斯的燃料店"]],
+      ["声誉 4~5",["大滑雪屋一楼放餐厅、厨房、杂物间、休息室，二楼 4 间卧室","中型滑雪屋放 2 间卧室 + 电影院 + 自己的餐厅和杂物间","接待 8 位客人完成“Winter Discontent”"]],
+      ["声誉 6",["建 6 间 4 级卧室 + 休息室","建 1 级电影院 + 3 级餐厅，拿寻呼机（随处管理和接客）","杂物间升到 2 级（800 金币奖励）"]],
+      ["声誉 7",["每个有卧室的建筑的杂物间放 2 台最高级锅炉","休息室升到 2 级，接待 2 位“懒骨头”客人","修好滑雪牌、老雪猫、北极熊雕像增加客人请求"]]],
+    mq:[["Chill Out","修好两栋滑雪屋","恒温器（显示天气）"],["On the Rocks","建 6 间 4 级卧室 + 1 间休息室","700 金币"],["Snowstorm","建 1 级电影院 + 3 级餐厅","寻呼机（随处管理员工和接客）"],["A Whiteout","建 2 级杂物间","800 金币"],["An Avalanche","声誉达到 6 级","850 金币"],["Turn Up the Heat","建 2 级休息室，接待 2 位“懒骨头”客人","900 金币"],["Turn It Higher","再拿 25 个五星好评","保暖冬帽"]],
+    attractions:["滑雪牌（木屋南边鲨鱼芬货车旁）","老雪猫（木屋西边地图边缘）","北极熊雕像（温室北边，熊雕像成就需要）"],
+    tips:["锅炉每天都要补燃料，否则温度会掉到冰点；后期雇贾克斯就不用管了","温室是最好的食材点：豆子、香草、甜椒、草莓、柠檬、番茄、甜菜、胡萝卜、大蒜、洋葱"] },
+
+  { name:"松瀑度假村", en:"Pinefall Resort", area:"松瀑 Pinefall", unlock:"冬青镇剧情“Help the Old Lady”后，芭芭拉打开去松瀑的大门",
+    prestige:7, climate:"偏冷，需要锅炉", rooms:["bed","bath","dining","kitchen","utility","lounge","theater","bar","arcade","museum","camp","desk"],
+    desc:"最后也是最大的度假村：西、东、南三栋小屋加中央营地，所有特殊房间都能建。推荐把特殊房间集中到南部小屋的地下室，卧室全部 5×4 的 5 级房。",
+    buildings:[
+      { name:"南部小屋", floors:[
+        F("一楼", 14, 9, [["bed",0,0,5,4,"5×4"],["bath",5,0,4,3,""],["bed",9,0,5,4,"5×4"],["dining",3,5,5,4,"必须有"],["utility",9,6,3,3,"2 台锅炉"],["desk",0,7,2,2,""]], "前台放在南部小屋入口"),
+        F("地下一层", 14, 9, [["lounge",0,0,5,4,""],["theater",6,0,6,4,""],["arcade",0,5,5,4,""],["bar",6,5,5,4,"4×5 起"]], "特殊房间全村共享，集中放地下最省卧室空间") ]},
+      { name:"东部小屋", floors:[
+        F("一楼", 14, 9, [["dining",0,0,5,4,""],["bath",9,0,4,3,""],["kitchen",0,5,4,4,"全村共用"],["utility",5,6,3,3,"2 台锅炉"],["bed",9,5,5,4,"5×4"]], "厨房放这里集中做饭"),
+        F("二楼", 14, 9, [["bed",0,0,5,4,"5×4"],["bath",5,0,4,3,""],["bed",9,0,5,4,"5×4"]], "") ]},
+      { name:"西部小屋", floors:[
+        F("一楼", 14, 9, [["museum",0,0,5,5,"5×5 起"],["dining",7,0,4,4,"必须有"],["utility",11,0,3,3,"2 台锅炉"]], "博物馆放一楼，靠近入口"),
+        F("二楼", 14, 9, [["bed",0,0,5,4,"5×4"],["bath",5,0,4,3,""],["bed",9,0,5,4,"5×4"]], "") ]},
+      { name:"中央营地", floors:[ F("篝火营地", 8, 6, [["camp",1,1,6,4,"三栋小屋中间"]], "") ]}],
+    bedroom:{ size:"5×4", comfort:53, clean:90, furn:["“路易斯”床","“甜心”脚垫 ×2","《人人都爱汉克》海报","大号盆栽","大号森林绘画","带垫子的脚垫 ×4","黄铜桌灯","坚固的木架","大号几何图案地毯","小号龙舌兰植物 ×2","一堆书籍 ×2","小熊雕像","熊架子 ×2","樱花 ×2"] },
+    repair:[["西部小屋","胶合板 ×20、松木板 ×12、桃花心木板 ×8、钢板 ×8"],["东部小屋","桃花心木板 ×8、松木板 ×15、铁板 ×8"],["南部小屋","胶合板 ×8、松木板 ×20、瓷器块 ×12、铁板 ×8"],["中央营地","桃花心木板 ×6、松木板 ×10、瓷器块 ×5、铁板 ×5"],["博物馆 5×5（2500 金币起）","至少 1 个放了展品的展台"]],
+    steps:[
+      ["开局",["跟芭芭拉来到松瀑，先修一栋小屋（修完解锁 5 级床蓝图）","修好的小屋先建 2 间卧室 + 浴室 + 餐厅 + 杂物间","去 A24 找艾普斯维奇，开始博物馆任务线"]],
+      ["三栋全修",["依次修好另外两栋小屋和中央营地","接待 10 位客人完成“Head First”","去奥利维那里交银光碟（松瀑桥下），解锁游戏厅"]],
+      ["声誉 6",["建 6 间 5 级卧室 + 3 间 4 级浴室","在南部小屋地下室集中建休息室、电影院、游戏厅、酿酒坊","建 3 级厨房 + 4 级餐厅，做 1 份 3 级菜"]],
+      ["声誉 7",["卧室全部换成表中整套家具（舒适 53 / 整洁 90）","博物馆、游戏厅升到 2 级，接待书呆子和锡纸帽客人","修好大拖拉机、松瀑牌、石熊长椅、望远镜、花园小屋"]]],
+    mq:[["Elbow Room","建 6 间 5 级卧室 + 3 间 4 级浴室","褶边裤"],["Watering Hole","再完成 50 位客人入住","500 金币"],["Milk and Honey","声誉达到 6 级","蓬松冬季夹克"],["Tinfoil Hat","建 3 级厨房、4 级餐厅，并做 1 份 3 级菜","1,000 金币"],["Like Sardines","建 2 级电影院、2 级酿酒坊，接待 2 位影迷和 2 位酒鬼","1,000 金币"],["The Cream of the Crop","建 2 级游戏厅、2 级博物馆，接待 2 位书呆子和 2 位锡纸帽","1,100 金币"],["Rise to the Top","再拿 30 个五星好评","绅士帽"]],
+    attractions:["大拖拉机（松瀑牌西边）","松瀑牌（公交站南边）","石熊长椅（南部小屋西边，熊雕像成就需要）","望远镜（芭芭拉家西北的悬崖边）","花园小屋（南部小屋正西）"],
+    tips:["每栋有卧室的小屋都要自己的餐厅和杂物间；休息室、电影院、游戏厅、酿酒坊、博物馆全村一间就够","这里铁板用量巨大，A24 垃圾场可以熬夜蹲着刷"] },
+];
+
+/* ======================= 数据：主线任务 ======================= */
+// [英文名, 说明, 材料, 是否关键]
+const QUESTS = [
+  { name:"开局 · 灌木丛与黑泥沼", sub:"Thicket / Blackmoss", list:[
+    ["Wake Up","和妈妈玛格丽特对话，叫醒安妮和威尔，拿到笔记本（H 键看任务）"],
+    ["Down the Blackmoss Hole","往东南进入黑泥沼北部，采闪光的鳄鱼草"],
+    ["Follow Your Friends / A Strange Noise","往东到原木十字路，找到鲨鱼芬雕像"],
+    ["A Creep of Faith","按下鲨鱼芬的绿色按钮，民宿事业正式开始","",1] ]},
+  { name:"原木十字路 · 棚屋", sub:"Timber Crossing", list:[
+    ["A Little Help / Help the Little Help","往西去木屑森林找海狸托尼，交给他胶合板","胶合板 ×5"],
+    ["Cleaning Up the Shed","把棚屋里的垃圾全部捡完，再和托尼对话"],
+    ["Working the Bench","修好棚屋西边的工作台，解锁简易床配方","松木板 ×3"],
+    ["The Bed is Yet to Come","在工作台做一张简易床","胶合板 ×1、棉布床单 ×1"],
+    ["Bedside Manner / A Common Front","建一间带门和床的卧室，再造前台","前台：松木板 ×4"],
+    ["Meet and Greet","在前台邀请第一位客人入住","",1],
+    ["On the Road / On the Road Again","公交车营地的奥利维让你送信给木屑森林塔楼里的赛宾；拿到指南针（M 键）和地图册"],
+    ["The Bus Stop","修好原木十字路的公交站，解锁快速旅行和奥利维工具店","松木板 ×10、铜板 ×2、铁钉 ×2"],
+    ["I Am the Garbage Man","偷奥利维饭盒里的三明治给垃圾桶里的浣熊图克，解锁图克的商店"],
+    ["Fetch Quest, Three Ways","修小卖部要三样东西：奥利维家里的链子笔、赛宾塔楼旁垃圾桶里的旧电脑、妈妈家安妮和威尔房间的书"],
+    ["What Did I Say?","回家看妈妈，拿到卡车司机帽，开放去 A24 的路","",1],
+    ["Home Improvements / A Good Shed","棚屋声誉到 2，再完成 1 次入住，鲨鱼芬会去 A24","",1] ]},
+  { name:"A24 · 汽车旅馆", sub:"A24 / Blackmoss South", list:[
+    ["Reporting In / Rat Pack","在 A24 东北的垃圾场找安东，再去黑泥沼南部找老鼠"],
+    ["Find the Rat / Saving Private Wade","沼泽深处找到鳄鱼巫婆夏洛特，交炭黑百合救出韦德；解锁艾普斯维奇的商店","炭黑百合 ×12"],
+    ["A Junk Reward","回去找安东，开放垃圾场（铁钉、铁板、电子元件的主要来源）"],
+    ["Shark Hunting / The Marooned Motel","在 A24 找到鲨鱼芬，修汽车旅馆","胶合板 ×8、铁钉 ×5、石砖 ×5",1],
+    ["Motel Moves","建卧室和前台，接一位客人（保留至少 135 金币），解锁浴室家具"],
+    ["Wash Your Step","建第一间浴室：破马桶、生锈洗手池、木头淋浴"],
+    ["In High Spirits","建 4×5 的酿酒坊（400 金币），放吧台、吧凳、酒龙头"],
+    ["Mo Tell Mo Problems","汽车旅馆再完成 3 次入住"],
+    ["Live for the Applause","找 A24 西边的负鼠格斯，先夸他，再选第二个选项，他会离开"],
+    ["Barbara's Calling / Lost and Found","找芭芭拉，去停车场对面废弃小屋的箱子里拿她的笔记本；开放去高湖和阴暗森林的路","",1] ]},
+  { name:"高湖 · 农舍", sub:"Highlake / Darkgrove", list:[
+    ["Greatest of All Time / The Big House","在高湖找山羊茱莉娅，她要你修农舍"],
+    ["Hay Day","清理并修复农舍","松木板 ×8、石砖 ×8、玻璃板 ×5、铁钉 ×7",1],
+    ["Quick Delivery","从木屑森林西边进入阴暗森林采鼠尾草给茱莉娅，开放菜园"],
+    ["Con Cierge","阴暗森林的格斯想吃溏心蛋，做给他后解锁礼宾台"],
+    ["Farm to Fork","建餐厅：至少 1 张桌子、1 把椅子、1 个餐具柜"],
+    ["Fork to Mouth","建厨房：迷你砧板 + 铸铁炉"],
+    ["Farm to Fork (3) / Table Out","做 1 份土豆泥 + 1 份薄荷茶给茱莉娅，再放进餐具柜"],
+    ["Gatherer / Just Add Fire","修农舍东边的营地，交燃料给赛宾","胶合板 ×6、石砖 ×6、铜板 ×5；燃料 ×5"],
+    ["Touch Grass","建 4×4 篝火营地（400 金币）：篝火、椅子、棉花糖台"],
+    ["Animal Farm","农舍接待 6 位客人"],
+    ["Old Appetite","给芭芭拉做蘑菇汤"],
+    ["In Stark Contrast","茱莉娅想要“酸爽”的东西，问赛宾；开放去白石湾和冬青镇的路","",1] ]},
+  { name:"冬青镇 · 滑雪屋", sub:"Winterberry / Whitestone Bay", list:[
+    ["Snow Big Deal / The Chilly Cabins","从高湖西北角进入冬青镇，找贾克斯，修一栋滑雪屋","大：铁板 ×6、松木板 ×10、桃花心木板 ×4、钢螺丝 ×4；小：铁板 ×6、松木板 ×8、钢螺丝 ×3",1],
+    ["The Sauna Stones","去白石湾东南角木栈道拿桑拿石给贾克斯"],
+    ["Lost Signal","芭芭拉让你找无线电接收器，在白石湾灯塔三楼"],
+    ["A Hot Reward / Creature Comforts","建 2×3 以上的杂物间（340 金币），放锅炉加燃料；解锁贾克斯的燃料店"],
+    ["Winter Discontent","冬青镇接待 8 位客人"],
+    ["Coming In Live / Another One of These","修高湖西边的广播站：旧天线（高湖大卫星天线旁）、麦克风（白石湾某栋屋里）、唱片机（冬青镇西边海象家西北）"],
+    ["Food for Thought / The Greenhouse","把贾克斯给的柠檬交给茱莉娅；再给她洋甘菊和图克商店的两株植物"],
+    ["Bear Fruit","修冬青镇温室，解锁大量食谱和 2 级厨具","玻璃板 ×10、石砖 ×8、种子袋 ×1（阴暗森林两辆撞毁的车旁）"],
+    ["Rat Ta To It","给白石湾公交站旁的韦德做法式洋葱汤，解锁韦德的垃圾车"],
+    ["Help the Old Lady","去高湖看芭芭拉，她打开通往松瀑的大门","",1] ]},
+  { name:"餐馆与松瀑", sub:"A24 Diner / Pinefall", list:[
+    ["Diner Dash / Greedy Ingredients","艾普斯维奇让你修旅馆东边的餐馆","瓷器块 ×10、铜板 ×8、玻璃板 ×5"],
+    ["Pinecall / Grand Designs","跟芭芭拉进入松瀑，修第一栋小屋，解锁 5 级床","西：胶合板 ×20、松木板 ×12、桃花心木板 ×8、钢板 ×8；东：桃花心木板 ×8、松木板 ×15、铁板 ×8；南：胶合板 ×8、松木板 ×20、瓷器块 ×12、铁板 ×8",1],
+    ["The Second / Third Cabin","修好剩下两栋小屋"],
+    ["Al Fresco","修三栋小屋中间的营地","桃花心木板 ×6、松木板 ×10、瓷器块 ×5、铁板 ×5"],
+    ["Head First","松瀑接待 10 位客人"],
+    ["Ready to Work / I Can Do That","找奥利维要电子游戏，把松瀑桥下的银光碟交给他，解锁游戏厅"],
+    ["Unpolished Steel / Steal Your Heart","芭芭拉的金属交给艾普斯维奇，再给夏洛特炭黑百合做成钢羽毛","炭黑百合 ×50"],
+    ["Walk the Walk / It Only Takes One","建 5×5 博物馆（2500 金币起），把钢羽毛放上展台","",1] ]},
+  { name:"后期任务", sub:"Late game", list:[
+    ["Bodega / Stumble Upon","做菠菜卷饼给艾普斯维奇，再去松瀑桥边找他；商店加卖丝绸床单、桃花心木板"],
+    ["Say Cheesecake","做低温慢煮芝士蛋糕给茱莉娅，解锁茱莉娅的烹饪台（雇她做饭）"],
+    ["Fired Up","做 3 份李子烧酒给贾克斯，解锁雇贾克斯供暖"],
+    ["Be Happy To","把海滨的金光碟交给奥利维，解锁更多游戏厅设备"],
+    ["The Great Fall","交给芭芭拉 50,000 金币","",1] ]},
+  { name:"灯塔与结局", sub:"Lighthouse / Ending", list:[
+    ["Better To See You With","芭芭拉给你撬棍，去海滨封闭区域拿巨大透镜"],
+    ["Bring to Light","修好白石湾灯塔","巨大透镜 ×1、桃花心木板 ×10、钢板 ×10、电子元件 ×10",1],
+    ["Girl Gone / Missed Connection","芭芭拉失踪：问奥利维、问赛宾，最后在白石湾码头找到她"],
+    ["Old Soul / Doing Time","找冬青镇的贾克斯和西边的海象席安，给席安做 3 份暖心浓汤"],
+    ["Little Treats / The Honest Truth","给白石湾的蝙蝠们做 3 份桃子馅饼；去阴暗森林洞穴口捡红羽毛交给蝙蝠换钥匙（带上勘探者齿轮）"],
+    ["Hard Bargain","洞穴里的维拉德要 3 份脆甜菜片"],
+    ["Cat Missing Bag","妈妈要 1 份辣椴树花茶，给你黑曜石钥匙，进洞找艾瑞斯反复对话"],
+    ["At the Crack of Fawn","在奥利维店里花 9500 金币买珠宝工具，到高湖东北角使用，和 Kai 对话直到他离开，结局","",1] ]},
+];
+
+/* ======================= 数据：地图 ======================= */
+// [名称, 英文, 类型, 行, 列, NPC, 可采集, 商店设施, 怎么去]
+const AREAS = [
+  ["冬青镇","Winterberry","resort",1,2,"贾克斯、席安","温室：豆子、甜菜、胡萝卜、大蒜、香草、柠檬、洋葱、甜椒、草莓、番茄","贾克斯燃料店、鲨鱼芬货车、滑雪屋","高湖西北角"],
+  ["松瀑","Pinefall","resort",1,3,"芭芭拉、艾普斯维奇（后期）","苹果、胡萝卜、洋甘菊、大蒜、香草、蜂蜜、薄荷、洋葱、甜椒、李子、土豆、菠菜、草莓、番茄；银光碟（桥下）","三栋小屋 + 营地，后期艾普斯维奇分店","芭芭拉打开高湖的大门"],
+  ["终章区域","Hollowgate","end",1,4,"Kai","—","—","高湖东北角，结局任务"],
+  ["高湖","Highlake","resort",2,3,"茱莉娅、赛宾、芭芭拉","菜园：玉米、香草、洋葱、番茄、土豆；洋甘菊、薄荷、蘑菇、苹果","茱莉娅的食谱店、农舍、广播站","原木十字路往北"],
+  ["阴暗森林","Darkgrove","wild",3,1,"格斯、维拉德、艾瑞斯","鼠尾草、蘑菇、香草；洞穴：黑莓、椴树花、薄荷、蘑菇、炭黑百合；种子袋","洞穴（结局任务）","木屑森林往西"],
+  ["木屑森林","Sawdust","wild",3,2,"托尼、赛宾","胶合板、松木板、垃圾桶里的废料","托尼家、赛宾的塔楼","原木十字路往西"],
+  ["原木十字路","Timber Crossing","resort",3,3,"托尼、奥利维、图克、鲨鱼芬","胶合板、松木板、废铁堆（铜板、铁钉）","奥利维工具店、图克的商店、鲨鱼芬货车、公交站、棚屋","中枢区域，四通八达"],
+  ["白石湾","Whitestone Bay","wild",3,4,"韦德、蝙蝠们","姜、桃子、蜂蜜","灯塔、码头","原木十字路往东（高湖剧情后开放）"],
+  ["海滨","Beachside","wild",3,5,"—","黑莓、椴树花；金光碟、巨大透镜","封闭区域要芭芭拉的撬棍","白石湾往南"],
+  ["灌木丛","Thicket","home",4,1,"妈妈玛格丽特、安妮、威尔","少量木材","家（睡觉、妈妈给零花钱）","起点"],
+  ["黑泥沼","Blackmoss","wild",4,2,"夏洛特、崔姬","炭黑百合（南部最多）、鳄鱼草","夏洛特的小屋（博物馆展品加工）","北部连灌木丛和原木十字路；南部从 A24 进"],
+  ["A24","A24","resort",4,3,"安东、克莱儿、艾普斯维奇、格斯、芭芭拉","石砖（地图边缘）、垃圾场：铁钉、铁板、电子元件","艾普斯维奇商店（食材、炭黑百合）、汽车旅馆、餐馆","原木十字路往南"],
+];
+const SHOPS = [
+  ["鲨鱼芬货车","Pawn Voyage","每个度假村门口都有","房间升级蓝图、家具和厨具配方，用金币买。旁边的“熊仓库”可以存材料。"],
+  ["图克的商店","Took's","原木十字路垃圾桶","装饰品（提高装饰度），用捡来的贵重物品（垃圾）换。小熊雕像、玉米片灯、温室需要的植物都在这。"],
+  ["奥利维工具店","Oliver's Tool Box","原木十字路公交车营地","公交站、伐木工工具、勘探者齿轮、珠宝工具（9500 金币，结局需要）。"],
+  ["艾普斯维奇商店","Ipswitch","A24（后期松瀑也有）","面包、黄油、鸡蛋、牛奶、糖各 45；奶酪、面粉、意面各 90；米、糖浆各 150。还卖炭黑百合，后期加丝绸床单、桃花心木板。"],
+  ["茱莉娅的店","Julia","高湖农舍旁","菜谱。剧情推进后会上新。"],
+  ["贾克斯燃料店","Jax","冬青镇北边贾克斯家旁","燃料。锅炉、炉灶、篝火都要用。"],
+];
+
+/* ======================= 数据：烹饪 ======================= */
+const CARDS = { R:["生食",1], B:["煮",1], O:["烤",1], S:["切片",2], F:["炸",2], M:["炖",2], G:["烤架",2], W:["微波",2], D:["切丁",3], K:["烘焙",3], T:["煸炒",3], E:["煎",3], V:["低温慢煮",3] };
+const APPLIANCES = [
+  [1,"迷你砧板 Puny Cutting Board","R2","铜板 ×2、松木板 ×2"],
+  [1,"铸铁炉 Cast Iron Stove","B2 O2","铜板 ×3、松木板 ×3（要燃料）"],
+  [1,"小冰箱 Small Refrigerator","","铜板 ×5、塑料板 ×2（存 4 组食材）"],
+  [2,"基础砧板 Basic Cutting Board","R3 S2","铜板 ×3、松木板 ×4"],
+  [2,"燃气灶 Gas Range","B2 F2 M2 O2","铁板 ×2、铜板 ×2、塑料板 ×2（要燃料）"],
+  [2,"小铁板烧 Small Griddle","G2","铁板 ×3、铜板 ×1（要燃料）"],
+  [2,"便宜微波炉 Cheap Microwave","W2","松木板 ×2、铜板 ×2、铁板 ×1、电子元件 ×1（要燃料）"],
+  [2,"实用冰箱 Sensible Fridge","","铜板 ×3、铁板 ×5、电子元件 ×2（存 8 组）"],
+  [3,"大砧板 Large Cutting Board","R3 S2 D2","铜板 ×3、桃花心木板 ×4"],
+  [3,"高科技灶台 Hightech Cooker","B3 O3 F3 M3 K2 T2","铁板 ×4、钢板 ×2、玻璃板 ×1、电子元件 ×1（要燃料）"],
+  [3,"大铁板烧 Large Griddle","G3 E2","铁板 ×2、铜板 ×2、电子元件 ×1（要燃料）"],
+  [3,"高级微波炉 Advanced Microwave","W3 V2","桃花心木板 ×2、铜板 ×1、铁板 ×2、电子元件 ×1（要燃料）"],
+  [3,"双门冰箱 Double Door Fridge","","钢板 ×4、铁板 ×4、电子元件 ×2（存 12 组）"],
+  ["雇佣","茱莉娅的烹饪台 Julia's Cooking Station","","松木板 ×4、铜板 ×2、铁板 ×2、瓷器块 ×2、塑料板 ×2"],
+];
+// [中文, 英文, 食物分, "卡:食材数量,…", 燃料]
+const RECIPES = [
+  ["苹果碗","Apple Bowl",2,"R:苹果1",0],
+  ["酿甜椒","Bean Stuffed Peppers",8,"R:香草1,B:米1,O:甜椒2,M:豆子1,O:玉米1",5],
+  ["水煮蛋","Boiled Egg",2,"B:鸡蛋1",1],
+  ["面包布丁","Bread Pudding",6,"R:蜂蜜2,W:牛奶1,W:面包1",2],
+  ["黄油可颂","Butter Croissant",8,"B:草莓2,O:牛奶1,O:黄油1,K:鸡蛋1,K:面粉1",6],
+  ["洋甘菊茶","Chamomile Tea",2,"B:洋甘菊1,R:糖1",1],
+  ["辣味通心粉","Chilly Mac",6,"O:奶酪1,O:意面1,M:豆子1,M:番茄2",5],
+  ["柑橘桃子冰饮","Citrus Peach Cooler",3,"R:草莓1,R:柠檬1,S:桃子1",0],
+  ["玉米片","Corn Flakes",3,"O:玉米1,R:牛奶1",1],
+  ["烤玉米棒","Corn on the Cob",3,"R:黄油1,O:玉米1",1],
+  ["焗奶酪","Creamy Baked Cheese",6,"D:香草1,K:番茄1,K:奶酪1",2],
+  ["溏心蛋","Egg Dippy",3,"B:鸡蛋1,O:面包1",2],
+  ["松饼","Fluffy Pancakes",8,"R:糖浆1,R:黑莓1,M:牛奶1,M:面粉1,W:黄油1",3],
+  ["法式洋葱汤","French Onion Soup",6,"S:面包1,B:洋葱1,M:黄油1,M:奶酪1",4],
+  ["炒饭","Fried Rice",7,"S:甜椒1,F:鸡蛋1,F:米1,T:洋葱1",3],
+  ["烤奶酪三明治","Grilled Cheese",4,"G:面包2,G:奶酪1",3],
+  ["烤蒜蓉面包","Grilled Garlic Bread",5,"R:黄油1,G:大蒜1,G:面包1",2],
+  ["薯饼","Hash Browns",5,"R:洋葱1,F:面粉1,F:土豆2",3],
+  ["暖心浓汤","Hearty Soup",7,"B:胡萝卜2,B:豆子1,B:土豆2,M:香草1,M:洋葱1",7],
+  ["蜂蜜鼠尾草茶","Honey Sage Tea",2,"R:蜂蜜1,S:柠檬1,B:鼠尾草2",3],
+  ["土豆泥","Mashed Potatoes",2,"B:土豆2",2],
+  ["微波烤苹果","Microbaked Apple",5,"R:糖1,W:苹果1,W:黄油1",2],
+  ["薄荷茶","Mint Tea",1,"B:薄荷2",2],
+  ["蘑菇烩饭","Mushroom Risotto",10,"D:香草1,B:黄油1,B:米1,T:蘑菇2,T:大蒜1",5],
+  ["蘑菇汤","Mushroom Soup",3,"B:洋葱1,B:蘑菇2",3],
+  ["香煎菠菜","Pan Fried Spinach",7,"D:大蒜1,F:黄油1,F:菠菜2,E:洋葱1",4],
+  ["蒜香意面","Pasta Aglio e Olio",6,"R:香草1,S:大蒜2,B:意面1,M:奶酪1",2],
+  ["桃子馅饼","Peach Cobbler",7,"R:糖1,S:柠檬1,K:面粉1,K:桃子2",3],
+  ["桃子冰茶","Peach Iced Tea",3,"R:蜂蜜1,B:鼠尾草2,M:桃子1",3],
+  ["甜椒意面","Pepper Pasta",5,"B:意面1,O:甜椒2,O:大蒜2",5],
+  ["甜菜腌蛋","Pickled Beet Eggs",5,"D:甜菜1,B:鸡蛋1",1],
+  ["一盘薯条","Plate of Fries",4,"R:香草1,F:土豆2",2],
+  ["李子挞","Plum Galette",8,"R:柠檬1,R:糖浆1,O:李子2,K:面粉1,K:黄油1",4],
+  ["李子烧酒","Plum Schnaps",3,"B:李子1,B:糖1",2],
+  ["爆米花","Popcorn",4,"W:玉米1,W:黄油1",2],
+  ["土豆饺子","Potato Pierogi",7,"F:黄油1,F:土豆2,E:鸡蛋1,E:面粉1",5],
+  ["烤土豆","Roasted Potato",4,"R:香草1,O:黄油1,O:土豆2",3],
+  ["脆甜菜片","Snappy Beet Chips",4,"O:香草1,O:甜菜2",2],
+  ["低温慢煮胡萝卜炖菜","Sous Vide Carrot Stew",8,"D:香草1,O:黄油1,O:胡萝卜2,V:土豆1,V:姜1",5],
+  ["低温慢煮芝士蛋糕","Sous Vide Cheesecake",8,"R:糖1,R:柠檬1,W:黄油1,V:鸡蛋1,V:奶酪1",3],
+  ["辣椴树花茶","Spicy Linden Tea",3,"R:蜂蜜1,M:姜1,M:椴树花2",3],
+  ["菠菜卷饼","Spinach Stromboli",8,"S:大蒜1,D:香草2,K:奶酪1,K:面粉1,T:菠菜1",4],
+  ["草莓碗","Strawberry Bowl",2,"R:草莓2",0],
+  ["番茄汤","Tomato Soup",4,"R:香草1,B:牛奶1,B:番茄2",3],
+  ["蔬菜千层面","Veggie Lasagna",8,"O:番茄1,K:奶酪1,K:面粉1,T:胡萝卜2,E:洋葱2",7],
+  ["酸爽煎蘑菇","Zesty Seared Mushrooms",7,"S:香草2,T:大蒜1,E:黄油1,E:蘑菇2",4],
+];
+const INGREDIENTS = [
+  ["苹果","高湖、松瀑"],["豆子","冬青镇温室"],["甜菜","冬青镇温室"],["黑莓","海滨、阴暗森林洞穴"],
+  ["面包","艾普斯维奇 45 金币"],["黄油","艾普斯维奇 45 金币"],["胡萝卜","松瀑、冬青镇温室"],["洋甘菊","高湖、松瀑"],
+  ["奶酪","艾普斯维奇 90 金币"],["玉米","高湖菜园"],["鸡蛋","艾普斯维奇 45 金币"],["面粉","艾普斯维奇 90 金币"],
+  ["大蒜","松瀑、冬青镇温室"],["姜","白石湾"],["香草","阴暗森林、高湖、松瀑、冬青镇温室"],["蜂蜜","松瀑、白石湾"],
+  ["柠檬","贾克斯家、冬青镇温室"],["椴树花","海滨、阴暗森林洞穴"],["牛奶","艾普斯维奇 45 金币"],["薄荷","阴暗森林洞穴、高湖、松瀑"],
+  ["蘑菇","阴暗森林、阴暗森林洞穴、高湖"],["洋葱","高湖、松瀑、冬青镇温室"],["意面","艾普斯维奇 90 金币"],["桃子","白石湾"],
+  ["甜椒","松瀑、冬青镇温室"],["李子","松瀑"],["土豆","高湖、松瀑"],["米","艾普斯维奇 150 金币"],
+  ["鼠尾草","阴暗森林"],["菠菜","松瀑"],["草莓","松瀑、冬青镇温室"],["糖","艾普斯维奇 45 金币"],
+  ["糖浆","艾普斯维奇 150 金币"],["番茄","高湖、松瀑、冬青镇温室"],
+];
+
+/* ======================= 数据：博物馆 / FAQ ======================= */
+const MUSEUM = [
+  ["钢羽毛 Steel Feather","主线：芭芭拉的金属交给艾普斯维奇，再找夏洛特加工",50],
+  ["滚珠轴承 Ball Bearings","木屑森林的托尼想要一个“小小熊”雕像（图克商店 20 个贵重物品），换来一袋轴承",15],
+  ["旧磁铁 Old Magnet","黑泥沼的崔姬想要一个电子游戏（先完成奥利维的“I Can Do That”）",15],
+  ["镜子 Mirror","冬青镇西北角的海象席安要 10 份蜂蜜，换来破镜子",15],
+  ["蚕丝 Strands of Silk","A24 垃圾场办公室的老鼠克莱儿要 3 个勘探者齿轮（奥利维店）",30],
+  ["狗项圈 Dog Collars","灌木丛妈妈家的猫安妮要一盏玉米片奶酪灯（图克商店）",30],
+  ["模糊照片 Blurry Photo","木屑森林塔楼的赛宾要 2 份辣味通心粉",30],
+  ["破旧行李箱 Busted Carry On","图克要 3000 金币",30],
+];
+const FAQ = [
+  ["浴室门锁住了进不去？","这是游戏的已知 bug：浴室里没人时门也会锁上。<ul><li>睡一晚就会恢复</li><li>或者在工作台的放置模式里选中门按 Delete 删掉，再重新装一扇门</li></ul>"],
+  ["客人一见到我就被吓跑？","汉克至少要穿 <b>两件衣服</b> 才能骗过人类。在角色界面（C 键）换上帽子、上衣、裤子等。"],
+  ["背包不够放？","<ul><li>做汽车旅馆的管理任务“One for the Road”拿腰包，容量翻倍</li><li>每辆鲨鱼芬货车旁都有“熊仓库”可以存东西</li><li>食材放冰箱，燃料放燃料箱</li></ul>"],
+  ["铁钉、铁板、电子元件不够用？","去 A24 垃圾场翻垃圾堆，大约 2 天刷新一次。垃圾堆的刷新不完全受睡觉影响，缺很多时可以熬夜蹲在垃圾场。木头堆要整堆捡完才会刷新，优先捡三种颜色混在一起的木堆，能同时拿到胶合板、松木板和桃花心木板。"],
+  ["没钱了怎么办？","背包里少于 100 金币时回灌木丛找妈妈，她会给你钱。前期别给每间房都升满家具，只放够等级要求的“熊”最低配置，等 5 级家具解锁再一次性换。"],
+  ["管理任务说要“4 级卧室”，我建了 5 级却不算？","部分任务要求的是 <b>正好</b> 那个等级的房间，高一级可能不计入。做任务前先建对应等级，完成后再升级。"],
+  ["汉克卡在地形里动不了？","点屏幕左上角的“汉克困在蜘蛛网里”按钮，会把你传送出来。"],
+  ["客人评分低、总拿不到五星？","<ul><li>只邀请房间分数达到他要求的客人（看客人请求里的舒适、整洁等数值）</li><li>带标签的客人（酒鬼、观鸟、懒骨头、影迷、书呆子、锡纸帽等）需要对应的特殊房间</li><li>餐具柜放多种不同的菜，同一道菜放再多也不加分</li><li>寒冷地区记得每天给锅炉补燃料</li></ul>"],
+  ["怎么让客人请求变多？","修好每个度假村附近的景点（见各度假村布局详解），多建卧室，提高声誉；高湖的广告牌每天多 1 个客人请求。"],
+];
+
+
+
+/* ======================= 工具函数 ======================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ======================= 度假村 ======================= */
+const typeTags = types => types.map(t => `<span class="tag" style="background:${ROOM_TYPES[t][1]};color:#fff">${ROOM_TYPES[t][0]}</span>`).join("");
+function renderResorts() {
+  $("#resortList").innerHTML = RESORTS.map((r, i) => `
+    <div class="resort">
+      <div class="hd"><div class="no">${i + 1}</div><div><h4>${esc(r.name)}</h4><span class="en">${esc(r.en)} · ${esc(r.area)}</span></div></div>
+      <dl class="kv">
+        <dt>解锁</dt><dd>${esc(r.unlock)}</dd>
+        <dt>目标声誉</dt><dd><span class="prestige">${"★".repeat(r.prestige)}</span> ${r.prestige} 级</dd>
+        <dt>气候</dt><dd>${esc(r.climate)}</dd>
+        <dt>卧室</dt><dd>${esc(r.bedroom.size)} · 舒适 ${r.bedroom.comfort} / 整洁 ${r.bedroom.clean}</dd>
+      </dl>
+      <div style="margin-top:8px">${typeTags(r.rooms)}</div>
+      <div class="desc">${esc(r.desc)}</div>
+      <button class="lbtn" data-i="${i}">布局详解 ▾</button>
+    </div>
+    <div class="lpanel" id="rp-${i}" hidden></div>`).join("");
+  $$(".lbtn").forEach(b => b.addEventListener("click", () => toggleResort(b)));
+}
+function renderFloor(f) {
+  const cell = f.cols > 15 ? 18 : 22;
+  const rooms = f.rooms.map(([t, x, y, w, h, note]) => `
+    <div class="room r-${t}" style="grid-column:${x + 1} / span ${w};grid-row:${y + 1} / span ${h}">
+      ${ROOM_TYPES[t][0]}${note ? `<small>${esc(note)}</small>` : ""}</div>`).join("");
+  return `<div class="floor">
+    <div class="ft">${esc(f.name)}<span>${f.cols}×${f.rows} 格</span></div>
+    <div style="overflow-x:auto"><div class="fgrid" style="grid-template-columns:repeat(${f.cols}, minmax(${cell}px, 1fr));grid-template-rows:repeat(${f.rows}, ${cell}px);min-width:${f.cols * (cell - 6)}px">${rooms}</div></div>
+    ${f.note ? `<div class="cap">${esc(f.note)}</div>` : ""}</div>`;
+}
+function renderResortPanel(r) {
+  const counts = {};
+  r.buildings.forEach(b => b.floors.forEach(f => f.rooms.forEach(([t]) => counts[t] = (counts[t] || 0) + 1)));
+  const used = Object.keys(ROOM_TYPES).filter(t => counts[t]);
+  return `
+    <div class="lhead"><b>${esc(r.name)} · 布局详解</b>
+      ${used.filter(t => t !== "desk").map(t => `<span class="tag" style="background:${ROOM_TYPES[t][1]};color:#fff">${ROOM_TYPES[t][0]} ×${counts[t]}</span>`).join("")}</div>
+    <h5>分楼层房间示意图</h5>
+    ${r.buildings.map(b => `<div style="font-weight:bold;margin:10px 0 6px">${esc(b.name)}</div><div class="floors">${b.floors.map(renderFloor).join("")}</div>`).join("")}
+    <div class="legend">${used.map(t => `<span><i style="background:${ROOM_TYPES[t][1]}"></i>${ROOM_TYPES[t][0]}</span>`).join("")}<span><i style="background:#efe6db;border:1px solid #d8cbbb"></i>走廊 / 空地</span></div>
+    <div class="cap">示意图，不按真实户型：只表示推荐的房间相对位置和大小，按你的建筑形状微调。</div>
+    <h5>推荐卧室配置（${esc(r.bedroom.size)} · 舒适 ${r.bedroom.comfort} / 整洁 ${r.bedroom.clean}）</h5>
+    <ul class="furn">${r.bedroom.furn.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    <h5>修复与关键建造材料</h5>
+    <div class="mats">${r.repair.map(([k, v]) => `<div class="mat"><b>${esc(k)}</b>：${esc(v)}</div>`).join("")}</div>
+    <h5>建造顺序</h5>
+    <div class="steps">${r.steps.map((s, i) => `<div class="step"><div class="sh"><i>${i + 1}</i>${esc(s[0])}</div><ul>${s[1].map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>
+    <h5>管理任务（找度假村门口的鲨鱼芬招牌）</h5>
+    <div class="table-wrap" style="max-height:none"><table class="mq">
+      <thead><tr><th>任务</th><th>要求</th><th>奖励</th></tr></thead>
+      <tbody>${r.mq.map(([n, g, w]) => `<tr><td>${esc(n)}</td><td>${esc(g)}</td><td>${esc(w)}</td></tr>`).join("")}</tbody></table></div>
+    <h5>增加客人请求的景点</h5>
+    <div>${r.attractions.map(a => `<span class="tag g">${esc(a)}</span>`).join("")}</div>
+    <h5>本地难点</h5>
+    <ul>${r.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
+}
+function toggleResort(btn) {
+  const i = btn.dataset.i, panel = $("#rp-" + i), open = panel.hidden;
+  if (open && !panel.innerHTML) panel.innerHTML = renderResortPanel(RESORTS[i]);
+  panel.hidden = !open;
+  btn.classList.toggle("on", open);
+  btn.textContent = open ? "收起布局 ▴" : "布局详解 ▾";
+  if (open) panel.scrollIntoView({ block: "nearest" });
+}
+
+/* ======================= 主线任务 ======================= */
+function renderQuests() {
+  $("#questList").innerHTML = QUESTS.map((g, i) => `
+    <details class="region"${i === 0 ? " open" : ""}>
+      <summary>${esc(g.name)} <span class="sub">${esc(g.sub)} · ${g.list.length} 个任务</span></summary>
+      <ol class="timeline">${g.list.map(([en, d, m, key]) => `
+        <li${key ? ' class="key"' : ""}><span class="qn">${esc(d)}</span><span class="qe">${esc(en)}</span>${m ? `<span class="qm">材料：${esc(m)}</span>` : ""}</li>`).join("")}</ol>
+    </details>`).join("");
+  const setAll = open => { $$("#questList details").forEach(d => d.open = open); $("#qOpen").classList.toggle("on", open); $("#qClose").classList.toggle("on", !open); };
+  $("#qOpen").addEventListener("click", () => setAll(true));
+  $("#qClose").addEventListener("click", () => setAll(false));
+}
+
+/* ======================= 地图 ======================= */
+function renderMap() {
+  $("#worldMap").innerHTML = AREAS.map(a => `<div class="area a-${a[2]}" style="grid-row:${a[3]};grid-column:${a[4]}">${esc(a[0])}<small>${esc(a[1])}</small></div>`).join("");
+  $("#areaTable tbody").innerHTML = AREAS.map(a => `<tr><td><b>${esc(a[0])}</b><span class="en">${esc(a[1])}</span></td><td>${esc(a[5])}</td><td>${esc(a[6])}</td><td>${esc(a[7])}</td><td>${esc(a[8])}</td></tr>`).join("");
+  $("#shopList").innerHTML = SHOPS.map(s => `<div class="card"><h4>${esc(s[0])}<span class="en">${esc(s[1])} · ${esc(s[2])}</span></h4>${esc(s[3])}</div>`).join("");
+}
+
+/* ======================= 烹饪 ======================= */
+const cardTag = (c, n) => `<span class="tag${CARDS[c][1] === 2 ? " b" : CARDS[c][1] === 3 ? " r" : ""}">${CARDS[c][0]}${n ? " ×" + n : ""}</span>`;
+function renderAppliances() {
+  $("#applianceBody").innerHTML = APPLIANCES.map(([lv, name, cards, mats]) => `<tr><td>${lv}</td><td>${esc(name)}</td>
+    <td>${cards ? cards.split(" ").map(c => cardTag(c[0], c.slice(1))).join("") : '<span style="color:var(--muted)">存放食材</span>'}</td><td>${esc(mats)}</td></tr>`).join("");
+}
+const RECIPE_ROWS = RECIPES.map(([cn, en, score, spec, fuel]) => {
+  const parts = spec.split(",").map(p => { const [c, rest] = p.split(":"); const m = rest.match(/^(.+?)(\d+)$/); return { c, ing: m[1], n: +m[2] }; });
+  return { cn, en, score, fuel, parts, level: Math.max(...parts.map(p => CARDS[p.c][1])), text: (cn + en + parts.map(p => p.ing).join("")).toLowerCase() };
+});
+let recipeSort = { key: "score", dir: -1 };
+function renderRecipes() {
+  const q = $("#recipeSearch").value.trim().toLowerCase(), lv = $("#recipeLevel").value;
+  const rows = RECIPE_ROWS.filter(r => (!q || r.text.includes(q)) && (!lv || (lv === "3" ? r.level === 3 : r.level <= +lv)));
+  const { key, dir } = recipeSort;
+  rows.sort((a, b) => key === "name" ? a.en.localeCompare(b.en) * dir : ((a[key] - b[key]) * dir || b.score - a.score));
+  $("#recipeTable tbody").innerHTML = rows.map(r => `<tr><td><b>${esc(r.cn)}</b><span class="en">${esc(r.en)}</span></td>
+    <td class="num"><b>${r.score}</b></td><td class="num">${r.level}</td>
+    <td>${r.parts.map(p => `${cardTag(p.c)}${esc(p.ing)} ×${p.n}`).join("　")}</td><td class="num">${r.fuel || "—"}</td></tr>`).join("");
+  $("#recipeCount").textContent = `${rows.length} / ${RECIPE_ROWS.length} 道菜`;
+  $$("#recipeTable th.sortable").forEach(th => { th.classList.toggle("asc", th.dataset.key === key && dir === 1); th.classList.toggle("desc", th.dataset.key === key && dir === -1); });
+}
+function initRecipes() {
+  $("#recipeSearch").addEventListener("input", renderRecipes);
+  $("#recipeLevel").addEventListener("change", renderRecipes);
+  $$("#recipeTable th.sortable").forEach(th => th.addEventListener("click", () => {
+    const k = th.dataset.key;
+    recipeSort = { key: k, dir: recipeSort.key === k ? -recipeSort.dir : (k === "name" ? 1 : -1) };
+    renderRecipes();
+  }));
+  renderRecipes();
+  $("#ingTable tbody").innerHTML = INGREDIENTS.map(([ing, src]) => {
+    const used = RECIPE_ROWS.filter(r => r.parts.some(p => p.ing === ing)).map(r => r.cn);
+    return `<tr><td><b>${esc(ing)}</b></td><td>${esc(src)}</td><td>${used.length ? esc(used.join("、")) : "—"}</td></tr>`;
+  }).join("");
+}
+
+/* ======================= 博物馆 / FAQ ======================= */
+function renderMisc() {
+  $("#museumBody").innerHTML = MUSEUM.map(([n, how, lily]) => `<tr><td><b>${esc(n)}</b></td><td>${esc(how)}</td><td class="num">${lily}</td></tr>`).join("");
+  $("#faqList").innerHTML = FAQ.map(([q, a]) => `<details class="faq"><summary>${esc(q)}</summary><div class="a">${a}</div></details>`).join("");
+}
+
+renderResorts();
+renderQuests();
+renderMap();
+renderAppliances();
+initRecipes();
+renderMisc();
+
+/* ======================= 页面交互 ======================= */
+const navLinks = $$("nav#toc a.sec");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+  });
+}, { rootMargin: "-20% 0px -70% 0px" });
+navLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) observer.observe(s); });
+$("#menuBtn").addEventListener("click", () => $("nav#toc").classList.toggle("open"));
+navLinks.forEach(a => a.addEventListener("click", () => $("nav#toc").classList.remove("open")));
+const toTop = $("#toTop");
+window.addEventListener("scroll", () => { toTop.style.display = window.scrollY > 600 ? "block" : "none"; });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0 }));
+</script>
+</body>
+</html>
